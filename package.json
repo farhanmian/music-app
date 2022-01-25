@@ -1,19 +1,49 @@
 {
-  "name": "music-app",
+  "name": "ecommerce",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prepare": "husky install",
+    "check-types": "tsc --pretty --noEmit",
+    "check-format": "prettier --check .",
+    "check-lint": "eslint . --ext ts --ext tsx --ext js",
+    "format": "prettier --write .",
+    "test-all": "npm run check-format && npm run check-lint && npm run check-types && npm run build",
+    "commit": "cz",
+    "completed": ""
   },
   "dependencies": {
-    "next": "12.0.8",
+    "@emotion/react": "^11.7.0",
+    "@emotion/styled": "^11.6.0",
+    "@material-ui/core": "^4.12.3",
+    "@mui/icons-material": "^5.2.4",
+    "@mui/material": "^5.2.2",
+    "dotenv": "^10.0.0",
+    "firebase": "^9.4.1",
+    "lodash": "^4.17.21",
+    "next": "12.0.4",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "sharp": "^0.29.3"
   },
   "devDependencies": {
-    "eslint": "8.7.0",
-    "eslint-config-next": "12.0.8"
+    "@types/node": "^16.11.11",
+    "@types/react": "^17.0.37",
+    "@typescript-eslint/eslint-plugin": "^5.5.0",
+    "commitizen": "^4.2.4",
+    "cz-conventional-changelog": "^3.3.0",
+    "eslint": "^7.32.0",
+    "eslint-config-next": "12.0.4",
+    "eslint-config-prettier": "^8.3.0",
+    "husky": "^7.0.0",
+    "prettier": "^2.5.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }

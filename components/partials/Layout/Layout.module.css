@@ -1,0 +1,35 @@
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.footer {
+}
+
+.nav {
+  /* background-color: #161a1a; */
+  width: 100%;
+  position: fixed;
+  backdrop-filter: blur(30px);
+}
+
+.navInnerContainer {
+  max-width: 1400px;
+  height: 85px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navLogoContainer {
+  width: 100px;
+  height: 45px;
+}
+
+.navBtnContainer {
+  width: 465px;
+  display: flex;
+  align-items: center;
+}
