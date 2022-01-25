@@ -1,5 +1,5 @@
 {
-  "name": "ecommerce",
+  "name": "music_box",
   "private": true,
   "scripts": {
     "dev": "next dev",
