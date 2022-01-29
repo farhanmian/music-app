@@ -1,14 +1,231 @@
-.header {
-  width: 100%;
-  height: 1000px;
-  background-image: url(../assets/img/landing-page.png);
-  background-size: cover;
-  background-position: 100%;
+/*//////////// recent played section */
+
+.recentPlayed {
+  margin-top: 150px;
+  margin-bottom: 47px;
 }
 
-.innerContainer {
-  width: 574px;
+.recentPlayedInnerContainer {
+  max-width: 1480px;
   margin: auto;
-  margin-top: 300px;
+}
+
+.recentPlayedContainer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  overflow: hidden;
+}
+.recentPlayedContainer > :not(:last-child) {
+  margin-right: 26px;
+}
+
+.recentPlayedItem {
+  min-width: 225px;
+  max-width: 225px;
+  height: 275px;
   text-align: center;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.recentPlayedItem:hover .recentPlayedImage {
+  transform: scale(0.95);
+}
+
+.recentPlayedImage {
+  width: 100%;
+  height: 225px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: 9px;
+  transition: all 0.4s;
+}
+
+.itemLikesContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 5px;
+}
+.itemLikesContainer > :first-child {
+  margin-right: 5.8px;
+}
+
+.displayFlex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/*/////////////// browse section  */
+
+.browse {
+  margin-top: 48px;
+  margin-bottom: 47px;
+}
+
+.browseInnerContainer {
+  max-width: 1480px;
+  margin: auto;
+}
+
+.browseItemContainer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+}
+.browseItemContainer > :not(:last-child) {
+  margin-right: 26px;
+}
+.browseItem {
+  width: 225px;
+  height: 128px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+/*//////////////////// podcasts section */
+
+.podcasts {
+  margin-top: 48px;
+  margin-bottom: 47px;
+}
+
+.podcastsInnerContainer {
+  max-width: 1480px;
+  margin: auto;
+}
+
+.podcastsItemContainer {
+  width: 100%;
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.podcastsItemContainer > :not(:last-child) {
+  margin-right: 26px;
+}
+
+.podcastItem {
+  width: 225px;
+  height: 128px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/*///////////////// playlist */
+
+.playlist {
+  margin-top: 48px;
+  margin-bottom: 47px;
+}
+
+.playlistInnerContainer {
+  max-width: 1480px;
+  margin: auto;
+}
+
+.playlistItemContainer {
+  margin-top: 20px;
+  display: flex;
+}
+.playlistItemContainer > :not(:last-child) {
+  margin-right: 26px;
+}
+
+.playlistItem {
+  width: 225px;
+  height: 275px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.playlistItemImage {
+  width: 100%;
+  height: 225px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 9px;
+}
+
+/*//////////// new releases  */
+.newReleases {
+  margin-top: 48px;
+  margin-bottom: 47px;
+}
+
+.newReleasesInnerContainer {
+  max-width: 1480px;
+  margin: auto;
+}
+
+.newReleasesItemContainer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+.newReleasesItemContainer > :not(:last-child) {
+  margin-right: 26px;
+}
+
+.newReleaseItem {
+  width: 225px;
+  height: 275px;
+  text-align: start;
+}
+
+.newReleaseImage {
+  width: 100%;
+  height: 225px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 9px;
+}
+
+/*////////////// artists section */
+
+.artists {
+  margin-top: 48px;
+  margin-bottom: 47px;
+}
+
+.artistsInnerContainer {
+  max-width: 1480px;
+  margin: auto;
+}
+
+.artistsContainer {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+.artistsContainer > :not(:last-child) {
+  margin-right: 26px;
+}
+
+.artistItem {
+  min-width: 225px;
+  max-width: 225px;
+  height: 275px;
+  text-align: center;
+}
+
+.artistImage {
+  width: 100%;
+  height: 225px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 9px;
+  overflow: hidden;
 }

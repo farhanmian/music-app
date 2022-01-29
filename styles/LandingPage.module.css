@@ -1,0 +1,88 @@
+.header {
+  width: 100%;
+  padding-top: 301px;
+  padding-bottom: 303px;
+  background-image: url(../assets/img/landing-page.png);
+  background-size: cover;
+  background-position: 100%;
+  margin-bottom: 48px;
+}
+
+.headerInnerContainer {
+  width: 574px;
+  margin: auto;
+  text-align: center;
+}
+.headerHeadingContainer {
+  height: 300px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-bottom: 12px;
+}
+.headerLogoContainer {
+  position: absolute;
+  width: 263px;
+  height: 100%;
+  top: 0;
+}
+
+/*////////////// flow section */
+.flow {
+  margin-top: 47px;
+  margin-bottom: 56px;
+}
+
+.flowImageContainer {
+  width: 709px;
+  height: 716px;
+}
+
+.flowTextContainer {
+  max-width: 535px;
+  text-align: start;
+}
+
+.flowTextHeadingContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 36px;
+}
+.flowTextHeadingContainer > :first-child {
+  margin-right: 20px;
+}
+
+/*/ //////////// listen anytime section */
+
+.listenAnytime {
+  padding-top: 250px;
+  padding-bottom: 250px;
+  background-image: url(../assets/img/listen-anytime.png);
+  background-size: cover;
+  background-position: 100%;
+  margin-top: 55px;
+  margin-bottom: 21px;
+}
+
+.listenAnytimeInnerContainer {
+  max-width: 1400px;
+  text-align: start;
+  margin: auto;
+}
+
+/*////////////////// find music section */
+.findMusic {
+  margin-top: 20px;
+  margin-bottom: 84px;
+}
+
+.findMusicTextContainer {
+  width: 470px;
+}
+
+.findMusicImageContainer {
+  width: 717px;
+  height: 798px;
+}

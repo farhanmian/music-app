@@ -1,17 +1,14 @@
 .mainContainer {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-}
-
-.footer {
+  min-height: calc(100vh - 400px);
 }
 
 .nav {
-  /* background-color: #161a1a; */
   width: 100%;
   position: fixed;
   backdrop-filter: blur(30px);
+  z-index: 9999;
 }
 
 .navInnerContainer {
@@ -32,4 +29,64 @@
   width: 465px;
   display: flex;
   align-items: center;
+}
+
+/*/////// footer */
+
+.footer {
+  background-color: #111313;
+  padding-top: 80px;
+  padding-bottom: 40px;
+}
+
+.footerInnerContainer {
+  max-width: 1400px;
+  margin: auto;
+}
+
+.footerTop {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 52px;
+}
+
+.footerLogoContainer {
+  width: 132px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footerLinkContainer {
+  width: 551px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.footerLinksInnerContainer {
+  display: flex;
+  flex-direction: column;
+}
+.footerLinksInnerContainer > :not(:last-child) {
+  margin-bottom: 22px;
+}
+
+.footerIconsContainer {
+  width: 184px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footerBottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footerBottomLinks > :not(:last-child) {
+  margin-right: 22px;
 }
