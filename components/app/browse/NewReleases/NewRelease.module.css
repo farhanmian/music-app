@@ -1,0 +1,31 @@
+.newReleasesInnerContainer {
+  max-width: 1480px;
+  margin: auto;
+  overflow: hidden;
+}
+.newReleasesItemContainer {
+  width: 100%;
+}
+
+.newReleaseItem {
+  max-width: 225px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  cursor: pointer;
+  transition: all 0.4s;
+}
+.newReleaseItem:hover {
+  transform: scale(0.97);
+}
+
+.newReleaseItemImage {
+  width: 225px;
+  height: 225px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  margin-bottom: 9px;
+  border-radius: 8px;
+  overflow: hidden;
+}

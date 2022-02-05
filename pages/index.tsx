@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "../styles/LandingPage.module.css";
 import { Button, Typography, makeStyles } from "@material-ui/core";
 import { Grid } from "@mui/material";
@@ -8,6 +8,8 @@ import headerLogo from "../assets/img/header-logo.png";
 import findMusicPhoneImg from "../assets/img/find-music-phone.png";
 import Flow from "../components/icons/Flow";
 import Divider from "../components/partials/Divider/Divider";
+import { useAppContext } from "../store/context/appContext";
+import { useRouter } from "next/dist/client/router";
 
 const useStyles = makeStyles({
   headerBtn: {
@@ -72,10 +74,22 @@ const useStyles = makeStyles({
     justifyContent: "space-between",
     alignItems: "center",
   },
+  body1: {
+    lineHeight: "35px",
+  },
 });
 
 export default function Home() {
   const classes = useStyles();
+  const router = useRouter();
+  const { code } = useAppContext();
+
+  useEffect(() => {
+    if (!code) return;
+    if (router.pathname === "/") {
+      router.push("/browse");
+    }
+  }, [code]);
 
   return (
     <React.Fragment>
@@ -148,7 +162,11 @@ export default function Home() {
                 FLOW
               </Typography>
             </div>
-            <Typography variant="body1" color="primary">
+            <Typography
+              variant="body1"
+              className={classes.body1}
+              color="primary"
+            >
               Listen to a personalized mix of tracks based on your
               <br /> listening history, or create your own mix of genres,
               artists
@@ -170,7 +188,7 @@ export default function Home() {
           >
             Listen anytime, anywhere
           </Typography>
-          <Typography variant="body1" color="primary">
+          <Typography variant="body1" className={classes.body1} color="primary">
             All your favorite songs and episodes are always
             <br /> available - even without WiFi or LTE.
           </Typography>
@@ -189,11 +207,15 @@ export default function Home() {
             >
               Find the music you want
             </Typography>
-            <Typography variant="body1" color="primary">
+            <Typography
+              variant="body1"
+              className={classes.body1}
+              color="primary"
+            >
               Search for your favorite songs using the description,
               <br />
               or turn on the
-              <span className={classes.skyBlueBoldText}>MusicFinder</span>{" "}
+              <span className={classes.skyBlueBoldText}>MusicFinder</span>
               feature to find the song
               <br />
               that is playing near you.
@@ -208,3 +230,10 @@ export default function Home() {
     </React.Fragment>
   );
 }
+
+/**
+ * to get playlist for category
+ */
+// spotifyApiCtx.getPlaylistsForCategory("toplists").then((res) => {
+//   console.log(res);
+// });

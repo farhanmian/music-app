@@ -40,7 +40,7 @@ const theme = createTheme({
     },
     body1: {
       fontSize: 20,
-      lineHeight: "35px",
+      lineHeight: "15px",
       fontWeight: 400,
     },
     // used in many places for eg: product short descriptiondescription

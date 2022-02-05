@@ -1,0 +1,117 @@
+.playlist {
+  min-height: 100vh;
+}
+.playlist * {
+  z-index: 22;
+}
+.playlistBackground {
+  position: absolute;
+  width: 100%;
+  height: 130%;
+  top: -100px;
+  left: 0;
+  z-index: 0;
+  background-repeat: no-repeat;
+  background-size: cover;
+  filter: blur(100px);
+}
+
+.playlistInnerContainer {
+  max-width: 1480px;
+  min-height: 100vh;
+  position: relative;
+  margin: auto;
+}
+
+.playlistDetailContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 62px;
+  z-index: 999;
+  background-color: #0404044a;
+  box-shadow: 0 3px 6px rgb(0 0 0 / 50%);
+  width: 100%;
+  border-radius: 5px;
+  overflow: hidden;
+  padding: 5px;
+}
+
+.playlistDetailImage {
+  width: 225px;
+  height: 225px;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-start;
+  margin-right: 40px;
+}
+.playlistDetailTextContainer > :first-child {
+  margin-bottom: 10px;
+}
+
+.playlistDetailOptionsContainer {
+  max-width: 288px;
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+/*///////////////////// playlist Tracks Container  */
+
+.playlistTracksContainer {
+  max-width: 1480px;
+  min-height: 200px;
+  z-index: 999;
+  background-color: #0404044a;
+  box-shadow: 0 3px 6px rgb(0 0 0 / 50%);
+  padding: 10px;
+}
+
+.playlistTracksHeadingContainer {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 25%);
+  align-items: center;
+}
+
+.playlistTracksInnerContainer {
+  margin-top: 20px;
+}
+
+.playlistTrack {
+  height: 60px;
+  display: grid;
+  grid-template-columns: repeat(4, 25%);
+  align-items: center;
+  border-radius: 4px;
+  padding: 0 5px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.playlistTrack:hover {
+  background-color: rgba(0, 0, 0, 0.18);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.playlistNameNImage {
+  display: flex;
+  align-items: center;
+}
+.playlistNameNImage > :first-child {
+  margin-right: 16px;
+}
+.playlistImage {
+  width: 35px;
+  height: 35px;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-right: 14px;
+}
+
+.playlistOptionsContainer {
+  width: 58px;
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

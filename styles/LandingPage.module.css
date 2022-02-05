@@ -85,4 +85,5 @@
 .findMusicImageContainer {
   width: 717px;
   height: 798px;
+  pointer-events: none;
 }

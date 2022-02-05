@@ -1,0 +1,38 @@
+.genresItem {
+  width: 225px;
+  height: 128px;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.2s;
+  position: relative;
+}
+.genresItem:hover {
+  border-color: #bbbbbb;
+}
+
+.genresItemImage {
+  position: absolute;
+  top: 0%;
+  left: 0;
+  width: 100%;
+  min-width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.genresItemBackdrop {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  background-image: linear-gradient(
+    to right bottom,
+    rgba(246, 111, 167, 0.486),
+    rgba(70, 0, 128, 0.609)
+  );
+  pointer-events: none;
+}

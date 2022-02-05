@@ -1,5 +1,5 @@
 import { Typography, makeStyles, Link } from "@material-ui/core";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../styles/Home.module.css";
 import Image from "next/image";
 import Heart from "../components/icons/Heart";
@@ -25,6 +25,8 @@ import playlistImg2 from "../assets/img/playlist2.png";
 import playlistImg3 from "../assets/img/playlist3.png";
 
 import Divider from "../components/partials/Divider/Divider";
+import { useAppContext } from "../store/context/appContext";
+import PlaylistItem from "../components/partials/PlaylistItem/PlaylistItem";
 
 const useStyles = makeStyles({
   heading: {
@@ -49,6 +51,8 @@ const useStyles = makeStyles({
 
 export default function home() {
   const classes = useStyles();
+  const { spotifyApiCtx, accessToken } = useAppContext();
+  const [newReleases, setNewReleases] = useState([]);
 
   const dummyRecentPlayed = [
     {
@@ -125,8 +129,37 @@ export default function home() {
     playlistImg1,
   ];
 
+  /**
+   * getting data
+   */
+  useEffect(() => {
+    if (!spotifyApiCtx || !accessToken) return;
+
+    /**new release */
+    spotifyApiCtx.getNewReleases().then((res) => {
+      const data = res.body.albums.items;
+      const transformData = data.map((releases) => {
+        return {
+          album_type: releases.album_type,
+          type: releases.type,
+          artists: {
+            name: releases.artists[0].name,
+            id: releases.artists[0].id,
+            type: releases.artists[0].type,
+          },
+
+          id: releases.id,
+          image: releases.images[1],
+          name: releases.name,
+        };
+      });
+      setNewReleases(transformData);
+    });
+  }, [spotifyApiCtx, accessToken]);
+
   return (
     <React.Fragment>
+      {/* recent played section */}
       <section className={styles.recentPlayed}>
         <div className={styles.recentPlayedInnerContainer}>
           <Typography variant="h6" className={classes.heading} color="primary">
@@ -186,9 +219,9 @@ export default function home() {
             </span>
           </div>
           <div className={styles.browseItemContainer}>
-            {dummyBrowseData.map((item) => {
+            {dummyBrowseData.map((item, i) => {
               return (
-                <div className={styles.browseItem}>
+                <div key={i} className={styles.browseItem}>
                   <Image src={item} alt="image" />
                 </div>
               );
@@ -225,9 +258,9 @@ export default function home() {
           </div>
 
           <div className={styles.podcastsItemContainer}>
-            {dummyPodcastData.map((podcast) => {
+            {dummyPodcastData.map((podcast, i) => {
               return (
-                <div className={styles.podcastItem}>
+                <div key={i} className={styles.podcastItem}>
                   <Image src={podcast} alt="podcast" />
                 </div>
               );
@@ -249,9 +282,11 @@ export default function home() {
           </Typography>
 
           <div className={styles.playlistItemContainer}>
-            {dummyPlaylisttData.map((playlist) => {
+            {/* {dummyPlaylisttData.map((playlist, i) => {
               return (
-                <div className={styles.playlistItem}>
+                <PlaylistItem key={i} playlist={playlist} />
+
+                <div key={i} className={styles.playlistItem}>
                   <div className={styles.playlistItemImage}>
                     <Image src={playlist} alt="playlist" />
                   </div>
@@ -271,7 +306,7 @@ export default function home() {
                   </span>
                 </div>
               );
-            })}
+            })} */}
           </div>
         </div>
       </section>
@@ -285,32 +320,43 @@ export default function home() {
           </Typography>
 
           <div className={styles.newReleasesItemContainer}>
-            {dummyPlaylisttData.map((newRelease) => {
-              return (
-                <div className={styles.newReleaseItem}>
-                  <div className={styles.newReleaseImage}>
-                    <Image src={newRelease} alt="new-release-img" />
+            {newReleases.length > 0 &&
+              newReleases.map((newRelease) => {
+                return (
+                  <div key={newRelease.id} className={styles.newReleaseItem}>
+                    <div className={styles.newReleaseImage}>
+                      <Image
+                        loader={() => newRelease.image.url}
+                        unoptimized
+                        width={225}
+                        height={225}
+                        src={newRelease.image.url}
+                        alt="new-release-img"
+                      />
+                    </div>
+                    <Typography
+                      variant="subtitle2"
+                      color="primary"
+                      className={classes.margin5}
+                    >
+                      {newRelease.name.trim().length > 24
+                        ? `${newRelease.name.slice(0, 24)}...`
+                        : newRelease.name}
+                    </Typography>
+                    <Typography
+                      variant="caption"
+                      color="textSecondary"
+                      className={classes.capitalize}
+                    >
+                      {newRelease.artists.name}
+                    </Typography>
                   </div>
-                  <Typography
-                    variant="subtitle2"
-                    color="primary"
-                    className={classes.margin5}
-                  >
-                    Song/playlist Name
-                  </Typography>
-                  <Typography
-                    variant="caption"
-                    color="textSecondary"
-                    className={classes.capitalize}
-                  >
-                    artist
-                  </Typography>
-                </div>
-              );
-            })}
+                );
+              })}
           </div>
         </div>
       </section>
+      <Divider />
 
       {/* artists */}
       <section className={styles.artists}>
