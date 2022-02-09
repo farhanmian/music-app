@@ -38,3 +38,24 @@ export type CategoryPlaylist = {
   images: { url: string };
   type: string;
 };
+
+// Tracks
+
+export type Tracks = {
+  artist: { name: string; id: string };
+  id: string;
+  name: string;
+  type: string;
+  uri: string;
+};
+
+/// Playlist
+
+export type PlaylistType = {
+  artist: [{ name: string; id: string }];
+  images: { url: string };
+  label: string;
+  name: string;
+  totalTracks: number;
+  type: string;
+};

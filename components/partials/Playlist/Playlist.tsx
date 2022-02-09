@@ -1,11 +1,11 @@
 import { Typography, makeStyles, Button } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import ThreeDots from "../../icons/ThreeDots";
 import styles from "./Playlist.module.css";
 import Image from "next/image";
-import { useAppContext } from "../../../store/context/appContext";
 import HeartOutlined from "../../icons/HeartOutlined";
 import Add from "../../icons/Add";
+import { PlaylistType, Tracks } from "../../../store/types/types";
 
 const useStyles = makeStyles({
   playlistDetailLabel: {
@@ -43,29 +43,11 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Playlist({ id }) {
+const Playlist: React.FC<{ playlist: PlaylistType; tracks: Tracks[] }> = ({
+  playlist,
+  tracks,
+}) => {
   const classes = useStyles();
-  const { accessToken, spotifyApiCtx } = useAppContext();
-  const [playlist, setPlaylist] = useState(null);
-
-  useEffect(() => {
-    if (!accessToken || !spotifyApiCtx || !id) return;
-
-    spotifyApiCtx.getAlbum(id).then((res) => {
-      console.log(res);
-      setPlaylist({
-        name: res.body.name,
-        label: res.body.label,
-        type: res.body.type,
-        images: { url: res.body.images[1].url },
-        artist: {
-          name: res.body.artists[0].name,
-          id: res.body.artists[0].id,
-        },
-        totalTracks: res.body.total_tracks,
-      });
-    });
-  }, [accessToken, spotifyApiCtx]);
 
   return (
     <section className={styles.playlist}>
@@ -150,62 +132,55 @@ export default function Playlist({ id }) {
             </div>
 
             <div className={styles.playlistTracksInnerContainer}>
-              <div className={styles.playlistTrack}>
-                <div className={styles.playlistNameNImage}>
-                  <Typography
-                    variant="caption"
-                    color="textSecondary"
-                    className={classes.fontSize15}
-                  >
-                    1
-                  </Typography>
+              {tracks.length > 0 &&
+                tracks.map((track: Tracks, i) => {
+                  return (
+                    <div key={track.id} className={styles.playlistTrack}>
+                      <div className={styles.playlistNameNImage}>
+                        <Typography
+                          variant="caption"
+                          color="textSecondary"
+                          className={classes.fontSize15}
+                        >
+                          {i + 1}
+                        </Typography>
 
-                  <div className={styles.playlistImage}>
-                    <Image
-                      loader={() =>
-                        "https://i.scdn.co/image/ab67616d00004851a33a67d46c31e949dce60810"
-                      }
-                      unoptimized
-                      width={35}
-                      height={35}
-                      src="https://i.scdn.co/image/ab67616d00004851a33a67d46c31e949dce60810"
-                      alt="new-release-img"
-                    />
-                  </div>
-                  <Typography
-                    variant="caption"
-                    className={classes.fontSize15}
-                    color="primary"
-                  >
-                    Track Name
-                  </Typography>
-                </div>
+                        <Typography
+                          variant="caption"
+                          className={classes.fontSize15}
+                          color="primary"
+                        >
+                          {track.name}
+                        </Typography>
+                      </div>
 
-                <Typography
-                  variant="caption"
-                  color="primary"
-                  className={classes.fontSize15}
-                >
-                  Artist
-                </Typography>
+                      <Typography
+                        variant="caption"
+                        color="primary"
+                        className={classes.fontSize15}
+                      >
+                        {track.artist.name}
+                      </Typography>
 
-                <Typography
-                  variant="caption"
-                  color="primary"
-                  className={classes.fontSize15}
-                >
-                  Album
-                </Typography>
+                      <Typography
+                        variant="caption"
+                        color="primary"
+                        className={classes.fontSize15}
+                      >
+                        {playlist.name}
+                      </Typography>
 
-                <div className={styles.playlistOptionsContainer}>
-                  <span className={styles.addToFav}>
-                    <HeartOutlined />
-                  </span>
-                  <span className={styles.addToPlaylist}>
-                    <Add />
-                  </span>
-                </div>
-              </div>
+                      <div className={styles.playlistOptionsContainer}>
+                        <span className={styles.addToFav}>
+                          <HeartOutlined />
+                        </span>
+                        <span className={styles.addToPlaylist}>
+                          <Add />
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })}
             </div>
           </div>
         </div>
@@ -221,4 +196,6 @@ export default function Playlist({ id }) {
       />
     </section>
   );
-}
+};
+
+export default Playlist;

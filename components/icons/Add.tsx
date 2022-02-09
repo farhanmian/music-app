@@ -17,7 +17,7 @@ export default function Add() {
       <g
         id="Add_To_Playlist_web_"
         data-name="Add To Playlist (web)"
-        clip-path="url(#clip-path)"
+        clipPath="url(#clip-path)"
       >
         <rect
           id="Rectangle_2601"

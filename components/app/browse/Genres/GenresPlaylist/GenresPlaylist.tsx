@@ -5,6 +5,7 @@ import styles from "./GenresPlaylist.module.css";
 import { useAppContext } from "../../../../../store/context/appContext";
 import { CategoryPlaylist } from "../../../../../store/types/types";
 import PlaylistItem from "../../../../partials/PlaylistItem/PlaylistItem";
+import NextLink from "next/link";
 
 const useStyles = makeStyles({
   heading: {
@@ -26,7 +27,7 @@ const useStyles = makeStyles({
   },
 });
 
-const GenresPlaylist = ({ query }) => {
+const GenresPlaylist: React.FC<{ query: string }> = ({ query }) => {
   const classes = useStyles();
   const { accessToken, spotifyApiCtx } = useAppContext();
   const [fetchedData, setFetchedData] = useState([]);
@@ -81,9 +82,11 @@ const GenresPlaylist = ({ query }) => {
           {fetchedData.length > 0 &&
             fetchedData.map((item: CategoryPlaylist) => {
               return (
-                <Grid key={item.id} item>
-                  <PlaylistItem playlist={item} />
-                </Grid>
+                <NextLink key={item.id} href={`genre/${item.id}`}>
+                  <Grid item>
+                    <PlaylistItem playlist={item} />
+                  </Grid>
+                </NextLink>
               );
             })}
         </Grid>
