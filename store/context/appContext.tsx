@@ -14,6 +14,8 @@ const AppContext = createContext({
   userInfo: null,
   activeNavLinkCtx: "genres",
   setActiveNavLinkCtx: null,
+  searchValue: null,
+  setSearchValue: null,
 });
 
 export const AppWrapper = ({ children }) => {
@@ -26,6 +28,7 @@ export const AppWrapper = ({ children }) => {
   const [spotifyApiCtx, setSpotifyApiCtx] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
   const [activeNavLinkCtx, setActiveNavLinkCtx] = useState("genres");
+  const [searchValue, setSearchValue] = useState("");
 
   /**
    * setting code
@@ -133,6 +136,8 @@ export const AppWrapper = ({ children }) => {
         userInfo,
         activeNavLinkCtx,
         setActiveNavLinkCtx,
+        searchValue,
+        setSearchValue,
       }}
     >
       {children}

@@ -97,14 +97,46 @@ const useStyles = makeStyles({
       color: "#2DCEEF",
     },
   },
+  navMenuItemContainer: {
+    backgroundColor: "#28282",
+    border: "1px solid #323232",
+    width: 110,
+  },
+  navMenuItem: {
+    color: "#e5e5e5",
+    "&:hover": {
+      backgroundColor: "#3a3a3a",
+    },
+  },
+  typeBtn: {
+    textTransform: "capitalize",
+    // backgroundColor: "#1ED760",
+    padding: "6px 12px",
+    borderRadius: 500,
+  },
 });
 
 const AUTH_URL =
   "https://accounts.spotify.com/authorize?client_id=e6719168da3047aaa2b0b9be996612f2&response_type=code&redirect_uri=http://localhost:3000&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state";
 
+const searchTypes = [
+  "songs",
+  "playlists",
+  "artists",
+  "albums",
+  "shows",
+  "episodes",
+];
+
 export default function Nav() {
   const classes = useStyles();
-  const { userInfo, activeNavLinkCtx, setActiveNavLinkCtx } = useAppContext();
+  const {
+    userInfo,
+    activeNavLinkCtx,
+    setActiveNavLinkCtx,
+    setSearchValue,
+    searchValue,
+  } = useAppContext();
   const router = useRouter();
   const path = router.pathname.replace("/", "");
   const [afterLoginMiddleNavLink, setAfterLoginMiddleNavLink] = useState([]);
@@ -200,63 +232,85 @@ export default function Nav() {
             <div className={styles.navLogoContainerAfterLogin}>
               <Image src={logo} alt="logo" />
             </div>
-            <div className={styles.navBtnContainerAfterLogin}>
-              {navAfterLoginBtns.map((btn) => {
-                return (
-                  <NextLink key={btn} href={`/${btn}`}>
-                    <Button
-                      variant="text"
-                      disableElevation
-                      className={`${
-                        path.includes(btn)
-                          ? classes.afterLoginActiveBtn
-                          : classes.afterLoginBtn
-                      }`}
-                    >
-                      {path.includes(btn) && (
-                        <div className={styles.afterLoginActiveBtnBorder} />
-                      )}
-                      <Typography
-                        variant="body1"
-                        className={`${classes.afterLoginbtnText} ${
+            {searchValue.trim().length < 1 && (
+              <div className={styles.navBtnContainerAfterLogin}>
+                {navAfterLoginBtns.map((btn) => {
+                  return (
+                    <NextLink key={btn} href={`/${btn}`}>
+                      <Button
+                        variant="text"
+                        disableElevation
+                        className={`${
                           path.includes(btn)
-                            ? classes.color2DCEEF
-                            : classes.color707070
+                            ? classes.afterLoginActiveBtn
+                            : classes.afterLoginBtn
                         }`}
                       >
-                        {btn}
-                      </Typography>
-                    </Button>
-                  </NextLink>
-                );
-              })}
-            </div>
+                        {path.includes(btn) && (
+                          <div className={styles.afterLoginActiveBtnBorder} />
+                        )}
+                        <Typography
+                          variant="body1"
+                          className={`${classes.afterLoginbtnText} ${
+                            path.includes(btn)
+                              ? classes.color2DCEEF
+                              : classes.color707070
+                          }`}
+                        >
+                          {btn}
+                        </Typography>
+                      </Button>
+                    </NextLink>
+                  );
+                })}
+              </div>
+            )}
           </span>
 
-          {afterLoginMiddleNavLink.length > 0 && (
-            <div className={styles.afterLoginMiddleNavLinkContainer}>
-              {afterLoginMiddleNavLink.map((link) => {
-                return (
-                  <Link
-                    key={link}
-                    className={classes.afterLoginMiddleNavLink}
-                    onClick={() => setActiveNavLinkCtx(link)}
-                  >
-                    <Typography
-                      variant="subtitle1"
-                      className={classes.afterLoginMiddleNavLinkText}
-                      color={
-                        link === activeNavLinkCtx ? "primary" : "textSecondary"
-                      }
+          {searchValue.trim().length < 1 ? (
+            afterLoginMiddleNavLink.length > 0 && (
+              <div className={styles.afterLoginMiddleNavLinkContainer}>
+                {afterLoginMiddleNavLink.map((link) => {
+                  return (
+                    <Link
+                      key={link}
+                      className={classes.afterLoginMiddleNavLink}
+                      onClick={() => setActiveNavLinkCtx(link)}
                     >
-                      {link}
+                      <Typography
+                        variant="subtitle1"
+                        className={classes.afterLoginMiddleNavLinkText}
+                        color={
+                          link === activeNavLinkCtx
+                            ? "primary"
+                            : "textSecondary"
+                        }
+                      >
+                        {link}
+                      </Typography>
+                      {activeNavLinkCtx === link && (
+                        <span
+                          className={styles.afterLoginMiddleNavActiveLinkBottom}
+                        />
+                      )}
+                    </Link>
+                  );
+                })}
+              </div>
+            )
+          ) : (
+            <div className={styles.searchTypeContainer}>
+              {searchTypes.map((type) => {
+                return (
+                  <Button
+                    variant="outlined"
+                    className={classes.typeBtn}
+                    color="primary"
+                  >
+                    <Typography variant="subtitle2" color="textSecondary">
+                      {type}
                     </Typography>
-                    {activeNavLinkCtx === link && (
-                      <span
-                        className={styles.afterLoginMiddleNavActiveLinkBottom}
-                      />
-                    )}
-                  </Link>
+                  </Button>
                 );
               })}
             </div>
@@ -265,7 +319,11 @@ export default function Nav() {
           <span className={styles.displayFlex}>
             <div className={styles.searchInputContainer}>
               <Search />
-              <input placeholder="search" className={styles.navInput} />
+              <input
+                onChange={(e) => setSearchValue(e.target.value)}
+                placeholder="search"
+                className={styles.navInput}
+              />
             </div>
             <div className={styles.navUserOptions}>
               <span className={styles.navUserOptionsUserIcon}>
@@ -325,11 +383,23 @@ export default function Nav() {
                             id="composition-menu"
                             aria-labelledby="composition-button"
                             onKeyDown={handleListKeyDown}
+                            className={classes.navMenuItemContainer}
                           >
-                            <MenuItem onClick={handleClose}>
-                              My account
+                            <MenuItem
+                              onClick={() => {
+                                router.push("/library");
+                                setOpen(false);
+                              }}
+                              className={classes.navMenuItem}
+                            >
+                              Library
                             </MenuItem>
-                            <MenuItem onClick={handleClose}>Logout</MenuItem>
+                            <MenuItem
+                              onClick={handleClose}
+                              className={classes.navMenuItem}
+                            >
+                              Logout
+                            </MenuItem>
                           </MenuList>
                         </ClickAwayListener>
                       </Paper>

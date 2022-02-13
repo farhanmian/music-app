@@ -1,0 +1,17 @@
+.searchResult {
+  margin-top: 148px;
+  height: calc(100vh - 526px);
+  min-height: 300px;
+  /* background-color: rgba(22, 22, 22, 0.5); */
+}
+
+.innerContainer {
+  max-width: 1480px;
+  height: 100%;
+  margin: auto;
+  padding: 20px 10px;
+}
+
+.searchResultContainer {
+  width: 100%;
+}

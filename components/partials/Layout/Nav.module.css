@@ -84,6 +84,7 @@
 }
 .searchInputContainer:focus-within {
   border: 1px solid #f1f1f1;
+  width: 250px;
 }
 
 .navInput {
@@ -142,4 +143,24 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+/* ///////////////////// search type */
+
+.searchTypeContainer {
+  opacity: 0;
+  animation: fadeIn 0.5s linear forwards;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.searchTypeContainer > :not(:last-child) {
+  margin-right: 10px;
+}
+
+@keyframes fadeIn {
+  100% {
+    opacity: 1;
+  }
 }

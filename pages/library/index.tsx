@@ -18,7 +18,6 @@ const index = () => {
     if (activeNavLinkCtx === "playlists") {
       /** getting user's playlist */
       spotifyApiCtx.getUserPlaylists().then((res) => {
-        console.log(res);
         const transformedData: LibraryPlaylistType[] = [];
         res.body.items.map((item) => {
           transformedData.push({
@@ -34,7 +33,6 @@ const index = () => {
     }
     if (activeNavLinkCtx === "albums") {
       spotifyApiCtx.getMySavedAlbums().then((res) => {
-        console.log(res);
         const transformedData: LibraryPlaylistType[] = [];
         res.body.items.map((item) => {
           transformedData.push({
@@ -52,7 +50,6 @@ const index = () => {
       spotifyApiCtx
         .getMySavedShows()
         .then((res) => {
-          console.log(res);
           const transformedData: LibraryPlaylistType[] = [];
           res.body.items.map((item) => {
             transformedData.push({
@@ -71,7 +68,6 @@ const index = () => {
     }
     if (activeNavLinkCtx === "tracks") {
       spotifyApiCtx.getMySavedTracks().then((res) => {
-        console.log(res);
         const transformedData: TrackType[] = [];
         res.body.items.map((item) => {
           transformedData.push({
@@ -94,6 +90,10 @@ const index = () => {
         setTracksData(transformedData);
       });
     }
+
+    spotifyApiCtx.searchTracks("hello").then((res) => {
+      console.log(res);
+    });
   }, [accessToken, spotifyApiCtx, activeNavLinkCtx]);
 
   return (
