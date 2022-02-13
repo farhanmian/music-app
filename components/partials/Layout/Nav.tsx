@@ -104,7 +104,7 @@ const AUTH_URL =
 
 export default function Nav() {
   const classes = useStyles();
-  const { userInfo, activeBrowseLink, setActiveBrowseLink } = useAppContext();
+  const { userInfo, activeNavLinkCtx, setActiveNavLinkCtx } = useAppContext();
   const router = useRouter();
   const path = router.pathname.replace("/", "");
   const [afterLoginMiddleNavLink, setAfterLoginMiddleNavLink] = useState([]);
@@ -112,6 +112,10 @@ export default function Nav() {
   useEffect(() => {
     if (router.pathname === "/browse") {
       setAfterLoginMiddleNavLink(["genres", "new releases", "podcasts"]);
+      setActiveNavLinkCtx("genres");
+    } else if (router.pathname === "/library") {
+      setAfterLoginMiddleNavLink(["playlists", "tracks", "albums", "podcasts"]);
+      setActiveNavLinkCtx("playlists");
     } else {
       setAfterLoginMiddleNavLink([]);
     }
@@ -236,18 +240,18 @@ export default function Nav() {
                   <Link
                     key={link}
                     className={classes.afterLoginMiddleNavLink}
-                    onClick={() => setActiveBrowseLink(link)}
+                    onClick={() => setActiveNavLinkCtx(link)}
                   >
                     <Typography
                       variant="subtitle1"
                       className={classes.afterLoginMiddleNavLinkText}
                       color={
-                        link === activeBrowseLink ? "primary" : "textSecondary"
+                        link === activeNavLinkCtx ? "primary" : "textSecondary"
                       }
                     >
                       {link}
                     </Typography>
-                    {activeBrowseLink === link && (
+                    {activeNavLinkCtx === link && (
                       <span
                         className={styles.afterLoginMiddleNavActiveLinkBottom}
                       />

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import NextLink from "next/link";
 import { Typography, makeStyles } from "@material-ui/core";
 import { Grid } from "@mui/material";
 import { useAppContext } from "../../../../store/context/appContext";
@@ -52,14 +51,9 @@ const Genres = () => {
           {genres.length > 0 &&
             genres.map((genre: Categories) => {
               return (
-                <NextLink
-                  key={genre.id}
-                  href={`/browse/genre-category-${genre.id}`}
-                >
-                  <Grid id={genre.id} item>
-                    <CategoryItem item={genre} />
-                  </Grid>
-                </NextLink>
+                <Grid key={genre.id} id={genre.id} item>
+                  <CategoryItem item={genre} />
+                </Grid>
               );
             })}
         </Grid>

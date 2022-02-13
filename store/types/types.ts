@@ -4,16 +4,16 @@ export type Categories = {
   id: string;
 };
 
-export type NewReleaseItem = {
-  type: string;
-  name: string;
-  images: { url: string };
+export type NewReleaseItemType = {
   id: string;
+  image: { url: string };
+  name: string;
   artists: { name: string; id: string };
+  type: string;
 };
 
 /// GetSeveralShows(podcast)
-export type PodCastItem = {
+export type PodCastItemType = {
   id: string;
   images: { url: string };
   name: string;
@@ -49,13 +49,42 @@ export type Tracks = {
   uri: string;
 };
 
+// Track Type
+export type TrackType = {
+  artist: { name: string; id: string };
+  id: string;
+  name: string;
+  type: string;
+  uri: string;
+  image: { url: string };
+};
+
 /// Playlist
 
 export type PlaylistType = {
-  artist: [{ name: string; id: string }];
+  artist: { name: string };
   images: { url: string };
   label: string;
   name: string;
   totalTracks: number;
   type: string;
+};
+
+/// artist
+export type ArtistType = {
+  name: string;
+  id: string;
+  images: { url: string };
+  type: string;
+  popularity: number;
+};
+
+// libraryPlaylist
+
+export type LibraryPlaylistType = {
+  name: string;
+  id: string;
+  type: string;
+  images: { url: string };
+  noOfSongs: number;
 };

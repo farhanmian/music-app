@@ -46,7 +46,7 @@ const theme = createTheme({
     // used in many places for eg: product short descriptiondescription
     body2: {
       fontSize: 16,
-      lineHeight: "19px",
+      lineHeight: "25px",
       fontWeight: "bold",
     },
     subtitle1: {
@@ -56,7 +56,7 @@ const theme = createTheme({
     },
     subtitle2: {
       fontSize: 16,
-      lineHeight: "18px",
+      lineHeight: "15px",
       fontWeight: 400,
     },
     caption: {

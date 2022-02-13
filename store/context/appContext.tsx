@@ -12,8 +12,8 @@ const AppContext = createContext({
   accessToken: null,
   spotifyApiCtx: null,
   userInfo: null,
-  activeBrowseLink: "genres",
-  setActiveBrowseLink: null,
+  activeNavLinkCtx: "genres",
+  setActiveNavLinkCtx: null,
 });
 
 export const AppWrapper = ({ children }) => {
@@ -25,7 +25,7 @@ export const AppWrapper = ({ children }) => {
   const [expiresIn, setExpiresIn] = useState(null);
   const [spotifyApiCtx, setSpotifyApiCtx] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
-  const [activeBrowseLink, setActiveBrowseLink] = useState("genres");
+  const [activeNavLinkCtx, setActiveNavLinkCtx] = useState("genres");
 
   /**
    * setting code
@@ -131,8 +131,8 @@ export const AppWrapper = ({ children }) => {
         accessToken,
         spotifyApiCtx,
         userInfo,
-        activeBrowseLink,
-        setActiveBrowseLink,
+        activeNavLinkCtx,
+        setActiveNavLinkCtx,
       }}
     >
       {children}

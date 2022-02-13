@@ -11,6 +11,7 @@ const useStyles = makeStyles({
   playlistDetailLabel: {
     marginTop: 3,
     marginBottom: 12,
+    maxWidth: 530,
   },
   playlistDetailOptionBtn: {
     minWidth: 168,
@@ -50,7 +51,7 @@ const Playlist: React.FC<{ playlist: PlaylistType; tracks: Tracks[] }> = ({
   const classes = useStyles();
 
   return (
-    <section className={styles.playlist}>
+    <div className={styles.playlist}>
       {playlist && (
         <div className={styles.playlistInnerContainer}>
           <div className={styles.playlistDetailContainer}>
@@ -85,9 +86,9 @@ const Playlist: React.FC<{ playlist: PlaylistType; tracks: Tracks[] }> = ({
               </Typography>
 
               <Typography variant="caption" color="textSecondary">
-                {playlist.totalTracks > 1
-                  ? `${playlist.totalTracks} Songs`
-                  : `${playlist.totalTracks} Song`}
+                {`${playlist.totalTracks} ${
+                  playlist.type === "show" ? "Episodes" : "Song"
+                }`}
               </Typography>
             </div>
 
@@ -150,7 +151,9 @@ const Playlist: React.FC<{ playlist: PlaylistType; tracks: Tracks[] }> = ({
                           className={classes.fontSize15}
                           color="primary"
                         >
-                          {track.name}
+                          {track.name.trim().length > 35
+                            ? `${track.name.slice(0, 35)}...`
+                            : track.name}
                         </Typography>
                       </div>
 
@@ -159,7 +162,9 @@ const Playlist: React.FC<{ playlist: PlaylistType; tracks: Tracks[] }> = ({
                         color="primary"
                         className={classes.fontSize15}
                       >
-                        {track.artist.name}
+                        {track.artist.name
+                          ? track.artist.name
+                          : playlist.artist.name}
                       </Typography>
 
                       <Typography
@@ -167,6 +172,7 @@ const Playlist: React.FC<{ playlist: PlaylistType; tracks: Tracks[] }> = ({
                         color="primary"
                         className={classes.fontSize15}
                       >
+                        {/* album */}
                         {playlist.name}
                       </Typography>
 
@@ -194,7 +200,7 @@ const Playlist: React.FC<{ playlist: PlaylistType; tracks: Tracks[] }> = ({
         }}
         className={styles.playlistBackground}
       />
-    </section>
+    </div>
   );
 };
 

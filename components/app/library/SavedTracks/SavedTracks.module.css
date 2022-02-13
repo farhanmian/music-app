@@ -1,0 +1,44 @@
+.innerContainer {
+  max-width: 1480px;
+  margin: auto;
+  margin-top: 30px;
+}
+
+.trackItem {
+  min-width: 205px;
+  max-width: 025px;
+  height: 275px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border: 1px solid transparent;
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: 6px;
+  background-color: rgba(42, 42, 42, 0.3);
+  padding: 10px;
+  transition: all 0.25s;
+}
+
+.trackItem:hover {
+  background-color: rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+}
+.trackItem:hover .trackItemImage {
+  border-radius: 0;
+}
+
+.trackItemImage {
+  width: 100%;
+  /* height: 205px; */
+  /* min-height: 205px; */
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 9px;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.4s;
+  border-radius: 50%;
+}

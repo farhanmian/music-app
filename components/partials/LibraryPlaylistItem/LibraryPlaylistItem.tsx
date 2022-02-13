@@ -1,21 +1,22 @@
 import React from "react";
-import styles from "./PlaylistItem.module.css";
-import { Typography, makeStyles } from "@material-ui/core";
+import styles from "./LibraryPlaylistItem.module.css";
+import { makeStyles, Typography } from "@material-ui/core";
+import { LibraryPlaylistType } from "../../../store/types/types";
 import Image from "next/image";
 import NextLink from "next/link";
-import { CategoryPlaylist } from "../../../store/types/types";
 
 const useStyles = makeStyles({
   playlistName: {
     textTransform: "capitalize",
     fontWeight: "bold",
+    marginBottom: 5,
   },
 });
 
-const PlaylistItem: React.FC<{ playlist: CategoryPlaylist; link: string }> = ({
-  playlist,
-  link,
-}) => {
+const LibraryPlaylistItem: React.FC<{
+  playlist: LibraryPlaylistType;
+  link: string;
+}> = ({ playlist, link }) => {
   const classes = useStyles();
   return (
     <NextLink href={link}>
@@ -32,7 +33,7 @@ const PlaylistItem: React.FC<{ playlist: CategoryPlaylist; link: string }> = ({
         </div>
 
         <Typography
-          variant="subtitle1"
+          variant="subtitle2"
           color="primary"
           className={classes.playlistName}
         >
@@ -40,9 +41,13 @@ const PlaylistItem: React.FC<{ playlist: CategoryPlaylist; link: string }> = ({
             ? `${playlist.name.slice(0, 24)}...`
             : playlist.name}
         </Typography>
+
+        <Typography variant="caption" color="textSecondary">
+          {playlist.noOfSongs} {playlist.type === "show" ? "Episodes" : "Songs"}
+        </Typography>
       </div>
     </NextLink>
   );
 };
 
-export default PlaylistItem;
+export default LibraryPlaylistItem;

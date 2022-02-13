@@ -6,13 +6,13 @@ import Podcasts from "../../components/app/browse/Podcasts/Podcasts";
 import { useAppContext } from "../../store/context/appContext";
 
 export default function browse() {
-  const { activeBrowseLink } = useAppContext();
+  const { activeNavLinkCtx } = useAppContext();
 
   return (
     <section className={styles.browse}>
-      {activeBrowseLink === "genres" && <Genres />}
-      {activeBrowseLink === "podcasts" && <Podcasts />}
-      {activeBrowseLink === "new releases" && <NewReleases />}
+      {activeNavLinkCtx === "genres" && <Genres />}
+      {activeNavLinkCtx === "podcasts" && <Podcasts />}
+      {activeNavLinkCtx === "new releases" && <NewReleases />}
     </section>
   );
 }

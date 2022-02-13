@@ -87,7 +87,7 @@ export default function Home() {
   useEffect(() => {
     if (!code) return;
     if (router.pathname === "/") {
-      router.push("/browse");
+      router.push("/library");
     }
   }, [code]);
 

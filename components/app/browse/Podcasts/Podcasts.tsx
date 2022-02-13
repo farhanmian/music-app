@@ -6,20 +6,19 @@ import { Grid } from "@mui/material";
 import {
   Categories,
   FeaturedEpisode,
-  PodCastItem,
+  PodCastItemType,
 } from "../../../../store/types/types";
 import Image from "next/image";
 import Divider from "../../../partials/Divider/Divider";
 import CategoryItem from "../../../partials/CategoryItem/CategoryItem";
+import NextLink from "next/link";
+import PodcastItem from "../../../partials/PodcastItem/PodcastItem";
 
 const useStyles = makeStyles({
   heading: {
     marginBottom: 30,
   },
-  podcastItemName: {
-    marginBottom: 5,
-    textTransform: "capitalize",
-  },
+
   featuredEpisodesHeading: {
     textTransform: "none",
     marginBottom: 40,
@@ -39,28 +38,27 @@ export default function Podcasts() {
   useEffect(() => {
     if (!accessToken || !spotifyApiCtx) return;
 
+    // shows (podcast)
     const podcastsIds = [
-      "5CfCWKI5pZ28U0uOzXkDHe",
-      "5as3aKmN2k11yfDDDSrvaZ",
+      "3MBmSp76yRsFJSFIAVh41S",
+      "1GXX3JryxVciJghofKXIQ6",
+      "58g95EqsrSk5ViIl3wGDzo",
       "4BuXlpcana6xU2ctfZ3qgZ",
-      "6IVKMJnrVorjdJr8TdEfl4",
-      "6DeldIJ7dRVPq5RhZuonNv",
-      "4tp1Wo0moxOoOhRUsfUVBE",
-      "27DJ5PiShDzUpyWQ8e8FuD",
-      "3qfl7KnzjYTbDKlMDp42aV",
-      "2Dh3d3yHLIq74QGWLE9HeV",
-      "5KuVFavG72i7fNOZ9tEX3a",
-      "5s7mCxhzSUbG09pV1RxnUL",
-      "7uddSH8MhaK3Q6YFlllbVZ",
+      "5EqqB52m2bsr4k1Ii7sStc",
+      "4wgaUiSz7Gh2FJrBYfn0GM",
+      "4NHIIVB3DkjH70yhE3pbcd",
+      "0rIiowNNhk4SGLqsbhBVWn",
+      "12jUp5Aa63c5BYx3wVZeMA",
+      "1uYUZxdR4sSTXJ6SmSRook",
+      "6ll0MwobDt1JW9gYaOONEo",
+      "1tCEkweikOQj2NDGDRDkpc",
     ];
 
-    // shows (podcast)
     spotifyApiCtx
       .getShows(podcastsIds, { limit: 12 })
       .then((res: { body: { shows: [] } }) => {
-        const transformedData: PodCastItem[] = [];
-
-        res.body.shows.map((podcast: PodCastItem) => {
+        const transformedData: PodCastItemType[] = [];
+        res.body.shows.map((podcast: PodCastItemType) => {
           transformedData.push({
             id: podcast.id,
             images: { url: podcast.images[1].url },
@@ -87,7 +85,6 @@ export default function Podcasts() {
             uri: playlist.uri,
           });
         });
-        // console.log(transformedData);
         setFeaturedEpisodes(transformedData);
       });
 
@@ -117,35 +114,10 @@ export default function Podcasts() {
           className={styles.podcastsItemContainer}
         >
           {podcasts.length > 0 &&
-            podcasts.map((podcast: PodCastItem) => {
+            podcasts.map((podcast: PodCastItemType) => {
               return (
-                <Grid key={podcast.id} item className={styles.podcastItem}>
-                  <div className={styles.podcastItemImage}>
-                    <Image
-                      loader={() => podcast.images.url}
-                      unoptimized
-                      width={225}
-                      height={225}
-                      src={podcast.images.url}
-                      alt="podcast-img"
-                    />
-                  </div>
-
-                  <Typography
-                    variant="body2"
-                    className={classes.podcastItemName}
-                    color="primary"
-                  >
-                    {podcast.name.trim().length > 24
-                      ? `${podcast.name.slice(0, 24)}...`
-                      : podcast.name}
-                  </Typography>
-
-                  <Typography variant="caption" color="textSecondary">
-                    {podcast.publisher.trim().length > 30
-                      ? `${podcast.publisher.slice(0, 30)}...`
-                      : podcast.publisher}
-                  </Typography>
+                <Grid key={podcast.id} item>
+                  <PodcastItem podcast={podcast} />
                 </Grid>
               );
             })}
@@ -171,33 +143,38 @@ export default function Podcasts() {
           {featuredEpisodes.length > 0 &&
             featuredEpisodes.map((episode: FeaturedEpisode) => {
               return (
-                <Grid
+                <NextLink
                   key={episode.id}
-                  item
-                  className={styles.featuredEpisodesItem}
+                  href={`/browse/featuredepisode-${episode.id}`}
                 >
-                  <div className={styles.featuredEpisodesImage}>
-                    <Image
-                      loader={() => episode.images.url}
-                      unoptimized
-                      width={100}
-                      height={100}
-                      src={episode.images.url}
-                      alt="featured-episode-img"
-                    />
-                  </div>
+                  <Grid
+                    key={episode.id}
+                    item
+                    className={styles.featuredEpisodesItem}
+                  >
+                    <div className={styles.featuredEpisodesImage}>
+                      <Image
+                        loader={() => episode.images.url}
+                        unoptimized
+                        width={100}
+                        height={100}
+                        src={episode.images.url}
+                        alt="featured-episode-img"
+                      />
+                    </div>
 
-                  <div className={styles.featuredEpisodesText}>
-                    <Typography variant="body2" color="primary">
-                      {episode.name}
-                    </Typography>
-                    <Typography variant="caption" color="textSecondary">
-                      {episode.description.trim().length > 85
-                        ? `${episode.description.slice(0, 85)}...`
-                        : episode.description}
-                    </Typography>
-                  </div>
-                </Grid>
+                    <div className={styles.featuredEpisodesText}>
+                      <Typography variant="body2" color="primary">
+                        {episode.name}
+                      </Typography>
+                      <Typography variant="caption" color="textSecondary">
+                        {episode.description.trim().length > 85
+                          ? `${episode.description.slice(0, 85)}...`
+                          : episode.description}
+                      </Typography>
+                    </div>
+                  </Grid>
+                </NextLink>
               );
             })}
         </Grid>
@@ -216,9 +193,9 @@ export default function Podcasts() {
           className={styles.categoriesItemContainer}
         >
           {genres.length > 0 &&
-            genres.map((genre) => {
+            genres.map((genre: Categories) => {
               return (
-                <Grid item>
+                <Grid key={genre.id} item>
                   <CategoryItem item={genre} />
                 </Grid>
               );

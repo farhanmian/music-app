@@ -37,7 +37,7 @@
 }
 
 .playlistDetailImage {
-  width: 225px;
+  min-width: 225px;
   height: 225px;
   border-radius: 8px;
   overflow: hidden;
@@ -76,6 +76,9 @@
 
 .playlistTracksInnerContainer {
   margin-top: 20px;
+}
+.playlistTracksInnerContainer > :not(:last-child) {
+  margin-bottom: 10px;
 }
 
 .playlistTrack {

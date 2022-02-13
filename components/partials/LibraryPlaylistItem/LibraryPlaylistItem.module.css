@@ -1,0 +1,35 @@
+.playlistItem {
+  min-width: 225px;
+  max-width: 225px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border: 1px solid transparent;
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: 6px;
+  background-color: rgba(42, 42, 42, 0.3);
+  padding: 10px;
+  transition: all 0.25s;
+}
+
+.playlistItem:hover {
+  background-color: rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+}
+.playlistItem:hover .playlistItemImage {
+  border-radius: 0;
+}
+
+.playlistItemImage {
+  width: 100%;
+  height: 215px;
+  min-height: 125px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 9px;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.4s;
+}

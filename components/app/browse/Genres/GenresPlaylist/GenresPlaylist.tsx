@@ -5,7 +5,6 @@ import styles from "./GenresPlaylist.module.css";
 import { useAppContext } from "../../../../../store/context/appContext";
 import { CategoryPlaylist } from "../../../../../store/types/types";
 import PlaylistItem from "../../../../partials/PlaylistItem/PlaylistItem";
-import NextLink from "next/link";
 
 const useStyles = makeStyles({
   heading: {
@@ -82,11 +81,9 @@ const GenresPlaylist: React.FC<{ query: string }> = ({ query }) => {
           {fetchedData.length > 0 &&
             fetchedData.map((item: CategoryPlaylist) => {
               return (
-                <NextLink key={item.id} href={`genre/${item.id}`}>
-                  <Grid item>
-                    <PlaylistItem playlist={item} />
-                  </Grid>
-                </NextLink>
+                <Grid key={item.id} item>
+                  <PlaylistItem playlist={item} link={`genre/${item.id}`} />
+                </Grid>
               );
             })}
         </Grid>
