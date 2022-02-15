@@ -75,15 +75,7 @@ const index = () => {
             id: item.track.id,
             type: item.track.type,
             uri: item.track.uri,
-            // artist: [
-            //   item.track.artists.map((item) => {
-            //     return { name: item.name, id: item.id };
-            //   }),
-            // ],
-            artist: {
-              name: item.track.artists[0].name,
-              id: item.track.artists[0].id,
-            },
+            artists: item.track.artists,
             image: { url: item.track.album.images[1].url },
           });
         });

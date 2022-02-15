@@ -82,7 +82,7 @@ const GenresPlaylist: React.FC<{ query: string }> = ({ query }) => {
             fetchedData.map((item: CategoryPlaylist) => {
               return (
                 <Grid key={item.id} item>
-                  <PlaylistItem playlist={item} link={`genre/${item.id}`} />
+                  <PlaylistItem playlist={item} link={`/playlist/${item.id}`} />
                 </Grid>
               );
             })}

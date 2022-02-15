@@ -180,41 +180,6 @@
   margin-right: 26px;
 }
 
-.artistItem {
-  min-width: 225px;
-  max-width: 225px;
-  height: 275px;
-  text-align: center;
-}
-
-.artistImage {
-  width: 100%;
-  height: 225px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 9px;
-  overflow: hidden;
-  cursor: pointer;
-  transition: all 0.4s;
-}
-.artistImage:hover {
-  transform: scale(0.97);
-}
-.artistName {
-  cursor: pointer;
-}
-
-.itemLikesContainer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.itemLikesContainer > :first-child {
-  margin-right: 5.7px;
-}
-
 /*/////////////////////// scroll bar  */
 .newReleasesItemContainer::-webkit-scrollbar,
 .artistsContainer::-webkit-scrollbar {

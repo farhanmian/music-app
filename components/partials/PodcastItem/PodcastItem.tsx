@@ -15,7 +15,7 @@ const useStyles = makeStyles({
 const PodcastItem: React.FC<{ podcast: PodCastItemType }> = ({ podcast }) => {
   const classes = useStyles();
   return (
-    <NextLink href={`browse/podcast-${podcast.id}`}>
+    <NextLink href={`podcast/${podcast.id}`}>
       <div className={styles.podcastItem}>
         <div className={styles.podcastItemImage}>
           <Image

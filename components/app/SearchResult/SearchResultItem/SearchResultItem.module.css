@@ -1,0 +1,27 @@
+.trackItem {
+  max-width: 225px;
+  min-width: 225px;
+  height: 275px;
+  background-color: rgba(42, 42, 42, 0.3);
+  border-radius: 4px;
+  padding: 10px;
+  text-align: start;
+  cursor: pointer;
+  transition: all 0.4s;
+  overflow: hidden;
+}
+.trackItem:hover {
+  background-color: rgba(255, 255, 255, 0.075);
+}
+
+.trackImage {
+  min-width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  margin-bottom: 15px;
+  overflow: hidden;
+}
+.trackImage > span {
+  min-width: 100%;
+}

@@ -1,23 +1,24 @@
 import React, { useEffect, useState } from "react";
-import styles from "../../../styles/SpecificItem.module.css";
-import Playlist from "../../../components/partials/Playlist/Playlist";
 import { useRouter } from "next/dist/client/router";
-import { useAppContext } from "../../../store/context/appContext";
-import { Tracks } from "../../../store/types/types";
+import { useAppContext } from "../../store/context/appContext";
+import { Tracks } from "../../store/types/types";
+import Playlist from "../../components/partials/Playlist/Playlist";
 
-export default function specificItem() {
+export default function playlist() {
   const router = useRouter();
+  const id = router.query.playlist;
   const { accessToken, spotifyApiCtx } = useAppContext();
-  const id = router.query.specificItem;
-  const [playlistInfo, setPlaylistInfo] = useState(null);
+  const [playlist, setPlaylist] = useState(null);
   const [tracks, setTracks] = useState([]);
+
+  console.log(id);
 
   useEffect(() => {
     if (!accessToken || !spotifyApiCtx) return;
 
     spotifyApiCtx.getPlaylist(id).then((res) => {
       console.log(res);
-      setPlaylistInfo({
+      setPlaylist({
         name: res.body.name,
         label: res.body.description,
         type: res.body.type,
@@ -35,10 +36,7 @@ export default function specificItem() {
           type: item.track.type,
           id: item.track.id,
           uri: item.track.uri,
-          artist: {
-            name: item.track.artists[0].name,
-            id: item.track.artists[0].id,
-          },
+          artists: item.track.artists,
         });
       });
       setTracks(transformedData);
@@ -46,8 +44,8 @@ export default function specificItem() {
   }, [accessToken, spotifyApiCtx]);
 
   return (
-    <section className={styles.specificItem}>
-      <Playlist playlist={playlistInfo} tracks={tracks} />
+    <section style={{ marginTop: 148 }}>
+      <Playlist playlist={playlist} tracks={tracks} />
     </section>
   );
 }

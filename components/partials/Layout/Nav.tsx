@@ -110,9 +110,17 @@ const useStyles = makeStyles({
   },
   typeBtn: {
     textTransform: "capitalize",
-    // backgroundColor: "#1ED760",
     padding: "6px 12px",
     borderRadius: 500,
+    transition: "all .2s",
+  },
+  activeTypeBtn: {
+    backgroundColor: "#1cb050",
+    border: "2px solid rgb(0 0 0 / 50%)",
+    "&:hover": {
+      backgroundColor: "#1aa149",
+      border: "2px solid rgb(0 0 0 / 50%)",
+    },
   },
 });
 
@@ -136,6 +144,8 @@ export default function Nav() {
     setActiveNavLinkCtx,
     setSearchValue,
     searchValue,
+    setSearchType,
+    searchType,
   } = useAppContext();
   const router = useRouter();
   const path = router.pathname.replace("/", "");
@@ -152,6 +162,10 @@ export default function Nav() {
       setAfterLoginMiddleNavLink([]);
     }
   }, [router.pathname]);
+
+  useEffect(() => {
+    setSearchValue("");
+  }, [router.asPath]);
 
   const [open, setOpen] = useState(false);
   const anchorRef = useRef<HTMLInputElement>(null);
@@ -303,11 +317,20 @@ export default function Nav() {
               {searchTypes.map((type) => {
                 return (
                   <Button
+                    key={type}
                     variant="outlined"
-                    className={classes.typeBtn}
+                    className={`${classes.typeBtn} ${
+                      type === searchType ? classes.activeTypeBtn : ""
+                    }`}
                     color="primary"
+                    onClick={() => setSearchType(type)}
                   >
-                    <Typography variant="subtitle2" color="textSecondary">
+                    <Typography
+                      variant="subtitle2"
+                      color={`${
+                        type === searchType ? "primary" : "textSecondary"
+                      }`}
+                    >
                       {type}
                     </Typography>
                   </Button>
@@ -320,6 +343,7 @@ export default function Nav() {
             <div className={styles.searchInputContainer}>
               <Search />
               <input
+                value={searchValue}
                 onChange={(e) => setSearchValue(e.target.value)}
                 placeholder="search"
                 className={styles.navInput}

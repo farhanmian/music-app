@@ -37,10 +37,7 @@ const NewReleases = () => {
           name: item.name,
           image: { url: item.images[1].url },
           id: item.id,
-          artists: {
-            name: item.artists[0].name,
-            id: item.artists[0].id,
-          },
+          artists: item.artists,
         });
       });
       setNewReleases(transformedData);

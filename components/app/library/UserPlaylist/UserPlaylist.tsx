@@ -40,7 +40,7 @@ const UserPlaylist: React.FC<{
                 <LibraryPlaylistItem
                   key={playlist.id}
                   playlist={playlist}
-                  link={`/library/${path}-${playlist.id}`}
+                  link={`${path}/${playlist.id}`}
                 />
               </Grid>
             );

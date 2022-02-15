@@ -20,8 +20,12 @@ const NewReleaseItem: React.FC<{ newRelease: NewReleaseItemType }> = ({
   const classes = useStyles();
 
   return (
-    <NextLink href={`/browse/newReleases-album-${newRelease.id}`}>
-      <div key={newRelease.id} className={styles.newReleaseItem}>
+    <NextLink href={`album/${newRelease.id}`}>
+      <div
+        id={newRelease.type}
+        key={newRelease.id}
+        className={styles.newReleaseItem}
+      >
         <div className={styles.newReleaseImage}>
           <Image
             loader={() => newRelease.image.url}
@@ -46,7 +50,9 @@ const NewReleaseItem: React.FC<{ newRelease: NewReleaseItemType }> = ({
           color="textSecondary"
           className={classes.capitalize}
         >
-          {newRelease.artists.name}
+          {newRelease.artists.length === 1
+            ? newRelease.artists.map((item) => item.name)
+            : newRelease.artists.map((item) => `${item.name}, `)}
         </Typography>
       </div>
     </NextLink>

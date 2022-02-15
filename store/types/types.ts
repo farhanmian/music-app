@@ -8,7 +8,7 @@ export type NewReleaseItemType = {
   id: string;
   image: { url: string };
   name: string;
-  artists: { name: string; id: string };
+  artists: { name: string; id: string }[];
   type: string;
 };
 
@@ -29,6 +29,15 @@ export type FeaturedEpisode = {
   description: string;
   uri: string;
 };
+// search episode
+export type SearchEpisodeItemType = {
+  id: string;
+  images: { url: string };
+  name: string;
+  uri: string;
+  type: string;
+  duration: number;
+};
 
 // GetPlaylistsForCategory
 
@@ -42,7 +51,7 @@ export type CategoryPlaylist = {
 // Tracks
 
 export type Tracks = {
-  artist: { name: string; id: string };
+  artists: { name: string; id: string }[];
   id: string;
   name: string;
   type: string;
@@ -51,7 +60,7 @@ export type Tracks = {
 
 // Track Type
 export type TrackType = {
-  artist: { name: string; id: string };
+  artists: { name: string; id: string }[];
   id: string;
   name: string;
   type: string;
@@ -59,10 +68,20 @@ export type TrackType = {
   image: { url: string };
 };
 
+// search result track type
+export type SearchTrackType = {
+  name: string;
+  id: string;
+  uri: string;
+  type: string;
+  artists: { id: string; name: string }[];
+  image: { url: string };
+};
+
 /// Playlist
 
 export type PlaylistType = {
-  artist: { name: string };
+  artists: { name: string }[];
   images: { url: string };
   label: string;
   name: string;

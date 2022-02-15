@@ -1,8 +1,6 @@
 import { Typography, makeStyles } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import styles from "../styles/Home.module.css";
-import Image from "next/image";
-import Heart from "../components/icons/Heart";
 
 import Divider from "../components/partials/Divider/Divider";
 import { useAppContext } from "../store/context/appContext";
@@ -18,6 +16,7 @@ import NextLink from "next/link";
 import PodcastItem from "../components/partials/PodcastItem/PodcastItem";
 import PlaylistItem from "../components/partials/PlaylistItem/PlaylistItem";
 import NewReleaseItem from "../components/partials/NewReleaseItem/NewReleaseItem";
+import Artist from "../components/partials/Artist/Artist";
 
 const useStyles = makeStyles({
   heading: {
@@ -61,11 +60,7 @@ export default function home() {
       const transformData = data.map((releases) => {
         return {
           type: releases.type,
-          artists: {
-            name: releases.artists[0].name,
-            id: releases.artists[0].id,
-          },
-
+          artists: releases.artists,
           id: releases.id,
           image: releases.images[1],
           name: releases.name,
@@ -287,7 +282,7 @@ export default function home() {
                   <PlaylistItem
                     key={item.id}
                     playlist={item}
-                    link={`/browse/featuredepisode-${item.id}`}
+                    link={`/playlist/${item.id}`}
                   />
                 );
               })}
@@ -305,34 +300,7 @@ export default function home() {
           <div className={styles.artistsContainer}>
             {artists.length > 0 &&
               artists.map((artist: ArtistType) => {
-                return (
-                  <div key={artist.id} className={styles.artistItem}>
-                    <div className={styles.artistImage}>
-                      <Image
-                        loader={() => artist.images.url}
-                        unoptimized
-                        width={225}
-                        height={225}
-                        src={artist.images.url}
-                        alt="-img"
-                      />
-                    </div>
-                    <Typography
-                      variant="subtitle2"
-                      color="primary"
-                      className={`${classes.margin5} ${styles.artistName}`}
-                    >
-                      {artist.name}
-                    </Typography>
-
-                    <span className={styles.itemLikesContainer}>
-                      <Heart />
-                      <Typography variant="caption" color="textSecondary">
-                        {artist.popularity}%
-                      </Typography>
-                    </span>
-                  </div>
-                );
+                return <Artist key={artist.id} artist={artist} />;
               })}
           </div>
         </div>

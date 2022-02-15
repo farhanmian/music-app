@@ -19,7 +19,7 @@ const PlaylistItem: React.FC<{ playlist: CategoryPlaylist; link: string }> = ({
   const classes = useStyles();
   return (
     <NextLink href={link}>
-      <div className={styles.playlistItem}>
+      <div id={playlist.type} className={styles.playlistItem}>
         <div className={styles.playlistItemImage}>
           <Image
             loader={() => playlist.images.url}

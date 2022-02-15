@@ -143,10 +143,7 @@ export default function Podcasts() {
           {featuredEpisodes.length > 0 &&
             featuredEpisodes.map((episode: FeaturedEpisode) => {
               return (
-                <NextLink
-                  key={episode.id}
-                  href={`/browse/featuredepisode-${episode.id}`}
-                >
+                <NextLink key={episode.id} href={`playlist/${episode.id}`}>
                   <Grid
                     key={episode.id}
                     item

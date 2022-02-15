@@ -62,7 +62,14 @@ const SavedTracks: React.FC<{
                   </Typography>
 
                   <Typography variant="caption" color="textSecondary">
-                    {track.artist.name}
+                    {track.artists.length === 1 &&
+                      track.artists.map(
+                        (item: { name: string; id: string }) => item.name
+                      )}
+                    {track.artists.length > 1 &&
+                      track.artists.map(
+                        (item: { name: string; id: string }) => `${item.name}, `
+                      )}
                   </Typography>
                 </div>
               </Grid>

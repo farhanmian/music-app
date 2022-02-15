@@ -42,6 +42,9 @@ const useStyles = makeStyles({
   fontSize15: {
     fontSize: 15,
   },
+  artistName: {
+    wordSpacing: 3,
+  },
 });
 
 const Playlist: React.FC<{ playlist: PlaylistType; tracks: Tracks[] }> = ({
@@ -160,11 +163,13 @@ const Playlist: React.FC<{ playlist: PlaylistType; tracks: Tracks[] }> = ({
                       <Typography
                         variant="caption"
                         color="primary"
-                        className={classes.fontSize15}
+                        className={`${classes.artistName} ${classes.fontSize15}`}
                       >
-                        {track.artist.name
-                          ? track.artist.name
-                          : playlist.artist.name}
+                        {track.artists !== null
+                          ? track.artists.length < 2
+                            ? track.artists.map((item) => item.name)
+                            : track.artists.map((item) => `${item.name}, `)
+                          : playlist.artists[0].name}
                       </Typography>
 
                       <Typography

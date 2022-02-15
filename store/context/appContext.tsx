@@ -16,6 +16,8 @@ const AppContext = createContext({
   setActiveNavLinkCtx: null,
   searchValue: null,
   setSearchValue: null,
+  searchType: null,
+  setSearchType: null,
 });
 
 export const AppWrapper = ({ children }) => {
@@ -29,6 +31,7 @@ export const AppWrapper = ({ children }) => {
   const [userInfo, setUserInfo] = useState(null);
   const [activeNavLinkCtx, setActiveNavLinkCtx] = useState("genres");
   const [searchValue, setSearchValue] = useState("");
+  const [searchType, setSearchType] = useState("songs");
 
   /**
    * setting code
@@ -138,6 +141,8 @@ export const AppWrapper = ({ children }) => {
         setActiveNavLinkCtx,
         searchValue,
         setSearchValue,
+        searchType,
+        setSearchType,
       }}
     >
       {children}
