@@ -1,18 +1,13 @@
 import React, { useEffect, useState } from "react";
-import styles from "./Podcasts.module.css";
+import styles from "./FeaturedEpisodes.module.css";
 import { useAppContext } from "../../../../store/context/appContext";
 import { Typography, makeStyles } from "@material-ui/core";
 import { Grid } from "@mui/material";
-import {
-  Categories,
-  FeaturedEpisode,
-  PodCastItemType,
-} from "../../../../store/types/types";
+import { Categories, FeaturedEpisode } from "../../../../store/types/types";
 import Image from "next/image";
 import Divider from "../../../partials/Divider/Divider";
 import CategoryItem from "../../../partials/CategoryItem/CategoryItem";
 import NextLink from "next/link";
-import PodcastItem from "../../../partials/PodcastItem/PodcastItem";
 
 const useStyles = makeStyles({
   heading: {
@@ -25,10 +20,9 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Podcasts() {
+export default function FeaturedEpisodes() {
   const classes = useStyles();
   const { spotifyApiCtx, accessToken } = useAppContext();
-  const [podcasts, setPodcasts] = useState([]);
   const [featuredEpisodes, setFeaturedEpisodes] = useState([]);
   const [genres, setGenres] = useState([]);
 
@@ -37,39 +31,6 @@ export default function Podcasts() {
    */
   useEffect(() => {
     if (!accessToken || !spotifyApiCtx) return;
-
-    // shows (podcast)
-    const podcastsIds = [
-      "3MBmSp76yRsFJSFIAVh41S",
-      "1GXX3JryxVciJghofKXIQ6",
-      "58g95EqsrSk5ViIl3wGDzo",
-      "4BuXlpcana6xU2ctfZ3qgZ",
-      "5EqqB52m2bsr4k1Ii7sStc",
-      "4wgaUiSz7Gh2FJrBYfn0GM",
-      "4NHIIVB3DkjH70yhE3pbcd",
-      "0rIiowNNhk4SGLqsbhBVWn",
-      "12jUp5Aa63c5BYx3wVZeMA",
-      "1uYUZxdR4sSTXJ6SmSRook",
-      "6ll0MwobDt1JW9gYaOONEo",
-      "1tCEkweikOQj2NDGDRDkpc",
-    ];
-
-    spotifyApiCtx
-      .getShows(podcastsIds, { limit: 12 })
-      .then((res: { body: { shows: [] } }) => {
-        const transformedData: PodCastItemType[] = [];
-        res.body.shows.map((podcast: PodCastItemType) => {
-          transformedData.push({
-            id: podcast.id,
-            images: { url: podcast.images[1].url },
-            name: podcast.name,
-            publisher: podcast.publisher,
-            uri: podcast.uri,
-          });
-        });
-
-        setPodcasts(transformedData);
-      });
 
     // featured playlist
     spotifyApiCtx
@@ -102,29 +63,6 @@ export default function Podcasts() {
 
   return (
     <React.Fragment>
-      <div className={styles.podcastsContainer}>
-        <Typography variant="h6" color="primary" className={classes.heading}>
-          Popular
-        </Typography>
-
-        <Grid
-          container
-          columnGap="26px"
-          rowGap="48px"
-          className={styles.podcastsItemContainer}
-        >
-          {podcasts.length > 0 &&
-            podcasts.map((podcast: PodCastItemType) => {
-              return (
-                <Grid key={podcast.id} item>
-                  <PodcastItem podcast={podcast} />
-                </Grid>
-              );
-            })}
-        </Grid>
-      </div>
-      <Divider />
-
       <div className={styles.featuredEpisodesContainer}>
         <Typography
           variant="h6"
@@ -165,8 +103,8 @@ export default function Podcasts() {
                         {episode.name}
                       </Typography>
                       <Typography variant="caption" color="textSecondary">
-                        {episode.description.trim().length > 85
-                          ? `${episode.description.slice(0, 85)}...`
+                        {episode.description.trim().length > 60
+                          ? `${episode.description.slice(0, 60)}...`
                           : episode.description}
                       </Typography>
                     </div>

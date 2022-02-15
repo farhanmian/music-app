@@ -6,14 +6,12 @@ import {
   ArtistType,
   LibraryPlaylistType,
   NewReleaseItemType,
-  SearchEpisodeItemType,
   SearchTrackType,
 } from "../../../store/types/types";
 import SearchResultItem from "./SearchResultItem/SearchResultItem";
 import LibraryPlaylistItem from "../../partials/LibraryPlaylistItem/LibraryPlaylistItem";
 import Artist from "../../partials/Artist/Artist";
 import NewReleaseItem from "../../partials/NewReleaseItem/NewReleaseItem";
-import SearchEpisode from "./SearchEpisodeItem/SearchEpisode";
 
 const SearchResult = () => {
   const { searchValue, accessToken, spotifyApiCtx, searchType } =
@@ -22,8 +20,6 @@ const SearchResult = () => {
   const [searchPlaylists, setSearchPlaylists] = useState([]);
   const [searchArtists, setSearchArtists] = useState([]);
   const [searchAlbums, setSearchAlbums] = useState([]);
-  const [searchShows, setSearchShows] = useState([]);
-  const [searchEpisodes, setSearchEpisodes] = useState([]);
 
   useEffect(() => {
     if (!accessToken || !spotifyApiCtx) return;
@@ -98,37 +94,6 @@ const SearchResult = () => {
         setSearchAlbums(transformedData);
       });
     }
-    if (searchType === "shows") {
-      spotifyApiCtx.searchShows(searchValue).then((res) => {
-        const transformedData: LibraryPlaylistType[] = [];
-        res.body.shows.items.map((item) => {
-          transformedData.push({
-            name: item.name,
-            id: item.id,
-            type: item.type,
-            noOfSongs: item.total_episodes,
-            images: { url: item.images[1].url },
-          });
-        });
-        setSearchShows(transformedData);
-      });
-    }
-    if (searchType === "episodes") {
-      spotifyApiCtx.searchEpisodes(searchValue).then((res) => {
-        const transformedData: SearchEpisodeItemType[] = [];
-        res.body.episodes.items.map((item) => {
-          transformedData.push({
-            name: item.name,
-            id: item.id,
-            type: item.type,
-            uri: item.uri,
-            images: { url: item.images[1].url },
-            duration: item.duration_ms / 60000,
-          });
-        });
-        setSearchEpisodes(transformedData);
-      });
-    }
   }, [searchValue, accessToken, spotifyApiCtx, searchType]);
 
   return (
@@ -179,29 +144,6 @@ const SearchResult = () => {
               return (
                 <Grid key={item.id} item>
                   <NewReleaseItem newRelease={item} />
-                </Grid>
-              );
-            })}
-
-          {searchType === "shows" &&
-            searchShows.length > 0 &&
-            searchShows.map((item) => {
-              return (
-                <Grid key={item.id} item>
-                  <LibraryPlaylistItem
-                    playlist={item}
-                    link={`podcast/${item.id}`}
-                  />
-                </Grid>
-              );
-            })}
-
-          {searchType === "episodes" &&
-            searchEpisodes.length > 0 &&
-            searchEpisodes.map((item) => {
-              return (
-                <Grid key={item.id} item>
-                  <SearchEpisode episode={item} />
                 </Grid>
               );
             })}

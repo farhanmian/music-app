@@ -17,6 +17,7 @@
 .navLogoContainer {
   width: 100px;
   height: 45px;
+  cursor: pointer;
 }
 
 .navBtnContainer {
@@ -34,6 +35,7 @@
   width: 88px;
   height: 40px;
   margin-right: 43px;
+  cursor: pointer;
 }
 
 .navBtnContainerAfterLogin {

@@ -4,6 +4,7 @@ import { Typography, makeStyles } from "@material-ui/core";
 import { Grid } from "@mui/material";
 import { TrackType } from "../../../../store/types/types";
 import Image from "next/image";
+import { useAppContext } from "../../../../store/context/appContext";
 
 const useStyles = makeStyles({
   userTrackContainer: {
@@ -23,6 +24,7 @@ const SavedTracks: React.FC<{
   data: TrackType[];
 }> = ({ data }) => {
   const classes = useStyles();
+  const { setTrackUri } = useAppContext();
   return (
     <div className={styles.innerContainer}>
       <Typography variant="h6" color="primary" className={classes.heading}>
@@ -39,7 +41,10 @@ const SavedTracks: React.FC<{
           data.map((track: TrackType) => {
             return (
               <Grid key={track.id} item>
-                <div className={styles.trackItem}>
+                <div
+                  className={styles.trackItem}
+                  onClick={() => setTrackUri(track.uri)}
+                >
                   <div className={styles.trackItemImage}>
                     <Image
                       loader={() => track.image.url}

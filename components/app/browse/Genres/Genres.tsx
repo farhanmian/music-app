@@ -22,7 +22,6 @@ const Genres = () => {
     spotifyApiCtx
       .getCategories({ limit: 30 })
       .then((res: { body: { categories: { items: Categories[] } } }) => {
-        console.log(res);
         const data = res.body.categories;
         setGenres(data.items);
       })

@@ -82,10 +82,6 @@ const index = () => {
         setTracksData(transformedData);
       });
     }
-
-    spotifyApiCtx.searchTracks("hello").then((res) => {
-      console.log(res);
-    });
   }, [accessToken, spotifyApiCtx, activeNavLinkCtx]);
 
   return (

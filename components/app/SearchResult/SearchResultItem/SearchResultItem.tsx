@@ -2,6 +2,8 @@ import React from "react";
 import styles from "./SearchResultItem.module.css";
 import Image from "next/image";
 import { Typography, makeStyles } from "@material-ui/core";
+import { useAppContext } from "../../../../store/context/appContext";
+import { SearchTrackType } from "../../../../store/types/types";
 
 const useStyles = makeStyles({
   margin5: {
@@ -12,10 +14,15 @@ const useStyles = makeStyles({
   },
 });
 
-const SearchResultItem = ({ track }) => {
+const SearchResultItem: React.FC<{ track: SearchTrackType }> = ({ track }) => {
   const classes = useStyles();
+  const { setTrackUri } = useAppContext();
   return (
-    <div key={track.id} className={styles.trackItem}>
+    <div
+      key={track.id}
+      className={styles.trackItem}
+      onClick={() => setTrackUri(track.uri)}
+    >
       <div className={styles.trackImage}>
         <Image
           loader={() => track.image.url}

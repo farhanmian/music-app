@@ -127,14 +127,7 @@ const useStyles = makeStyles({
 const AUTH_URL =
   "https://accounts.spotify.com/authorize?client_id=e6719168da3047aaa2b0b9be996612f2&response_type=code&redirect_uri=http://localhost:3000&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state";
 
-const searchTypes = [
-  "songs",
-  "playlists",
-  "artists",
-  "albums",
-  "shows",
-  "episodes",
-];
+const searchTypes = ["songs", "playlists", "artists", "albums"];
 
 export default function Nav() {
   const classes = useStyles();
@@ -153,7 +146,11 @@ export default function Nav() {
 
   useEffect(() => {
     if (router.pathname === "/browse") {
-      setAfterLoginMiddleNavLink(["genres", "new releases", "podcasts"]);
+      setAfterLoginMiddleNavLink([
+        "genres",
+        "new releases",
+        "feature episodes",
+      ]);
       setActiveNavLinkCtx("genres");
     } else if (router.pathname === "/library") {
       setAfterLoginMiddleNavLink(["playlists", "tracks", "albums", "podcasts"]);
@@ -193,7 +190,10 @@ export default function Nav() {
     <nav id="nav" className={styles.nav}>
       {!userInfo ? (
         <div className={styles.navInnerContainer}>
-          <div className={styles.navLogoContainer}>
+          <div
+            className={styles.navLogoContainer}
+            onClick={() => router.push("/")}
+          >
             <Image src={logo} alt="logo" />
           </div>
           <div className={styles.navBtnContainer}>
@@ -243,7 +243,10 @@ export default function Nav() {
           className={`${styles.navInnerContainer} ${styles.navInnerContainerAfetLogin}`}
         >
           <span className={styles.displayFlex}>
-            <div className={styles.navLogoContainerAfterLogin}>
+            <div
+              className={styles.navLogoContainerAfterLogin}
+              onClick={() => router.push("/home")}
+            >
               <Image src={logo} alt="logo" />
             </div>
             {searchValue.trim().length < 1 && (

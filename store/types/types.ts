@@ -29,15 +29,6 @@ export type FeaturedEpisode = {
   description: string;
   uri: string;
 };
-// search episode
-export type SearchEpisodeItemType = {
-  id: string;
-  images: { url: string };
-  name: string;
-  uri: string;
-  type: string;
-  duration: number;
-};
 
 // GetPlaylistsForCategory
 
@@ -87,6 +78,7 @@ export type PlaylistType = {
   name: string;
   totalTracks: number;
   type: string;
+  uri: string;
 };
 
 /// artist

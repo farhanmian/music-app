@@ -6,6 +6,7 @@ import Image from "next/image";
 import HeartOutlined from "../../icons/HeartOutlined";
 import Add from "../../icons/Add";
 import { PlaylistType, Tracks } from "../../../store/types/types";
+import { useAppContext } from "../../../store/context/appContext";
 
 const useStyles = makeStyles({
   playlistDetailLabel: {
@@ -20,8 +21,18 @@ const useStyles = makeStyles({
     textTransform: "uppercase",
     borderRadius: 40,
     backgroundImage:
-      "linear-gradient(#35EDFB 30% , #2D9BEF 110%, #9B2DEF -10%)",
+      "linear-gradient(to right, #35EDFB -47%, #2D9BEF 40%, #9B2DEF 129%)",
     marginRight: 20,
+    transition: "all .3s",
+    "&:hover": {
+      boxShadow: "0 2px 5px #088dff52",
+    },
+    "&:active": {
+      boxShadow: "0 0px 3px #088dff52",
+    },
+  },
+  playlistDetailOptionBtnText: {
+    fontWeight: "bold",
   },
   playlistDetailHeartBtn: {
     marginRight: 20,
@@ -52,6 +63,13 @@ const Playlist: React.FC<{ playlist: PlaylistType; tracks: Tracks[] }> = ({
   tracks,
 }) => {
   const classes = useStyles();
+  const {
+    setTrackUri,
+    currentSongName,
+    trackUri,
+    setIsSongPlaying,
+    isSongPlaying,
+  } = useAppContext();
 
   return (
     <div className={styles.playlist}>
@@ -100,8 +118,21 @@ const Playlist: React.FC<{ playlist: PlaylistType; tracks: Tracks[] }> = ({
                 variant="contained"
                 className={classes.playlistDetailOptionBtn}
                 disableElevation
+                onClick={() => {
+                  setTrackUri(playlist.uri);
+                  playlist.uri === trackUri &&
+                    setIsSongPlaying((prevState) => !prevState);
+                }}
               >
-                Play/Pause
+                <Typography
+                  variant="subtitle2"
+                  className={classes.playlistDetailOptionBtnText}
+                  color="primary"
+                >
+                  {playlist.uri === trackUri
+                    ? `${isSongPlaying ? "Pause" : "Play"}`
+                    : "Play"}
+                </Typography>
               </Button>
 
               <Button
@@ -139,7 +170,15 @@ const Playlist: React.FC<{ playlist: PlaylistType; tracks: Tracks[] }> = ({
               {tracks.length > 0 &&
                 tracks.map((track: Tracks, i) => {
                   return (
-                    <div key={track.id} className={styles.playlistTrack}>
+                    <div
+                      key={i}
+                      className={`${styles.playlistTrack} ${
+                        currentSongName === track.name
+                          ? styles.activePlaylistTrack
+                          : ""
+                      }`}
+                      onClick={() => setTrackUri(track.uri)}
+                    >
                       <div className={styles.playlistNameNImage}>
                         <Typography
                           variant="caption"

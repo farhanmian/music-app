@@ -28,8 +28,6 @@ const NewReleases = () => {
     if (!accessToken || !spotifyApiCtx) return;
 
     spotifyApiCtx.getNewReleases({ limit: 30 }).then((res) => {
-      // console.log(res.body.albums.items);
-      console.log(res);
       const transformedData: NewReleaseItemType[] = [];
       res.body.albums.items.map((item) => {
         transformedData.push({

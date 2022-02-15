@@ -18,6 +18,12 @@ const AppContext = createContext({
   setSearchValue: null,
   searchType: null,
   setSearchType: null,
+  trackUri: null,
+  setTrackUri: null,
+  isSongPlaying: null,
+  setIsSongPlaying: null,
+  setCurrentSongName: null,
+  currentSongName: null,
 });
 
 export const AppWrapper = ({ children }) => {
@@ -32,6 +38,9 @@ export const AppWrapper = ({ children }) => {
   const [activeNavLinkCtx, setActiveNavLinkCtx] = useState("genres");
   const [searchValue, setSearchValue] = useState("");
   const [searchType, setSearchType] = useState("songs");
+  const [trackUri, setTrackUri] = useState(null);
+  const [isSongPlaying, setIsSongPlaying] = useState(false);
+  const [currentSongName, setCurrentSongName] = useState("");
 
   /**
    * setting code
@@ -143,6 +152,12 @@ export const AppWrapper = ({ children }) => {
         setSearchValue,
         searchType,
         setSearchType,
+        trackUri,
+        setTrackUri,
+        isSongPlaying,
+        setIsSongPlaying,
+        setCurrentSongName,
+        currentSongName,
       }}
     >
       {children}

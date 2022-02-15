@@ -22,6 +22,7 @@ export default function playlist() {
         type: res.body.type,
         images: { url: res.body.images[1].url },
         totalTracks: res.body.total_tracks,
+        uri: res.body.uri,
       });
     });
 

@@ -1,0 +1,16 @@
+.player {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  z-index: 99999;
+  backdrop-filter: blur(30px);
+}
+
+/* .player > div {
+  background-color: transparent !important;
+  color: #fff;
+}
+
+.player > div > div > * {
+  color: #fff;
+} */

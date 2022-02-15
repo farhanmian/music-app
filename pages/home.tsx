@@ -9,11 +9,9 @@ import {
   Categories,
   CategoryPlaylist,
   NewReleaseItemType,
-  PodCastItemType,
 } from "../store/types/types";
 import CategoryItem from "../components/partials/CategoryItem/CategoryItem";
 import NextLink from "next/link";
-import PodcastItem from "../components/partials/PodcastItem/PodcastItem";
 import PlaylistItem from "../components/partials/PlaylistItem/PlaylistItem";
 import NewReleaseItem from "../components/partials/NewReleaseItem/NewReleaseItem";
 import Artist from "../components/partials/Artist/Artist";
@@ -41,10 +39,9 @@ const useStyles = makeStyles({
 
 export default function home() {
   const classes = useStyles();
-  const { spotifyApiCtx, accessToken, setActiveNavLinkCtx } = useAppContext();
+  const { spotifyApiCtx, accessToken } = useAppContext();
   const [newReleases, setNewReleases] = useState([]);
   const [genres, setGenres] = useState([]);
-  const [podcasts, setPodcasts] = useState([]);
   const [featuredEpisodes, setFeaturedEpisodes] = useState([]);
   const [artists, setArtists] = useState([]);
 
@@ -74,38 +71,10 @@ export default function home() {
       .getCategories({ limit: 6 })
       .then((res: { body: { categories: { items: Categories[] } } }) => {
         const data = res.body.categories;
-        console.log(res);
         setGenres(data.items);
       })
       .catch((err) => {
         console.log(err);
-      });
-
-    /**podcast (show) */
-    const podcastsIds = [
-      "27DJ5PiShDzUpyWQ8e8FuD",
-      "3qfl7KnzjYTbDKlMDp42aV",
-      "2Dh3d3yHLIq74QGWLE9HeV",
-      "5KuVFavG72i7fNOZ9tEX3a",
-      "5s7mCxhzSUbG09pV1RxnUL",
-      "7uddSH8MhaK3Q6YFlllbVZ",
-    ];
-    spotifyApiCtx
-      .getShows(podcastsIds, { limit: 6 })
-      .then((res: { body: { shows: [] } }) => {
-        const transformedData: PodCastItemType[] = [];
-
-        res.body.shows.map((podcast: PodCastItemType) => {
-          transformedData.push({
-            id: podcast.id,
-            images: { url: podcast.images[1].url },
-            name: podcast.name,
-            publisher: podcast.publisher,
-            uri: podcast.uri,
-          });
-        });
-
-        setPodcasts(transformedData);
       });
 
     // featured playlist
@@ -147,7 +116,6 @@ export default function home() {
       "1btWGBz4Uu1HozTwb2Lm8A",
     ];
     spotifyApiCtx.getArtists(artistsId).then((res) => {
-      console.log(res);
       const transformData: ArtistType[] = [];
       res.body.artists.map((item: ArtistType) => {
         transformData.push({
@@ -177,49 +145,6 @@ export default function home() {
                 return (
                   <NewReleaseItem key={newRelease.id} newRelease={newRelease} />
                 );
-              })}
-          </div>
-        </div>
-      </section>
-      <Divider />
-
-      {/* podcasts section */}
-      <section className={styles.podcasts}>
-        <div className={styles.podcastsInnerContainer}>
-          <div className={styles.displayFlex}>
-            <span>
-              <Typography
-                variant="h6"
-                color="primary"
-                className={classes.margin3}
-              >
-                PodCasts
-              </Typography>
-
-              <Typography variant="caption" color="textSecondary">
-                Explore by categories and popularity
-              </Typography>
-            </span>
-            <span>
-              <NextLink href="/browse">
-                <Typography
-                  onClick={() => {
-                    setActiveNavLinkCtx("podcasts");
-                  }}
-                  variant="subtitle2"
-                  className={`${classes.link} ${classes.uppercase}`}
-                  color="primary"
-                >
-                  View all
-                </Typography>
-              </NextLink>
-            </span>
-          </div>
-
-          <div className={styles.podcastsItemContainer}>
-            {podcasts.length > 0 &&
-              podcasts.map((podcast) => {
-                return <PodcastItem key={podcast.id} podcast={podcast} />;
               })}
           </div>
         </div>
