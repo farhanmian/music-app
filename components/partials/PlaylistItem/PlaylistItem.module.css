@@ -11,14 +11,8 @@
   transition: all 0.4s;
 }
 
-.playlistItem:hover {
-  border-radius: 4px;
-  overflow: hidden;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.6);
-  border: 1px solid #202020;
-}
-.playlistItem:hover .playlistItemImage {
-  border-radius: 0;
+.playlistItem:hover .playlistItemImage img {
+  transform: scale(1.07);
 }
 
 .playlistItemImage {
@@ -32,4 +26,9 @@
   border-radius: 8px;
   overflow: hidden;
   transition: all 0.4s;
+}
+
+.playlistItemImage img {
+  width: 100%;
+  transition: 0.4s all ease-in-out;
 }

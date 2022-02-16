@@ -169,6 +169,13 @@ const Playlist: React.FC<{ playlist: PlaylistType; tracks: Tracks[] }> = ({
             <div className={styles.playlistTracksInnerContainer}>
               {tracks.length > 0 &&
                 tracks.map((track: Tracks, i) => {
+                  const artistsName = `${
+                    track.artists !== null
+                      ? track.artists.length < 2
+                        ? track.artists.map((item) => item.name)
+                        : track.artists.map((item) => ` ${item.name}`)
+                      : playlist.artists[0].name
+                  }`;
                   return (
                     <div
                       key={i}
@@ -204,11 +211,9 @@ const Playlist: React.FC<{ playlist: PlaylistType; tracks: Tracks[] }> = ({
                         color="primary"
                         className={`${classes.artistName} ${classes.fontSize15}`}
                       >
-                        {track.artists !== null
-                          ? track.artists.length < 2
-                            ? track.artists.map((item) => item.name)
-                            : track.artists.map((item) => `${item.name}, `)
-                          : playlist.artists[0].name}
+                        {artistsName.trim().length > 30
+                          ? `${artistsName.slice(0, 35)}...`
+                          : artistsName}
                       </Typography>
 
                       <Typography
@@ -240,7 +245,7 @@ const Playlist: React.FC<{ playlist: PlaylistType; tracks: Tracks[] }> = ({
         style={{
           backgroundImage:
             playlist &&
-            `linear-gradient(to right bottom, rgba(92, 28, 54, 0.35), rgba(44, 9, 71, 0.356)), url(${playlist.images.url})`,
+            `linear-gradient( to right bottom, rgba(42, 13, 25, 0.445), rgba(29, 9, 44, 0.418) ), url(${playlist.images.url})`,
         }}
         className={styles.playlistBackground}
       />

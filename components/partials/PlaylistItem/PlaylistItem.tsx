@@ -8,7 +8,8 @@ import { CategoryPlaylist } from "../../../store/types/types";
 const useStyles = makeStyles({
   playlistName: {
     textTransform: "capitalize",
-    fontWeight: "bold",
+    fontWeight: 400,
+    lineHeight: "20px",
   },
 });
 

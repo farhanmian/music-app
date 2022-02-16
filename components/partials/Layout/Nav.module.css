@@ -28,7 +28,7 @@
 
 /* ///////////////// nav after login */
 .navInnerContainerAfetLogin {
-  max-width: 1790px;
+  max-width: 1480px;
 }
 
 .navLogoContainerAfterLogin {
@@ -45,28 +45,13 @@
   align-items: center;
   justify-content: flex-start;
   margin-right: auto;
-  position: relative;
 }
-
-.afterLoginActiveBtnBorder {
-  position: absolute;
-  width: 106%;
-  height: 118%;
-  background-image: linear-gradient(
-    to left,
-    #9b2def -10%,
-    #2d9bef 32%,
-    #35edfb 112%
-  );
-  border-radius: 20px;
-  top: 50%;
-  left: 50.05%;
-  transform: translate(-50%, -51%);
-  z-index: -1;
+.navBtnContainerAfterLogin > :not(:last-child) {
+  margin-right: 25px;
 }
 
 .searchInputContainer {
-  background-color: #898b91;
+  background-image: linear-gradient(45deg, #545658, #535354);
   width: 200px;
   height: 40px;
   border-radius: 20px;
@@ -74,12 +59,13 @@
   align-items: center;
   justify-content: space-between;
   overflow: hidden;
-  padding: 0 5px;
+  padding: 0px 16px;
   border: 1px solid transparent;
   transition: all 0.3s;
 }
 .searchInputContainer > svg {
   cursor: pointer;
+  margin-right: 10px;
 }
 .searchInputContainer:hover {
   border: 1px solid #f1f1f1;
@@ -107,7 +93,7 @@
 }
 
 .navUserOptions {
-  width: 121px;
+  /* width: 121px; because we don't know how long user name will be */
   height: 30px;
   display: flex;
   align-items: center;
@@ -138,7 +124,9 @@
   width: 67px;
   height: 3px;
   background-image: linear-gradient(to right, #2dceef, #9b2def);
-  margin-top: 20px;
+  /* margin-top: 20px; */
+  position: absolute;
+  bottom: -30px;
 }
 
 .displayFlex {

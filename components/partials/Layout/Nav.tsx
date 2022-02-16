@@ -50,32 +50,22 @@ const useStyles = makeStyles({
     textTransform: "none",
   },
 
-  afterLoginbtnText: {
+  afterLoginBtnText: {
     fontWeight: "bold",
     textTransform: "capitalize",
+    color: "#707070",
     transition: "all .2s",
     "&:hover": {
       color: "#8b8989",
     },
   },
-  afterLoginActiveBtn: {
-    borderRadius: 20,
-    borderWidth: 3,
-    padding: "8px 26px",
-    backgroundColor: "#161A1A",
-    position: "absolute",
-    right: 0,
-    marginRight: 0,
 
-    "&:hover": {
-      backgroundColor: "#161A1A",
-    },
-  },
   afterLoginMiddleNavLink: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "space-between",
+    position: "relative",
     "&:hover": {
       textDecoration: "none",
     },
@@ -86,15 +76,15 @@ const useStyles = makeStyles({
   },
   afterLoginBtn: {
     padding: 0,
-    marginRight: 25,
-  },
-  color707070: {
-    color: "#707070",
-  },
-  color2DCEEF: {
-    color: "#2DCEEF",
+    cursor: "pointer",
     "&:hover": {
-      color: "#2DCEEF",
+      textDecoration: "none",
+    },
+  },
+  colorfff: {
+    color: "#fff",
+    "&:hover": {
+      color: "#fff",
     },
   },
   navMenuItemContainer: {
@@ -184,7 +174,7 @@ export default function Nav() {
       setOpen(false);
     }
   };
-  const navAfterLoginBtns = ["browse", "library", "home"];
+  const navAfterLoginBtns = ["home", "browse", "library"];
 
   return (
     <nav id="nav" className={styles.nav}>
@@ -254,29 +244,16 @@ export default function Nav() {
                 {navAfterLoginBtns.map((btn) => {
                   return (
                     <NextLink key={btn} href={`/${btn}`}>
-                      <Button
-                        variant="text"
-                        disableElevation
-                        className={`${
-                          path.includes(btn)
-                            ? classes.afterLoginActiveBtn
-                            : classes.afterLoginBtn
-                        }`}
-                      >
-                        {path.includes(btn) && (
-                          <div className={styles.afterLoginActiveBtnBorder} />
-                        )}
+                      <Link className={classes.afterLoginBtn}>
                         <Typography
                           variant="body1"
-                          className={`${classes.afterLoginbtnText} ${
-                            path.includes(btn)
-                              ? classes.color2DCEEF
-                              : classes.color707070
+                          className={`${classes.afterLoginBtnText} ${
+                            path.includes(btn) ? classes.colorfff : ""
                           }`}
                         >
                           {btn}
                         </Typography>
-                      </Button>
+                      </Link>
                     </NextLink>
                   );
                 })}
@@ -348,7 +325,7 @@ export default function Nav() {
               <input
                 value={searchValue}
                 onChange={(e) => setSearchValue(e.target.value)}
-                placeholder="search"
+                placeholder="Search"
                 className={styles.navInput}
               />
             </div>
