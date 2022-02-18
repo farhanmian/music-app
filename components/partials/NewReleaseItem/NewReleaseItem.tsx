@@ -19,6 +19,12 @@ const NewReleaseItem: React.FC<{ newRelease: NewReleaseItemType }> = ({
 }) => {
   const classes = useStyles();
 
+  const artistName = `${
+    newRelease.artists.length === 1
+      ? newRelease.artists.map((item) => item.name)
+      : newRelease.artists.map((item) => `${item.name} `)
+  }`;
+
   return (
     <NextLink href={`album/${newRelease.id}`}>
       <div
@@ -50,9 +56,9 @@ const NewReleaseItem: React.FC<{ newRelease: NewReleaseItemType }> = ({
           color="textSecondary"
           className={classes.capitalize}
         >
-          {newRelease.artists.length === 1
-            ? newRelease.artists.map((item) => item.name)
-            : newRelease.artists.map((item) => `${item.name}, `)}
+          {artistName.trim().length > 34
+            ? `${artistName.slice(0, 34)}...`
+            : artistName}
         </Typography>
       </div>
     </NextLink>

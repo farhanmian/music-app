@@ -18,6 +18,9 @@ const useStyles = makeStyles({
     textTransform: "none",
     marginBottom: 40,
   },
+  episodeName: {
+    marginBottom: 3,
+  },
 });
 
 export default function FeaturedEpisodes() {
@@ -99,8 +102,14 @@ export default function FeaturedEpisodes() {
                     </div>
 
                     <div className={styles.featuredEpisodesText}>
-                      <Typography variant="body2" color="primary">
-                        {episode.name}
+                      <Typography
+                        variant="body2"
+                        color="primary"
+                        className={classes.episodeName}
+                      >
+                        {episode.name.trim().length > 24
+                          ? `${episode.name.slice(0, 24)}...`
+                          : episode.name}
                       </Typography>
                       <Typography variant="caption" color="textSecondary">
                         {episode.description.trim().length > 60

@@ -17,6 +17,7 @@
   align-items: flex-start;
   justify-content: center;
   margin-bottom: 9px;
+  border-radius: 8px;
   overflow: hidden;
 }
 .newReleaseImage > span {

@@ -121,30 +121,22 @@ const searchTypes = ["songs", "playlists", "artists", "albums"];
 
 export default function Nav() {
   const classes = useStyles();
-  const {
-    userInfo,
-    activeNavLinkCtx,
-    setActiveNavLinkCtx,
-    setSearchValue,
-    searchValue,
-    setSearchType,
-    searchType,
-  } = useAppContext();
+  const { userInfo, setSearchValue, searchValue, setSearchType, searchType } =
+    useAppContext();
   const router = useRouter();
   const path = router.pathname.replace("/", "");
   const [afterLoginMiddleNavLink, setAfterLoginMiddleNavLink] = useState([]);
+  const activeTab = router.query.tab;
 
   useEffect(() => {
     if (router.pathname === "/browse") {
       setAfterLoginMiddleNavLink([
         "genres",
-        "new releases",
-        "feature episodes",
+        "new-releases",
+        "feature-episodes",
       ]);
-      setActiveNavLinkCtx("genres");
     } else if (router.pathname === "/library") {
-      setAfterLoginMiddleNavLink(["playlists", "tracks", "albums", "podcasts"]);
-      setActiveNavLinkCtx("playlists");
+      setAfterLoginMiddleNavLink(["playlists", "tracks", "albums"]);
     } else {
       setAfterLoginMiddleNavLink([]);
     }
@@ -153,6 +145,11 @@ export default function Nav() {
   useEffect(() => {
     setSearchValue("");
   }, [router.asPath]);
+
+  const signout = () => {
+    localStorage.clear();
+    router.reload();
+  };
 
   const [open, setOpen] = useState(false);
   const anchorRef = useRef<HTMLInputElement>(null);
@@ -166,6 +163,7 @@ export default function Nav() {
 
     setOpen(false);
   };
+
   const handleListKeyDown = (event) => {
     if (event.key === "Tab") {
       event.preventDefault();
@@ -266,28 +264,26 @@ export default function Nav() {
               <div className={styles.afterLoginMiddleNavLinkContainer}>
                 {afterLoginMiddleNavLink.map((link) => {
                   return (
-                    <Link
-                      key={link}
-                      className={classes.afterLoginMiddleNavLink}
-                      onClick={() => setActiveNavLinkCtx(link)}
-                    >
-                      <Typography
-                        variant="subtitle1"
-                        className={classes.afterLoginMiddleNavLinkText}
-                        color={
-                          link === activeNavLinkCtx
-                            ? "primary"
-                            : "textSecondary"
-                        }
-                      >
-                        {link}
-                      </Typography>
-                      {activeNavLinkCtx === link && (
-                        <span
-                          className={styles.afterLoginMiddleNavActiveLinkBottom}
-                        />
-                      )}
-                    </Link>
+                    <NextLink key={link} href={`?tab=${link}`}>
+                      <Link className={classes.afterLoginMiddleNavLink}>
+                        <Typography
+                          variant="subtitle1"
+                          className={classes.afterLoginMiddleNavLinkText}
+                          color={
+                            link === activeTab ? "primary" : "textSecondary"
+                          }
+                        >
+                          {link.replace("-", " ")}
+                        </Typography>
+                        {activeTab === link && (
+                          <span
+                            className={
+                              styles.afterLoginMiddleNavActiveLinkBottom
+                            }
+                          />
+                        )}
+                      </Link>
+                    </NextLink>
                   );
                 })}
               </div>
@@ -399,7 +395,7 @@ export default function Nav() {
                               Library
                             </MenuItem>
                             <MenuItem
-                              onClick={handleClose}
+                              onClick={signout}
                               className={classes.navMenuItem}
                             >
                               Logout

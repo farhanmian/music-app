@@ -1,4 +1,10 @@
-import { Typography, makeStyles, Button } from "@material-ui/core";
+import {
+  Typography,
+  makeStyles,
+  Button,
+  TextField,
+  InputAdornment,
+} from "@material-ui/core";
 import React from "react";
 import ThreeDots from "../../icons/ThreeDots";
 import styles from "./Playlist.module.css";
@@ -7,6 +13,7 @@ import HeartOutlined from "../../icons/HeartOutlined";
 import Add from "../../icons/Add";
 import { PlaylistType, Tracks } from "../../../store/types/types";
 import { useAppContext } from "../../../store/context/appContext";
+import Search from "../../icons/Search";
 
 const useStyles = makeStyles({
   playlistDetailLabel: {
@@ -55,6 +62,9 @@ const useStyles = makeStyles({
   },
   artistName: {
     wordSpacing: 3,
+  },
+  textField: {
+    width: 133,
   },
 });
 
@@ -154,6 +164,21 @@ const Playlist: React.FC<{ playlist: PlaylistType; tracks: Tracks[] }> = ({
           </div>
 
           <div className={styles.playlistTracksContainer}>
+            <div className={styles.playlistSearchContainer}>
+              <TextField
+                className={classes.textField}
+                id="input-with-icon-textfield"
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Search />
+                    </InputAdornment>
+                  ),
+                }}
+                variant="standard"
+              />
+            </div>
+
             <div className={styles.playlistTracksHeadingContainer}>
               <Typography variant="caption" color="textSecondary">
                 # TITLE
@@ -170,70 +195,73 @@ const Playlist: React.FC<{ playlist: PlaylistType; tracks: Tracks[] }> = ({
               {tracks.length > 0 &&
                 tracks.map((track: Tracks, i) => {
                   const artistsName = `${
-                    track.artists !== null
+                    track.artists !== null && track.artists !== undefined
                       ? track.artists.length < 2
                         ? track.artists.map((item) => item.name)
-                        : track.artists.map((item) => ` ${item.name}`)
-                      : playlist.artists[0].name
+                        : track.artists.map((item) => ` ${item?.name}`)
+                      : playlist.artists && playlist.artists[0].name
                   }`;
+
                   return (
-                    <div
-                      key={i}
-                      className={`${styles.playlistTrack} ${
-                        currentSongName === track.name
-                          ? styles.activePlaylistTrack
-                          : ""
-                      }`}
-                      onClick={() => setTrackUri(track.uri)}
-                    >
-                      <div className={styles.playlistNameNImage}>
-                        <Typography
-                          variant="caption"
-                          color="textSecondary"
-                          className={classes.fontSize15}
-                        >
-                          {i + 1}
-                        </Typography>
+                    track.name && (
+                      <div
+                        key={i}
+                        className={`${styles.playlistTrack} ${
+                          currentSongName === track.name
+                            ? styles.activePlaylistTrack
+                            : ""
+                        }`}
+                        onClick={() => setTrackUri(track.uri)}
+                      >
+                        <div className={styles.playlistNameNImage}>
+                          <Typography
+                            variant="caption"
+                            color="textSecondary"
+                            className={classes.fontSize15}
+                          >
+                            {i + 1}
+                          </Typography>
+
+                          <Typography
+                            variant="caption"
+                            className={classes.fontSize15}
+                            color="primary"
+                          >
+                            {track.name.trim().length > 35
+                              ? `${track.name.slice(0, 35)}...`
+                              : track.name}
+                          </Typography>
+                        </div>
 
                         <Typography
                           variant="caption"
-                          className={classes.fontSize15}
                           color="primary"
+                          className={`${classes.artistName} ${classes.fontSize15}`}
                         >
-                          {track.name.trim().length > 35
-                            ? `${track.name.slice(0, 35)}...`
-                            : track.name}
+                          {artistsName.trim().length > 30
+                            ? `${artistsName.slice(0, 35)}...`
+                            : artistsName}
                         </Typography>
+
+                        <Typography
+                          variant="caption"
+                          color="primary"
+                          className={classes.fontSize15}
+                        >
+                          {/* album */}
+                          {playlist.name}
+                        </Typography>
+
+                        <div className={styles.playlistOptionsContainer}>
+                          <span className={styles.addToFav}>
+                            <HeartOutlined />
+                          </span>
+                          <span className={styles.addToPlaylist}>
+                            <Add />
+                          </span>
+                        </div>
                       </div>
-
-                      <Typography
-                        variant="caption"
-                        color="primary"
-                        className={`${classes.artistName} ${classes.fontSize15}`}
-                      >
-                        {artistsName.trim().length > 30
-                          ? `${artistsName.slice(0, 35)}...`
-                          : artistsName}
-                      </Typography>
-
-                      <Typography
-                        variant="caption"
-                        color="primary"
-                        className={classes.fontSize15}
-                      >
-                        {/* album */}
-                        {playlist.name}
-                      </Typography>
-
-                      <div className={styles.playlistOptionsContainer}>
-                        <span className={styles.addToFav}>
-                          <HeartOutlined />
-                        </span>
-                        <span className={styles.addToPlaylist}>
-                          <Add />
-                        </span>
-                      </div>
-                    </div>
+                    )
                   );
                 })}
             </div>
@@ -245,7 +273,7 @@ const Playlist: React.FC<{ playlist: PlaylistType; tracks: Tracks[] }> = ({
         style={{
           backgroundImage:
             playlist &&
-            `linear-gradient( to right bottom, rgba(42, 13, 25, 0.445), rgba(29, 9, 44, 0.418) ), url(${playlist.images.url})`,
+            `linear-gradient( to right bottom, rgba(42, 13, 25, 0.5), rgba(29, 9, 44, 0.718) ), url(${playlist.images.url})`,
         }}
         className={styles.playlistBackground}
       />

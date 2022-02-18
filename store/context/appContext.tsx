@@ -12,8 +12,6 @@ const AppContext = createContext({
   accessToken: null,
   spotifyApiCtx: null,
   userInfo: null,
-  activeNavLinkCtx: "genres",
-  setActiveNavLinkCtx: null,
   searchValue: null,
   setSearchValue: null,
   searchType: null,
@@ -35,12 +33,12 @@ export const AppWrapper = ({ children }) => {
   const [expiresIn, setExpiresIn] = useState(null);
   const [spotifyApiCtx, setSpotifyApiCtx] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
-  const [activeNavLinkCtx, setActiveNavLinkCtx] = useState("genres");
   const [searchValue, setSearchValue] = useState("");
   const [searchType, setSearchType] = useState("songs");
   const [trackUri, setTrackUri] = useState(null);
   const [isSongPlaying, setIsSongPlaying] = useState(false);
   const [currentSongName, setCurrentSongName] = useState("");
+  const [passedTime, setPassedTime] = useState(0);
 
   /**
    * setting code
@@ -51,16 +49,43 @@ export const AppWrapper = ({ children }) => {
   }, []);
 
   /**
+   * getting access-token and other info from localstorage
+   */
+  useEffect(() => {
+    const token = localStorage.getItem("access");
+    const expires = localStorage.getItem("expiresIn");
+    const refresh = localStorage.getItem("refreshToken");
+
+    if (!token || !expires || !refresh) {
+      localStorage.clear();
+      router.push("/");
+      return;
+    }
+    setAccessToken(token);
+    setExpiresIn(expires);
+    setRefreshToken(refresh);
+
+    const accessTimeHour = +localStorage.getItem("accessTimeHour");
+    const accessTimeMinute = +localStorage.getItem("accessTimeMinute");
+    const currentHour = new Date().getHours();
+    const currentMinute = new Date().getMinutes();
+
+    const timePassed =
+      (currentHour - accessTimeHour) * 60 + (currentMinute - accessTimeMinute);
+
+    //in sec
+    setPassedTime(timePassed * 60 + 60);
+  }, []);
+
+  // passedTime - 60;
+  const timeLeft = expiresIn - passedTime;
+  console.log("passedTime", `${passedTime / 60}min`);
+  console.log("time-left", `${timeLeft / 60}min`);
+
+  /**
    * managing login
    */
   useEffect(() => {
-    if (router.pathname !== "/") {
-      if (!code) {
-        router.push(
-          "https://accounts.spotify.com/authorize?client_id=e6719168da3047aaa2b0b9be996612f2&response_type=code&redirect_uri=http://localhost:3000&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state"
-        );
-      }
-    }
     if (!code) return;
 
     axios
@@ -72,12 +97,23 @@ export const AppWrapper = ({ children }) => {
         setAccessToken(res.data.accessToken);
         setRefreshToken(res.data.refreshToken);
         setExpiresIn(res.data.expiresIn);
+        console.log(res.data.expiresIn);
         console.log("log in successfully");
 
+        const hours = `${new Date().getHours()}`;
+        const minutes = `${new Date().getMinutes()}`;
+
+        localStorage.setItem("access", res.data.accessToken);
+        localStorage.setItem("expiresIn", res.data.expiresIn);
+        localStorage.setItem("refreshToken", res.data.refreshToken);
+
+        localStorage.setItem("accessTimeHour", hours);
+        localStorage.setItem("accessTimeMinute", minutes);
         // window.history.pushState({}, null, "/spiderman");
       })
       .catch((err) => {
         console.log(err);
+        router.reload();
         // window.location.pathname = "/";
       });
   }, [code]);
@@ -96,12 +132,21 @@ export const AppWrapper = ({ children }) => {
         .then((res) => {
           setAccessToken(res.data.accessToken);
           setExpiresIn(res.data.expiresIn);
+          setPassedTime(0);
+
+          const hours = `${new Date().getHours()}`;
+          const minutes = `${new Date().getMinutes()}`;
+
+          localStorage.setItem("access", res.data.accessToken);
+          localStorage.setItem("expiresIn", res.data.expiresIn);
+          localStorage.setItem("accessTimeHour", hours);
+          localStorage.setItem("accessTimeMinute", minutes);
         })
         .catch((err) => {
           console.log(err);
           window.location.pathname = "/";
         });
-    }, (expiresIn - 60) * 1000);
+    }, (expiresIn - (passedTime - 60)) * 1000);
 
     return () => clearInterval(interval);
   }, [refreshToken, expiresIn]);
@@ -119,11 +164,12 @@ export const AppWrapper = ({ children }) => {
    * getting user info
    */
   useEffect(() => {
-    if (!code || !accessToken) return;
+    if (!accessToken) return;
 
     spotifyApi
       .getMe()
       .then((res) => {
+        console.log(res);
         const userData = {
           name: res.body.display_name,
           email: res.body.email,
@@ -137,7 +183,7 @@ export const AppWrapper = ({ children }) => {
       .catch((err) => {
         console.log(err);
       });
-  }, [code, accessToken]);
+  }, [accessToken]);
 
   return (
     <AppContext.Provider
@@ -146,8 +192,6 @@ export const AppWrapper = ({ children }) => {
         accessToken,
         spotifyApiCtx,
         userInfo,
-        activeNavLinkCtx,
-        setActiveNavLinkCtx,
         searchValue,
         setSearchValue,
         searchType,

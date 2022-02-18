@@ -16,6 +16,8 @@ import PlaylistItem from "../components/partials/PlaylistItem/PlaylistItem";
 import NewReleaseItem from "../components/partials/NewReleaseItem/NewReleaseItem";
 import Artist from "../components/partials/Artist/Artist";
 
+import Slider from "react-slick";
+
 const useStyles = makeStyles({
   heading: {
     marginBottom: 32,
@@ -52,7 +54,7 @@ export default function home() {
     if (!spotifyApiCtx || !accessToken) return;
 
     /**new release */
-    spotifyApiCtx.getNewReleases().then((res) => {
+    spotifyApiCtx.getNewReleases({ limit: 20 }).then((res) => {
       const data = res.body.albums.items;
       const transformData = data.map((releases) => {
         return {
@@ -130,6 +132,16 @@ export default function home() {
     });
   }, [spotifyApiCtx, accessToken]);
 
+  const settings = {
+    dots: false,
+    infinite: true,
+    slidesToShow: 6,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 2000,
+    pauseOnHover: true,
+  };
+
   return (
     <React.Fragment>
       {/* new releases */}
@@ -140,12 +152,17 @@ export default function home() {
           </Typography>
 
           <div className={styles.newReleasesItemContainer}>
-            {newReleases.length > 0 &&
-              newReleases.map((newRelease: NewReleaseItemType) => {
-                return (
-                  <NewReleaseItem key={newRelease.id} newRelease={newRelease} />
-                );
-              })}
+            <Slider {...settings}>
+              {newReleases.length > 0 &&
+                newReleases.map((newRelease: NewReleaseItemType) => {
+                  return (
+                    <NewReleaseItem
+                      key={newRelease.id}
+                      newRelease={newRelease}
+                    />
+                  );
+                })}
+            </Slider>
           </div>
         </div>
       </section>
@@ -223,10 +240,12 @@ export default function home() {
             You might like these artists
           </Typography>
           <div className={styles.artistsContainer}>
-            {artists.length > 0 &&
-              artists.map((artist: ArtistType) => {
-                return <Artist key={artist.id} artist={artist} />;
-              })}
+            <Slider {...settings}>
+              {artists.length > 0 &&
+                artists.map((artist: ArtistType) => {
+                  return <Artist key={artist.id} artist={artist} />;
+                })}
+            </Slider>
           </div>
         </div>
       </section>

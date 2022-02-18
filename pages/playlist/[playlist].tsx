@@ -11,13 +11,11 @@ export default function playlist() {
   const [playlist, setPlaylist] = useState(null);
   const [tracks, setTracks] = useState([]);
 
-  console.log(id);
-
   useEffect(() => {
-    if (!accessToken || !spotifyApiCtx) return;
+    if (!accessToken || !spotifyApiCtx || !id) return;
 
     spotifyApiCtx.getPlaylist(id).then((res) => {
-      console.log(res);
+      // console.log(res);
       setPlaylist({
         name: res.body.name,
         label: res.body.description,
@@ -29,20 +27,20 @@ export default function playlist() {
     });
 
     spotifyApiCtx.getPlaylistTracks(id).then((res) => {
-      console.log(res);
+      // console.log(res);
       const transformedData: Tracks[] = [];
       res.body.items.map((item) => {
         transformedData.push({
-          name: item.track.name,
-          type: item.track.type,
-          id: item.track.id,
-          uri: item.track.uri,
-          artists: item.track.artists,
+          name: item.track?.name,
+          type: item.track?.type,
+          id: item.track?.id,
+          uri: item.track?.uri,
+          artists: item.track?.artists,
         });
       });
       setTracks(transformedData);
     });
-  }, [accessToken, spotifyApiCtx]);
+  }, [accessToken, spotifyApiCtx, id]);
 
   return (
     <section style={{ marginTop: 148 }}>

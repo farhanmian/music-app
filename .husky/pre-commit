@@ -30,13 +30,5 @@ npm run check-types ||
 # If everything passes... Now we can commit
 echo '🤔🤔🤔🤔... Alright.... Code looks good to me... Finally Trying to commit now. 🤔🤔🤔🤔'
 
-npm run completed ||
-(
-    echo '❌👷🔨❌ Better call Bob... Because your commit failed ❌👷🔨❌
-            commit failed: View the errors above to see why. 
-    '
-    false;
-)
-
 # If everything passes... Now we can commit
 echo '✅✅✅✅ You win this time... I am committing this now. ✅✅✅✅'s time... I am committing this now. ✅✅✅✅'s time... I am committing this now. ✅✅✅✅'s time... I am committing this now. ✅✅✅✅'s time... I am committing this now. ✅✅✅✅'

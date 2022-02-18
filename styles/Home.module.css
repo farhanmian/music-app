@@ -66,14 +66,27 @@
 .newReleasesItemContainer {
   width: 100%;
   display: flex;
+  /* overflow: hidden; */
   align-items: center;
-  overflow-x: scroll;
-  overflow-y: hidden;
   padding-bottom: 10px;
 }
 
-.newReleasesItemContainer > :not(:last-child) {
+/* .newReleasesItemContainer > :not(:last-child) {
   margin-right: 26px;
+} */
+
+.newReleasesItemContainer > div {
+  width: 100%;
+  margin: auto;
+  transition: all 2s;
+}
+
+.newReleasesItemContainer > div > :first-child {
+  left: -40px;
+}
+
+.newReleasesItemContainer > div > div > div {
+  transition: -webkit-transform 500ms ease 0s;
 }
 
 /*/////////////// browse section  */
@@ -173,29 +186,22 @@
   display: flex;
   align-items: center;
   padding-bottom: 10px;
-  overflow-x: scroll;
-  overflow-y: hidden;
+  /* overflow: hidden; */
 }
-.artistsContainer > :not(:last-child) {
+/* .artistsContainer > :not(:last-child) {
   margin-right: 26px;
+} */
+
+.artistsContainer > div {
+  width: 100%;
+  margin: auto;
+  transition: all 2s;
 }
 
-/*/////////////////////// scroll bar  */
-.newReleasesItemContainer::-webkit-scrollbar,
-.artistsContainer::-webkit-scrollbar {
-  height: 5px;
+.artistsContainer > div > :first-child {
+  left: -40px;
 }
 
-.newReleasesItemContainer::-webkit-scrollbar-track,
-.artistsContainer::-webkit-scrollbar-track {
-  background: #161a1a;
-}
-.newReleasesItemContainer::-webkit-scrollbar-thumb,
-.artistsContainer::-webkit-scrollbar-thumb {
-  background: #525151;
-  border-radius: 5px;
-}
-.newReleasesItemContainer::-webkit-scrollbar-thumb:hover,
-.artistsContainer::-webkit-scrollbar-thumb:hover {
-  background: #555;
+.artistsContainer > div > div > div {
+  transition: -webkit-transform 500ms ease 0s;
 }

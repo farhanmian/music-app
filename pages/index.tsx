@@ -82,14 +82,14 @@ const useStyles = makeStyles({
 export default function Home() {
   const classes = useStyles();
   const router = useRouter();
-  const { code } = useAppContext();
+  const { accessToken } = useAppContext();
 
   useEffect(() => {
-    if (!code) return;
+    if (!accessToken) return;
     if (router.pathname === "/") {
-      router.push("/library");
+      router.push("/home");
     }
-  }, [code]);
+  }, [accessToken]);
 
   return (
     <React.Fragment>

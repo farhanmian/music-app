@@ -27,74 +27,89 @@ const SearchResult = () => {
       setSearchTracks([]);
       return;
     }
-    if (searchType === "songs") {
-      spotifyApiCtx.searchTracks(searchValue).then((res) => {
-        const transformedData: SearchTrackType[] = [];
-        res.body.tracks.items.map((item) => {
-          transformedData.push({
-            name: item.name,
-            type: item.type,
-            id: item.id,
-            uri: item.uri,
-            artists: item.artists,
-            image: { url: item.album.images[1].url },
+
+    const timeoutId = setTimeout(() => {
+      if (searchType === "songs") {
+        spotifyApiCtx.searchTracks(searchValue).then((res) => {
+          const transformedData: SearchTrackType[] = [];
+          res.body.tracks.items.map((item) => {
+            transformedData.push({
+              name: item.name,
+              type: item.type,
+              id: item.id,
+              uri: item.uri,
+              artists: item.artists,
+              image: { url: item.album.images[1].url },
+            });
           });
+          setSearchTracks(transformedData);
         });
-        setSearchTracks(transformedData);
-      });
-    }
-    if (searchType === "playlists") {
-      spotifyApiCtx.searchPlaylists(searchValue).then((res) => {
-        const transformedData: LibraryPlaylistType[] = [];
-        res.body.playlists.items.map((item) => {
-          transformedData.push({
-            name: item.name,
-            id: item.id,
-            type: item.type,
-            images: { url: item.images[0].url },
-            noOfSongs: item.tracks.total,
+      }
+      if (searchType === "playlists") {
+        spotifyApiCtx.searchPlaylists(searchValue).then((res) => {
+          const transformedData: LibraryPlaylistType[] = [];
+          res.body.playlists.items.map((item) => {
+            transformedData.push({
+              name: item.name,
+              id: item.id,
+              type: item.type,
+              images: { url: item.images[0].url },
+              noOfSongs: item.tracks.total,
+            });
           });
+          setSearchPlaylists(transformedData);
         });
-        setSearchPlaylists(transformedData);
-      });
-    }
-    if (searchType === "artists") {
-      spotifyApiCtx.searchArtists(searchValue).then((res) => {
-        const transformedData: ArtistType[] = [];
-        res.body.artists.items.map((item) => {
-          transformedData.push({
-            name: item.name,
-            id: item.id,
-            images: {
-              url: `${
-                item.images.length > 0
-                  ? item.images[1].url
-                  : "https://www.clipartmax.com/png/full/449-4492509_lefroy-ice-breakers-minor-hockey-tournament-sorry-no-image-available.png"
-              }`,
-            },
-            type: item.type,
-            popularity: item.popularity,
+      }
+      if (searchType === "artists") {
+        spotifyApiCtx.searchArtists(searchValue).then((res) => {
+          const transformedData: ArtistType[] = [];
+          res.body.artists.items.map((item) => {
+            transformedData.push({
+              name: item.name,
+              id: item.id,
+              images: {
+                url: `${
+                  item.images.length > 0
+                    ? item.images[1].url
+                    : "https://www.clipartmax.com/png/full/449-4492509_lefroy-ice-breakers-minor-hockey-tournament-sorry-no-image-available.png"
+                }`,
+              },
+              type: item.type,
+              popularity: item.popularity,
+            });
           });
+          setSearchArtists(transformedData);
         });
-        setSearchArtists(transformedData);
-      });
-    }
-    if (searchType === "albums") {
-      spotifyApiCtx.searchAlbums(searchValue).then((res) => {
-        const transformedData: NewReleaseItemType[] = [];
-        res.body.albums.items.map((item) => {
-          transformedData.push({
-            name: item.name,
-            id: item.id,
-            type: item.type,
-            image: { url: item.images[0].url },
-            artists: item.artists,
+      }
+      if (searchType === "albums") {
+        spotifyApiCtx.searchAlbums(searchValue).then((res) => {
+          const transformedData: NewReleaseItemType[] = [];
+          res.body.albums.items.map((item) => {
+            transformedData.push({
+              name: item.name,
+              id: item.id,
+              type: item.type,
+              image: { url: item.images[0].url },
+              artists: item.artists,
+            });
           });
+          setSearchAlbums(transformedData);
         });
-        setSearchAlbums(transformedData);
-      });
-    }
+      }
+    }, 600);
+    return () => clearTimeout(timeoutId);
   }, [searchValue, accessToken, spotifyApiCtx, searchType]);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(
+      () =>
+        console.log(
+          `I can see you're not typing. I can use "${searchValue}" now!`
+        ),
+      1000
+    );
+    return () => clearTimeout(timeoutId);
+  }, [searchValue]);
 
   return (
     <section className={styles.searchResult}>

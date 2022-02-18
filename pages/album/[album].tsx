@@ -13,7 +13,7 @@ export default function playlist() {
   const [tracks, setTracks] = useState([]);
 
   useEffect(() => {
-    if (!accessToken || !spotifyApiCtx) return;
+    if (!accessToken || !spotifyApiCtx || !id) return;
 
     spotifyApiCtx.getAlbum(id).then((res) => {
       setPlaylist({
@@ -28,7 +28,6 @@ export default function playlist() {
 
     // getting tracks
     spotifyApiCtx.getAlbumTracks(id).then((res) => {
-      console.log(res);
       const transformedData: Tracks[] = [];
       res.body.items.map((track) => {
         transformedData.push({
@@ -41,7 +40,7 @@ export default function playlist() {
       });
       setTracks(transformedData);
     });
-  }, [accessToken, spotifyApiCtx]);
+  }, [accessToken, spotifyApiCtx, id]);
   console.log(id);
 
   return (
