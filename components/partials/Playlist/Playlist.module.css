@@ -87,6 +87,9 @@
 
 .playlistTracksInnerContainer {
   margin-top: 20px;
+  max-height: 80vh;
+  overflow-y: scroll;
+  padding: 0 16px 0 12px;
 }
 .playlistTracksInnerContainer > :not(:last-child) {
   margin-bottom: 10px;
@@ -131,8 +134,36 @@
   justify-content: space-between;
 }
 
+.playlistTracksHeadingTitleHash {
+  margin-right: 50px;
+}
+
 /*////////////// Playlist Search  */
 
 .playlistSearchContainer {
   margin-bottom: 26px;
+}
+
+/*////////////////// scroll-bar */
+
+/* width */
+.playlistTracksInnerContainer::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+.playlistTracksInnerContainer::-webkit-scrollbar-track {
+  background: #75757517;
+}
+
+/* Handle */
+.playlistTracksInnerContainer::-webkit-scrollbar-thumb {
+  /* background: #888; */
+  background: rgba(155, 155, 155, 0.342);
+  border-radius: 4px;
+}
+
+/* Handle on hover */
+.playlistTracksInnerContainer::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }

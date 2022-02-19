@@ -1,7 +1,8 @@
 .nav {
   width: 100%;
   position: fixed;
-  backdrop-filter: blur(30px);
+  backdrop-filter: blur(60px);
+  background-color: rgba(22, 26, 26, 0.5);
   z-index: 9999;
 }
 

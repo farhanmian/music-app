@@ -1,6 +1,11 @@
 import React from "react";
 import styles from "./NewReleaseItem.module.css";
-import { Typography, makeStyles } from "@material-ui/core";
+import {
+  Typography,
+  makeStyles,
+  Card,
+  CardActionArea,
+} from "@material-ui/core";
 import { NewReleaseItemType } from "../../../store/types/types";
 import Image from "next/image";
 import NextLink from "next/link";
@@ -11,6 +16,11 @@ const useStyles = makeStyles({
   },
   capitalize: {
     textTransform: "capitalize",
+  },
+  newReleaseItemCard: {
+    maxWidth: "max-content",
+    backgroundColor: "transparent",
+    color: "#fff",
   },
 });
 
@@ -27,40 +37,44 @@ const NewReleaseItem: React.FC<{ newRelease: NewReleaseItemType }> = ({
 
   return (
     <NextLink href={`album/${newRelease.id}`}>
-      <div
-        id={newRelease.type}
-        key={newRelease.id}
-        className={styles.newReleaseItem}
-      >
-        <div className={styles.newReleaseImage}>
-          <Image
-            loader={() => newRelease.image.url}
-            unoptimized
-            width={225}
-            height={225}
-            src={newRelease.image.url}
-            alt="new-release-img"
-          />
-        </div>
-        <Typography
-          variant="subtitle2"
-          color="primary"
-          className={classes.margin5}
-        >
-          {newRelease.name.trim().length > 24
-            ? `${newRelease.name.slice(0, 24)}...`
-            : newRelease.name}
-        </Typography>
-        <Typography
-          variant="caption"
-          color="textSecondary"
-          className={classes.capitalize}
-        >
-          {artistName.trim().length > 34
-            ? `${artistName.slice(0, 34)}...`
-            : artistName}
-        </Typography>
-      </div>
+      <Card className={classes.newReleaseItemCard}>
+        <CardActionArea style={{ top: 0 }}>
+          <div
+            id={newRelease.type}
+            key={newRelease.id}
+            className={styles.newReleaseItem}
+          >
+            <div className={styles.newReleaseImage}>
+              <Image
+                loader={() => newRelease.image.url}
+                unoptimized
+                width={225}
+                height={225}
+                src={newRelease.image.url}
+                alt="new-release-img"
+              />
+            </div>
+            <Typography
+              variant="subtitle2"
+              color="primary"
+              className={classes.margin5}
+            >
+              {newRelease.name.trim().length > 24
+                ? `${newRelease.name.slice(0, 24)}...`
+                : newRelease.name}
+            </Typography>
+            <Typography
+              variant="caption"
+              color="textSecondary"
+              className={classes.capitalize}
+            >
+              {artistName.trim().length > 34
+                ? `${artistName.slice(0, 34)}...`
+                : artistName}
+            </Typography>
+          </div>
+        </CardActionArea>
+      </Card>
     </NextLink>
   );
 };

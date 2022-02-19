@@ -4,12 +4,8 @@
   border-radius: 8px;
   overflow: hidden;
   cursor: pointer;
-  border: 2px solid transparent;
-  transition: all 0.2s;
+  transition: all 0.35s;
   position: relative;
-}
-.genresItem:hover {
-  border-color: #bbbbbb;
 }
 
 .genresItemImage {
@@ -21,9 +17,6 @@
   height: 100%;
   z-index: 0;
   transition: all 0.3s;
-}
-.genresItemImage img {
-  object-fit: cover;
 }
 
 .genresItemBackdrop {

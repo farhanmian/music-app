@@ -1,51 +1,3 @@
-/*//////////// recent played section */
-/*
-.recentPlayed {
-  margin-top: 148px;
-  margin-bottom: 47px;
-}
-
-.recentPlayedInnerContainer {
-  max-width: 1480px;
-  margin: auto;
-}
-
-.recentPlayedContainer {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  overflow: hidden;
-}
-.recentPlayedContainer > :not(:last-child) {
-  margin-right: 26px;
-}
-
-.recentPlayedItem {
-  min-width: 225px;
-  max-width: 225px;
-  height: 275px;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-.recentPlayedItem:hover .recentPlayedImage {
-  transform: scale(0.95);
-}
-
-.recentPlayedImage {
-  width: 100%;
-  height: 225px;
-  border-radius: 50%;
-  overflow: hidden;
-  margin-bottom: 9px;
-  transition: all 0.4s;
-}
-
-
-
-*/
-
 .displayFlex {
   display: flex;
   align-items: center;
@@ -82,7 +34,15 @@
 }
 
 .newReleasesItemContainer > div > :first-child {
-  left: -40px;
+  left: 94.5%;
+}
+
+.newReleasesItemContainer > div button {
+  top: -30px;
+}
+
+.newReleasesItemContainer > div > :last-child {
+  right: 1.5%;
 }
 
 .newReleasesItemContainer > div > div > div {
@@ -199,7 +159,15 @@
 }
 
 .artistsContainer > div > :first-child {
-  left: -40px;
+  left: 94.5%;
+}
+
+.artistsContainer > div button {
+  top: -30px;
+}
+
+.artistsContainer > div > :last-child {
+  right: 1.5%;
 }
 
 .artistsContainer > div > div > div {

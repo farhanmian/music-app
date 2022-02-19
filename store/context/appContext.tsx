@@ -74,7 +74,11 @@ export const AppWrapper = ({ children }) => {
       (currentHour - accessTimeHour) * 60 + (currentMinute - accessTimeMinute);
 
     //in sec
-    setPassedTime(timePassed * 60 + 60);
+    if (timePassed > 60) {
+      setPassedTime(58 * 60);
+      return;
+    }
+    setPassedTime(timePassed * 60 + 120);
   }, []);
 
   // passedTime - 60;

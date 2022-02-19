@@ -5,7 +5,7 @@ import {
   TextField,
   InputAdornment,
 } from "@material-ui/core";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ThreeDots from "../../icons/ThreeDots";
 import styles from "./Playlist.module.css";
 import Image from "next/image";
@@ -64,7 +64,18 @@ const useStyles = makeStyles({
     wordSpacing: 3,
   },
   textField: {
-    width: 133,
+    width: 140,
+    "& > div": {
+      paddingBottom: 5.6,
+    },
+    "& > div::before": {
+      borderColor: "#9d9999",
+      borderWidth: 2,
+    },
+    "& > div input": {
+      fontSize: 16,
+      color: "#fff",
+    },
   },
 });
 
@@ -80,6 +91,29 @@ const Playlist: React.FC<{ playlist: PlaylistType; tracks: Tracks[] }> = ({
     setIsSongPlaying,
     isSongPlaying,
   } = useAppContext();
+
+  const [searchValue, setSearchValue] = useState("");
+  const [trackData, setTrackData] = useState([]);
+
+  useEffect(() => {
+    setTrackData(tracks);
+  }, [tracks]);
+
+  useEffect(() => {
+    if (searchValue.trim().length === 0) {
+      setTrackData(tracks);
+      return;
+    }
+
+    const timeoutId = setTimeout(() => {
+      const transformedData = tracks.filter((item) =>
+        item.name.toLowerCase().includes(searchValue.toLowerCase())
+      );
+      setTrackData(transformedData);
+    }, 1000);
+
+    () => clearTimeout(timeoutId);
+  }, [searchValue]);
 
   return (
     <div className={styles.playlist}>
@@ -166,6 +200,7 @@ const Playlist: React.FC<{ playlist: PlaylistType; tracks: Tracks[] }> = ({
           <div className={styles.playlistTracksContainer}>
             <div className={styles.playlistSearchContainer}>
               <TextField
+                onChange={(e) => setSearchValue(e.target.value)}
                 className={classes.textField}
                 id="input-with-icon-textfield"
                 InputProps={{
@@ -181,7 +216,8 @@ const Playlist: React.FC<{ playlist: PlaylistType; tracks: Tracks[] }> = ({
 
             <div className={styles.playlistTracksHeadingContainer}>
               <Typography variant="caption" color="textSecondary">
-                # TITLE
+                <span className={styles.playlistTracksHeadingTitleHash}>#</span>
+                TITLE
               </Typography>
               <Typography variant="caption" color="textSecondary">
                 ARTIST
@@ -192,8 +228,8 @@ const Playlist: React.FC<{ playlist: PlaylistType; tracks: Tracks[] }> = ({
             </div>
 
             <div className={styles.playlistTracksInnerContainer}>
-              {tracks.length > 0 &&
-                tracks.map((track: Tracks, i) => {
+              {trackData.length > 0 &&
+                trackData.map((track: Tracks, i) => {
                   const artistsName = `${
                     track.artists !== null && track.artists !== undefined
                       ? track.artists.length < 2

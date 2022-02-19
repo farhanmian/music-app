@@ -18,10 +18,6 @@ const useStyles = makeStyles({
   errorMsge: {
     marginTop: 50,
     textAlign: "center",
-    color: "transparent",
-    backgroundImage:
-      "linear-gradient( to right, #9b2def, #2d9bef 32%, #35edfb 112%)",
-    filter: "drop-shadow(0px 4px 6px #0072ff85)",
     WebkitBackgroundClip: "text",
   },
 });
@@ -88,7 +84,11 @@ const GenresPlaylist: React.FC<{ query: string }> = ({ query }) => {
             })}
         </Grid>
       ) : (
-        <Typography variant="h3" className={classes.errorMsge}>
+        <Typography
+          variant="h3"
+          className={classes.errorMsge}
+          color="textSecondary"
+        >
           Playlist Not Found!
         </Typography>
       )}
