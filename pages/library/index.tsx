@@ -15,7 +15,9 @@ const index = () => {
   const [tracksData, setTracksData] = useState([]);
 
   useEffect(() => {
-    activeTab === undefined && router.replace("/library/?tab=playlists");
+    if (router.asPath === "/library") {
+      router.replace("library/?tab=playlists");
+    }
 
     if (!accessToken || !spotifyApiCtx) return;
 

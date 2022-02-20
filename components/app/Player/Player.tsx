@@ -14,7 +14,6 @@ const Player = () => {
 
   useEffect(() => {
     setIsSongPlaying(true);
-    console.log(trackUri);
   }, [trackUri]);
 
   if (!accessToken) return null;
@@ -39,6 +38,7 @@ const Player = () => {
         callback={(state) => {
           setCurrentSongName(state.track.name);
           if (!state.isPlaying) setIsSongPlaying(false);
+          if (state.isPlaying) setIsSongPlaying(true);
         }}
         uris={trackUri ? [trackUri] : []}
         play={isSongPlaying}

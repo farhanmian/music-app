@@ -25,6 +25,7 @@ const useStyles = makeStyles({
     background: "transparent",
     color: "#fff",
     transition: "all .3s",
+    boxShadow: "none",
     "&:hover": {
       transform: "scale(.97)",
     },

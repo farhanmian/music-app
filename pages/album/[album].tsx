@@ -41,7 +41,6 @@ export default function playlist() {
       setTracks(transformedData);
     });
   }, [accessToken, spotifyApiCtx, id]);
-  console.log(id);
 
   return (
     <section style={{ marginTop: 148 }}>

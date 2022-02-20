@@ -3,12 +3,11 @@
 .featuredEpisodesContainer {
   max-width: 1480px;
   margin: auto;
-  margin-top: 60px;
   margin-bottom: 59px;
 }
 
 .featuredEpisodesItemContainer {
-  max-width: 1450px;
+  max-width: 1480px;
 }
 
 .featuredEpisodesItem {
@@ -16,18 +15,9 @@
   height: 300px;
   padding: 5px;
   cursor: pointer;
-  border: 1px solid transparent;
   transition: all 0.4s;
   overflow: hidden;
-  background-color: rgba(42, 42, 42, 0.3);
-}
-.featuredEpisodesItem:hover {
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-  transform: scale(1.02);
-  border-radius: 4px;
-  overflow: hidden;
-  background-color: rgba(255, 255, 255, 0.06);
-  border: 1px solid #2a2a2a;
+  /* background-color: rgba(42, 42, 42, 0.3); */
 }
 
 .featuredEpisodesImage {

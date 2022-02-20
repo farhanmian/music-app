@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from "react";
 import styles from "./FeaturedEpisodes.module.css";
 import { useAppContext } from "../../../../store/context/appContext";
-import { Typography, makeStyles } from "@material-ui/core";
+import {
+  Typography,
+  makeStyles,
+  Card,
+  CardActionArea,
+} from "@material-ui/core";
 import { Grid } from "@mui/material";
 import { Categories, FeaturedEpisode } from "../../../../store/types/types";
 import Image from "next/image";
 import Divider from "../../../partials/Divider/Divider";
 import CategoryItem from "../../../partials/CategoryItem/CategoryItem";
 import NextLink from "next/link";
+import Skeletons from "../../../partials/Skeletons/Skeletons";
 
 const useStyles = makeStyles({
   heading: {
@@ -20,6 +26,19 @@ const useStyles = makeStyles({
   },
   episodeName: {
     marginBottom: 3,
+  },
+  featuredEpisodeCard: {
+    backgroundColor: "transparent",
+    color: "#fff",
+    boxShadow: "none",
+    "& > button": {
+      paddingBottom: 5,
+      borderRadius: 4,
+      transition: "all .3s",
+      "&:hover": {
+        transform: "scale(.97)",
+      },
+    },
   },
 });
 
@@ -77,8 +96,8 @@ export default function FeaturedEpisodes() {
 
         <Grid
           container
-          columnGap="78px"
-          rowGap="30px"
+          columnGap="26px"
+          rowGap="48px"
           className={styles.featuredEpisodesItemContainer}
         >
           {featuredEpisodes.length > 0 &&
@@ -90,37 +109,52 @@ export default function FeaturedEpisodes() {
                     item
                     className={styles.featuredEpisodesItem}
                   >
-                    <div className={styles.featuredEpisodesImage}>
-                      <Image
-                        loader={() => episode.images.url}
-                        unoptimized
-                        width={100}
-                        height={100}
-                        src={episode.images.url}
-                        alt="featured-episode-img"
-                      />
-                    </div>
+                    <Card className={classes.featuredEpisodeCard}>
+                      <CardActionArea>
+                        <div className={styles.featuredEpisodesImage}>
+                          <Image
+                            loader={() => episode.images.url}
+                            unoptimized
+                            width={100}
+                            height={100}
+                            src={episode.images.url}
+                            alt="featured-episode-img"
+                          />
+                        </div>
 
-                    <div className={styles.featuredEpisodesText}>
-                      <Typography
-                        variant="body2"
-                        color="primary"
-                        className={classes.episodeName}
-                      >
-                        {episode.name.trim().length > 24
-                          ? `${episode.name.slice(0, 24)}...`
-                          : episode.name}
-                      </Typography>
-                      <Typography variant="caption" color="textSecondary">
-                        {episode.description.trim().length > 60
-                          ? `${episode.description.slice(0, 60)}...`
-                          : episode.description}
-                      </Typography>
-                    </div>
+                        <div className={styles.featuredEpisodesText}>
+                          <Typography
+                            variant="body2"
+                            color="primary"
+                            className={classes.episodeName}
+                          >
+                            {episode.name.trim().length > 24
+                              ? `${episode.name.slice(0, 24)}...`
+                              : episode.name}
+                          </Typography>
+                          <Typography variant="caption" color="textSecondary">
+                            {episode.description.trim().length > 60
+                              ? `${episode.description.slice(0, 60)}...`
+                              : episode.description}
+                          </Typography>
+                        </div>
+                      </CardActionArea>
+                    </Card>
                   </Grid>
                 </NextLink>
               );
             })}
+
+          {featuredEpisodes.length === 0 && (
+            <Skeletons
+              numberOfSkeleton={12}
+              width1={225}
+              height1={225}
+              width2={225}
+              height2={30}
+              borderRadius1={4}
+            />
+          )}
         </Grid>
       </div>
       <Divider />
@@ -136,14 +170,24 @@ export default function FeaturedEpisodes() {
           rowGap="48px"
           className={styles.categoriesItemContainer}
         >
-          {genres.length > 0 &&
+          {genres.length > 0 ? (
             genres.map((genre: Categories) => {
               return (
                 <Grid key={genre.id} item>
                   <CategoryItem item={genre} />
                 </Grid>
               );
-            })}
+            })
+          ) : (
+            <Skeletons
+              numberOfSkeleton={12}
+              width1={225}
+              height1={128}
+              width2={0}
+              height2={0}
+              borderRadius1={8}
+            />
+          )}
         </Grid>
       </div>
     </React.Fragment>

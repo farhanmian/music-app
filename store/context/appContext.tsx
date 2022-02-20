@@ -75,16 +75,11 @@ export const AppWrapper = ({ children }) => {
 
     //in sec
     if (timePassed > 60) {
-      setPassedTime(58 * 60);
+      setPassedTime(59 * 60);
       return;
     }
-    setPassedTime(timePassed * 60 + 120);
+    setPassedTime(timePassed * 60 + 60);
   }, []);
-
-  // passedTime - 60;
-  const timeLeft = expiresIn - passedTime;
-  console.log("passedTime", `${passedTime / 60}min`);
-  console.log("time-left", `${timeLeft / 60}min`);
 
   /**
    * managing login
@@ -123,33 +118,40 @@ export const AppWrapper = ({ children }) => {
   }, [code]);
 
   /**
+   * refresh token function
+   */
+  const refreshTokenHandler = () => {
+    axios
+      .post("http://localhost:3001/refresh", {
+        refreshToken,
+      })
+      .then((res) => {
+        setAccessToken(res.data.accessToken);
+        setExpiresIn(res.data.expiresIn);
+        setPassedTime(0);
+
+        const hours = `${new Date().getHours()}`;
+        const minutes = `${new Date().getMinutes()}`;
+
+        localStorage.setItem("access", res.data.accessToken);
+        localStorage.setItem("expiresIn", res.data.expiresIn);
+        localStorage.setItem("accessTimeHour", hours);
+        localStorage.setItem("accessTimeMinute", minutes);
+      })
+      .catch((err) => {
+        console.log(err);
+        window.location.pathname = "/";
+      });
+  };
+
+  /**
    * refreshing token whenever it expires
    */
   useEffect(() => {
     if (!refreshToken || !expiresIn) return;
 
     const interval = setInterval(() => {
-      axios
-        .post("http://localhost:3001/refresh", {
-          refreshToken,
-        })
-        .then((res) => {
-          setAccessToken(res.data.accessToken);
-          setExpiresIn(res.data.expiresIn);
-          setPassedTime(0);
-
-          const hours = `${new Date().getHours()}`;
-          const minutes = `${new Date().getMinutes()}`;
-
-          localStorage.setItem("access", res.data.accessToken);
-          localStorage.setItem("expiresIn", res.data.expiresIn);
-          localStorage.setItem("accessTimeHour", hours);
-          localStorage.setItem("accessTimeMinute", minutes);
-        })
-        .catch((err) => {
-          console.log(err);
-          window.location.pathname = "/";
-        });
+      refreshTokenHandler();
     }, (expiresIn - (passedTime - 60)) * 1000);
 
     return () => clearInterval(interval);
@@ -186,6 +188,8 @@ export const AppWrapper = ({ children }) => {
       })
       .catch((err) => {
         console.log(err);
+        refreshTokenHandler();
+        router.reload();
       });
   }, [accessToken]);
 

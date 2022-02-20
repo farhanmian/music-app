@@ -18,6 +18,7 @@ const useStyles = makeStyles({
     maxWidth: "max-content",
     backgroundColor: "transparent",
     color: "#fff",
+    boxShadow: "none",
   },
 });
 

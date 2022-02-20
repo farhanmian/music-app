@@ -12,6 +12,7 @@ import SearchResultItem from "./SearchResultItem/SearchResultItem";
 import LibraryPlaylistItem from "../../partials/LibraryPlaylistItem/LibraryPlaylistItem";
 import Artist from "../../partials/Artist/Artist";
 import NewReleaseItem from "../../partials/NewReleaseItem/NewReleaseItem";
+import Skeletons from "../../partials/Skeletons/Skeletons";
 
 const SearchResult = () => {
   const { searchValue, accessToken, spotifyApiCtx, searchType } =
@@ -121,47 +122,87 @@ const SearchResult = () => {
           className={styles.searchResultContainer}
         >
           {searchType === "songs" &&
-            searchTracks.length > 0 &&
-            searchTracks.map((item) => {
-              return (
-                <Grid key={item.id} item>
-                  <SearchResultItem track={item} />
-                </Grid>
-              );
-            })}
+            (searchTracks.length > 0 ? (
+              searchTracks.map((item) => {
+                return (
+                  <Grid key={item.id} item>
+                    <SearchResultItem track={item} />
+                  </Grid>
+                );
+              })
+            ) : (
+              <Skeletons
+                numberOfSkeleton={12}
+                width1={225}
+                height1={235}
+                width2={225}
+                height2={20}
+                borderRadius1={8}
+              />
+            ))}
 
           {searchType === "playlists" &&
-            searchPlaylists.length > 0 &&
-            searchPlaylists.map((item) => {
-              return (
-                <Grid key={item.id} item>
-                  <LibraryPlaylistItem
-                    playlist={item}
-                    link={`/playlist/${item.id}`}
-                  />
-                </Grid>
-              );
-            })}
+            (searchPlaylists.length > 0 ? (
+              searchPlaylists.map((item) => {
+                return (
+                  <Grid key={item.id} item>
+                    <LibraryPlaylistItem
+                      playlist={item}
+                      link={`/playlist/${item.id}`}
+                    />
+                  </Grid>
+                );
+              })
+            ) : (
+              <Skeletons
+                numberOfSkeleton={12}
+                width1={225}
+                height1={235}
+                width2={225}
+                height2={20}
+                borderRadius1={8}
+              />
+            ))}
 
           {searchType === "artists" &&
-            searchArtists.length > 0 &&
-            searchArtists.map((item: ArtistType) => {
-              return (
-                <Grid key={item.id} item>
-                  <Artist artist={item} />
-                </Grid>
-              );
-            })}
+            (searchArtists.length > 0 ? (
+              searchArtists.map((item: ArtistType) => {
+                return (
+                  <Grid key={item.id} item>
+                    <Artist artist={item} />
+                  </Grid>
+                );
+              })
+            ) : (
+              <Skeletons
+                numberOfSkeleton={12}
+                width1={225}
+                height1={235}
+                width2={225}
+                height2={20}
+                borderRadius1={8}
+              />
+            ))}
 
           {searchType === "albums" &&
-            searchAlbums.length > 0 &&
-            searchAlbums.map((item) => {
-              return (
-                <Grid key={item.id} item>
-                  <NewReleaseItem newRelease={item} />
-                </Grid>
-              );
-            })}
+            (searchAlbums.length > 0 ? (
+              searchAlbums.map((item) => {
+                return (
+                  <Grid key={item.id} item>
+                    <NewReleaseItem newRelease={item} />
+                  </Grid>
+                );
+              })
+            ) : (
+              <Skeletons
+                numberOfSkeleton={12}
+                width1={225}
+                height1={235}
+                width2={225}
+                height2={20}
+                borderRadius1={8}
+              />
+            ))}
         </Grid>
       </div>
     </section>

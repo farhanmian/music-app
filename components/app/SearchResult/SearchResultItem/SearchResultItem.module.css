@@ -2,7 +2,7 @@
   max-width: 225px;
   min-width: 225px;
   height: 275px;
-  background-color: rgba(42, 42, 42, 0.3);
+  /* background-color: rgba(42, 42, 42, 0.3); */
   border-radius: 4px;
   padding: 10px;
   text-align: start;
@@ -10,9 +10,9 @@
   transition: all 0.4s;
   overflow: hidden;
 }
-.trackItem:hover {
+/* .trackItem:hover {
   background-color: rgba(255, 255, 255, 0.075);
-}
+} */
 
 .trackImage {
   min-width: 100%;

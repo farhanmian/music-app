@@ -5,6 +5,7 @@ import { useAppContext } from "../../../../store/context/appContext";
 import styles from "./Genres.module.css";
 import { Categories } from "../../../../store/types/types";
 import CategoryItem from "../../../partials/CategoryItem/CategoryItem";
+import Skeletons from "../../../partials/Skeletons/Skeletons";
 
 const useStyles = makeStyles({
   genresHeading: {
@@ -47,14 +48,24 @@ const Genres = () => {
           rowGap="48px"
           className={styles.genresItemContainer}
         >
-          {genres.length > 0 &&
+          {genres.length > 0 ? (
             genres.map((genre: Categories) => {
               return (
                 <Grid key={genre.id} id={genre.id} item>
                   <CategoryItem item={genre} />
                 </Grid>
               );
-            })}
+            })
+          ) : (
+            <Skeletons
+              numberOfSkeleton={18}
+              width1={225}
+              height1={128}
+              width2={0}
+              height2={0}
+              borderRadius1={8}
+            />
+          )}
         </Grid>
       </div>
     </React.Fragment>

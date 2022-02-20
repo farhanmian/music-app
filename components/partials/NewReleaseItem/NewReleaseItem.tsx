@@ -21,6 +21,13 @@ const useStyles = makeStyles({
     maxWidth: "max-content",
     backgroundColor: "transparent",
     color: "#fff",
+    boxShadow: "none",
+    "& > button": {
+      transition: "all .3s",
+      "&:hover": {
+        transform: "scale(.97)",
+      },
+    },
   },
 });
 
@@ -59,8 +66,8 @@ const NewReleaseItem: React.FC<{ newRelease: NewReleaseItemType }> = ({
               color="primary"
               className={classes.margin5}
             >
-              {newRelease.name.trim().length > 24
-                ? `${newRelease.name.slice(0, 24)}...`
+              {newRelease.name.trim().length > 25
+                ? `${newRelease.name.slice(0, 25)}...`
                 : newRelease.name}
             </Typography>
             <Typography
@@ -68,8 +75,8 @@ const NewReleaseItem: React.FC<{ newRelease: NewReleaseItemType }> = ({
               color="textSecondary"
               className={classes.capitalize}
             >
-              {artistName.trim().length > 34
-                ? `${artistName.slice(0, 34)}...`
+              {artistName.trim().length > 30
+                ? `${artistName.slice(0, 30)}...`
                 : artistName}
             </Typography>
           </div>

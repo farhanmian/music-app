@@ -4,6 +4,7 @@ import { Typography, makeStyles } from "@material-ui/core";
 import { Grid } from "@mui/material";
 import { LibraryPlaylistType } from "../../../../store/types/types";
 import LibraryPlaylistItem from "../../../partials/LibraryPlaylistItem/LibraryPlaylistItem";
+import Skeletons from "../../../partials/Skeletons/Skeletons";
 
 const useStyles = makeStyles({
   userPlaylistContainer: {
@@ -33,7 +34,7 @@ const UserPlaylist: React.FC<{
         rowGap="48px"
         className={classes.userPlaylistContainer}
       >
-        {data.length > 0 &&
+        {data.length > 0 ? (
           data.map((playlist: LibraryPlaylistType) => {
             return (
               <Grid key={playlist.id} item>
@@ -44,7 +45,17 @@ const UserPlaylist: React.FC<{
                 />
               </Grid>
             );
-          })}
+          })
+        ) : (
+          <Skeletons
+            numberOfSkeleton={6}
+            width1={225}
+            height1={225}
+            width2={225}
+            height2={30}
+            borderRadius1={4}
+          />
+        )}
       </Grid>
     </div>
   );

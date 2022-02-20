@@ -105,8 +105,13 @@
   cursor: pointer;
   transition: all 0.2s;
 }
-.playlistTrack:hover,
-.activePlaylistTrack {
+
+.playlistTrack:hover {
+  background-color: rgba(0, 0, 0, 0.103);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.123);
+}
+.activePlaylistTrack,
+.activePlaylistTrack:hover {
   background-color: rgba(0, 0, 0, 0.18);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }

@@ -9,8 +9,12 @@ export default function browse() {
   const router = useRouter();
   const activeTab = router.query.tab;
   useEffect(() => {
-    activeTab === undefined && router.replace("browse/?tab=genres");
+    if (router.asPath === "/browse") {
+      router.replace("browse/?tab=genres");
+    }
   }, [activeTab]);
+
+  // console.log(router.asPath);
 
   return (
     <section className={styles.browse}>

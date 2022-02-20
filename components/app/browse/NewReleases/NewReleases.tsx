@@ -5,6 +5,7 @@ import styles from "./NewRelease.module.css";
 import { useAppContext } from "../../../../store/context/appContext";
 import { NewReleaseItemType } from "../../../../store/types/types";
 import NewReleaseItem from "../../../partials/NewReleaseItem/NewReleaseItem";
+import Skeletons from "../../../partials/Skeletons/Skeletons";
 
 const useStyles = makeStyles({
   heading: {
@@ -55,10 +56,20 @@ const NewReleases = () => {
           rowGap="48px"
           className={styles.newReleasesItemContainer}
         >
-          {newReleases.length > 0 &&
+          {newReleases.length > 0 ? (
             newReleases.map((item: NewReleaseItemType) => {
               return <NewReleaseItem key={item.id} newRelease={item} />;
-            })}
+            })
+          ) : (
+            <Skeletons
+              numberOfSkeleton={18}
+              width1={225}
+              height1={225}
+              width2={225}
+              height2={30}
+              borderRadius1={8}
+            />
+          )}
         </Grid>
       </div>
     </React.Fragment>

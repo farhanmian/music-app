@@ -17,6 +17,7 @@ import NewReleaseItem from "../components/partials/NewReleaseItem/NewReleaseItem
 import Artist from "../components/partials/Artist/Artist";
 
 import Slider from "react-slick";
+import Skeletons from "../components/partials/Skeletons/Skeletons";
 
 const useStyles = makeStyles({
   heading: {
@@ -152,9 +153,9 @@ export default function home() {
           </Typography>
 
           <div className={styles.newReleasesItemContainer}>
-            <Slider {...settings}>
-              {newReleases.length > 0 &&
-                newReleases.map((newRelease: NewReleaseItemType) => {
+            {newReleases.length > 0 ? (
+              <Slider {...settings}>
+                {newReleases.map((newRelease: NewReleaseItemType) => {
                   return (
                     <NewReleaseItem
                       key={newRelease.id}
@@ -162,7 +163,17 @@ export default function home() {
                     />
                   );
                 })}
-            </Slider>
+              </Slider>
+            ) : (
+              <Skeletons
+                numberOfSkeleton={6}
+                width1={225}
+                height1={225}
+                width2={225}
+                height2={30}
+                borderRadius1={8}
+              />
+            )}
           </div>
         </div>
       </section>
@@ -197,10 +208,20 @@ export default function home() {
             </span>
           </div>
           <div className={styles.browseItemContainer}>
-            {genres.length > 0 &&
+            {genres.length > 0 ? (
               genres.map((item: Categories) => {
                 return <CategoryItem key={item.id} item={item} />;
-              })}
+              })
+            ) : (
+              <Skeletons
+                numberOfSkeleton={6}
+                width1={225}
+                height1={128}
+                width2={0}
+                height2={0}
+                borderRadius1={8}
+              />
+            )}
           </div>
         </div>
       </section>
@@ -218,7 +239,7 @@ export default function home() {
           </Typography>
 
           <div className={styles.playlistItemContainer}>
-            {featuredEpisodes.length > 0 &&
+            {featuredEpisodes.length > 0 ? (
               featuredEpisodes.map((item: CategoryPlaylist) => {
                 return (
                   <PlaylistItem
@@ -227,7 +248,17 @@ export default function home() {
                     link={`/playlist/${item.id}`}
                   />
                 );
-              })}
+              })
+            ) : (
+              <Skeletons
+                numberOfSkeleton={6}
+                width1={225}
+                height1={235}
+                width2={225}
+                height2={25}
+                borderRadius1={8}
+              />
+            )}
           </div>
         </div>
       </section>
@@ -240,12 +271,22 @@ export default function home() {
             You might like these artists
           </Typography>
           <div className={styles.artistsContainer}>
-            <Slider {...settings}>
-              {artists.length > 0 &&
-                artists.map((artist: ArtistType) => {
+            {artists.length > 0 ? (
+              <Slider {...settings}>
+                {artists.map((artist: ArtistType) => {
                   return <Artist key={artist.id} artist={artist} />;
                 })}
-            </Slider>
+              </Slider>
+            ) : (
+              <Skeletons
+                numberOfSkeleton={6}
+                width1={225}
+                height1={235}
+                width2={225}
+                height2={25}
+                borderRadius1={500}
+              />
+            )}
           </div>
         </div>
       </section>
