@@ -7,11 +7,11 @@ import {
   CardActionArea,
 } from "@material-ui/core";
 import { Grid } from "@mui/material";
-import { PauseCircleFilled, PlayCircle } from "@mui/icons-material";
 import { TrackType } from "../../../../store/types/types";
 import Image from "next/image";
 import { useAppContext } from "../../../../store/context/appContext";
 import Skeletons from "../../../partials/Skeletons/Skeletons";
+import PlayPauseBtn from "../../../partials/PlayPauseBtn/PlayPauseBtn";
 
 const useStyles = makeStyles({
   userTrackContainer: {
@@ -36,8 +36,7 @@ const SavedTracks: React.FC<{
   data: TrackType[];
 }> = ({ data }) => {
   const classes = useStyles();
-  const { setTrackUri, trackUri, setIsSongPlaying, isSongPlaying } =
-    useAppContext();
+  const { setTrackUri, trackUri } = useAppContext();
 
   return (
     <div className={styles.innerContainer}>
@@ -71,19 +70,11 @@ const SavedTracks: React.FC<{
                           alt="new-release-img"
                         />
                         <div
-                          className={`${styles.trackIcon} ${
-                            trackUri === track.uri ? styles.activeTrackIcon : ""
+                          className={`${"playPauseIcon"} ${styles.trackIcon} ${
+                            trackUri === track.uri ? "activePlayPauseIcon" : ""
                           }`}
                         >
-                          {trackUri === track.uri && isSongPlaying === true ? (
-                            <span onClick={() => setIsSongPlaying(false)}>
-                              <PauseCircleFilled />
-                            </span>
-                          ) : (
-                            <span onClick={() => setIsSongPlaying(true)}>
-                              <PlayCircle />
-                            </span>
-                          )}
+                          <PlayPauseBtn itemUri={track.uri} />
                         </div>
                       </div>
 

@@ -32,6 +32,7 @@ const index = () => {
             type: item.type,
             images: { url: item.images[1].url },
             noOfSongs: item.tracks.total,
+            uri: item.uri,
           });
         });
         setPlaylistData(transformedData);
@@ -39,6 +40,7 @@ const index = () => {
     }
     if (activeTab === "albums") {
       spotifyApiCtx.getMySavedAlbums().then((res) => {
+        console.log(res);
         const transformedData: LibraryPlaylistType[] = [];
         res.body.items.map((item) => {
           transformedData.push({
@@ -47,6 +49,7 @@ const index = () => {
             type: item.album.type,
             noOfSongs: item.album.total_tracks,
             images: { url: item.album.images[1].url },
+            uri: item.album.uri,
           });
         });
         setAlbumData(transformedData);
@@ -80,6 +83,7 @@ const index = () => {
           heading="my playlists"
         />
       )}
+
       {activeTab === "albums" && (
         <UserPlaylist data={albumData} path="album" heading="my albums" />
       )}

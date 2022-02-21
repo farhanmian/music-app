@@ -35,9 +35,9 @@ const Skeletons: React.FC<{
   return (
     <React.Fragment>
       {noOfSkeleton.length > 0 &&
-        noOfSkeleton.map(() => {
+        noOfSkeleton.map((i) => {
           return (
-            <div className={styles.skeletonContainer}>
+            <div key={i} className={styles.skeletonContainer}>
               <Skeleton
                 variant="rectangular"
                 width={width1}

@@ -31,5 +31,12 @@
   margin-bottom: 9px;
   border-radius: 8px;
   overflow: hidden;
+  position: relative;
   transition: all 0.4s;
+}
+
+.playlistItem:hover .playPauseIcon {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
 }

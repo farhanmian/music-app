@@ -45,38 +45,3 @@
   opacity: 1;
   transform: translateY(0);
 }
-
-.trackIcon {
-  width: 55px;
-  height: 55px;
-  position: absolute;
-  bottom: 6%;
-  right: 6%;
-  border-radius: 50%;
-  z-index: 9999;
-  filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 1));
-  visibility: hidden;
-  opacity: 0;
-  transform: translateY(10px);
-  transition: all 0.3s;
-}
-
-.trackIcon svg {
-  color: #1ed760;
-  width: 100%;
-  height: 100%;
-  transition: all 0.3s;
-}
-
-.trackIcon svg:hover {
-  transform: scale(1.05);
-}
-.trackIcon svg:active {
-  transform: scale(1);
-}
-
-.activeTrackIcon {
-  visibility: visible;
-  opacity: 1;
-  transform: translateY(0);
-}

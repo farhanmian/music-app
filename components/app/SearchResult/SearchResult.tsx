@@ -56,6 +56,7 @@ const SearchResult = () => {
               type: item.type,
               images: { url: item.images[0].url },
               noOfSongs: item.tracks.total,
+              uri: item.uri,
             });
           });
           setSearchPlaylists(transformedData);
@@ -92,6 +93,7 @@ const SearchResult = () => {
               type: item.type,
               image: { url: item.images[0].url },
               artists: item.artists,
+              uri: item.uri,
             });
           });
           setSearchAlbums(transformedData);

@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 import SpotifyWebApi from "spotify-web-api-node";
 import { useRouter } from "next/dist/client/router";
+import { UserDataContainer } from "../types/types";
 
 const spotifyApi = new SpotifyWebApi({
   clientId: "e6719168da3047aaa2b0b9be996612f2",
@@ -22,6 +23,8 @@ const AppContext = createContext({
   setIsSongPlaying: null,
   setCurrentSongName: null,
   currentSongName: null,
+  userData: null,
+  setUserData: null,
 });
 
 export const AppWrapper = ({ children }) => {
@@ -39,6 +42,7 @@ export const AppWrapper = ({ children }) => {
   const [isSongPlaying, setIsSongPlaying] = useState(false);
   const [currentSongName, setCurrentSongName] = useState("");
   const [passedTime, setPassedTime] = useState(0);
+  const [userData, setUserData] = useState(null);
 
   /**
    * setting code
@@ -70,8 +74,9 @@ export const AppWrapper = ({ children }) => {
     const currentHour = new Date().getHours();
     const currentMinute = new Date().getMinutes();
 
-    const timePassed =
-      (currentHour - accessTimeHour) * 60 + (currentMinute - accessTimeMinute);
+    const timePassed = Math.abs(
+      (currentHour - accessTimeHour) * 60 + (currentMinute - accessTimeMinute)
+    );
 
     //in sec
     if (timePassed > 60) {
@@ -80,6 +85,9 @@ export const AppWrapper = ({ children }) => {
     }
     setPassedTime(timePassed * 60 + 60);
   }, []);
+
+  // console.log("passedTime", passedTime / 60, "min");
+  // console.log("timeLeft", expiresIn - passedTime, "sec");
 
   /**
    * managing login
@@ -152,7 +160,7 @@ export const AppWrapper = ({ children }) => {
 
     const interval = setInterval(() => {
       refreshTokenHandler();
-    }, (expiresIn - (passedTime - 60)) * 1000);
+    }, (expiresIn - passedTime) * 1000);
 
     return () => clearInterval(interval);
   }, [refreshToken, expiresIn]);
@@ -193,6 +201,43 @@ export const AppWrapper = ({ children }) => {
       });
   }, [accessToken]);
 
+  /**
+   * getting user data link user-saved-tracks, albums etc.
+   */
+  useEffect(() => {
+    if (!accessToken) return;
+    const fetchedUserData: UserDataContainer = {
+      tracks: [""],
+      playlist: [{ name: "", id: "" }],
+      album: [{ id: "", name: "" }],
+    };
+
+    spotifyApi.getMySavedTracks().then((res) => {
+      console.log(res);
+      const transformedData: string[] = [];
+      res.body.items.map((item) => {
+        transformedData.push(item.track.id);
+      });
+      fetchedUserData.tracks = transformedData;
+    });
+    spotifyApi.getMySavedAlbums().then((res) => {
+      const transformedData: { id: string; name: string }[] = [];
+      res.body.items.map((item) => {
+        transformedData.push({ name: item.album.name, id: item.album.id });
+      });
+      fetchedUserData.album = transformedData;
+    });
+    spotifyApi.getUserPlaylists().then((res) => {
+      const transformedData: { id: string; name: string }[] = [];
+      res.body.items.map((item) => {
+        transformedData.push({ name: item.name, id: item.id });
+      });
+      fetchedUserData.playlist = transformedData;
+    });
+
+    setUserData(fetchedUserData);
+  }, [accessToken]);
+
   return (
     <AppContext.Provider
       value={{
@@ -210,6 +255,8 @@ export const AppWrapper = ({ children }) => {
         setIsSongPlaying,
         setCurrentSongName,
         currentSongName,
+        userData,
+        setUserData,
       }}
     >
       {children}

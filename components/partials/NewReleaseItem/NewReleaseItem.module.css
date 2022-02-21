@@ -16,7 +16,15 @@
   margin-bottom: 9px;
   border-radius: 8px;
   overflow: hidden;
+  background-color: rgb(42 42 42 / 65%);
+  position: relative;
 }
 .newReleaseImage > span {
   min-width: 100%;
+}
+
+.newReleaseItem:hover .playPauseIcon {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
 }

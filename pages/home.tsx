@@ -64,6 +64,7 @@ export default function home() {
           id: releases.id,
           image: releases.images[1],
           name: releases.name,
+          uri: releases.uri,
         };
       });
       setNewReleases(transformData);
@@ -91,6 +92,7 @@ export default function home() {
             images: { url: playlist.images[0].url },
             name: playlist.name,
             type: playlist.type,
+            uri: playlist.uri,
           });
         });
         setFeaturedEpisodes(transformedData);

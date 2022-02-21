@@ -5,6 +5,7 @@ import styles from "./GenresPlaylist.module.css";
 import { useAppContext } from "../../../../../store/context/appContext";
 import { CategoryPlaylist } from "../../../../../store/types/types";
 import PlaylistItem from "../../../../partials/PlaylistItem/PlaylistItem";
+import Skeletons from "../../../../partials/Skeletons/Skeletons";
 
 const useStyles = makeStyles({
   heading: {
@@ -42,6 +43,7 @@ const GenresPlaylist: React.FC<{ query: string }> = ({ query }) => {
             id: playlist.id,
             images: { url: playlist.images[0].url },
             type: playlist.type,
+            uri: playlist.uri,
           });
         });
 
@@ -74,14 +76,24 @@ const GenresPlaylist: React.FC<{ query: string }> = ({ query }) => {
           rowGap="48px"
           className={styles.genrePlaylistItemContainer}
         >
-          {fetchedData.length > 0 &&
+          {fetchedData.length > 0 ? (
             fetchedData.map((item: CategoryPlaylist) => {
               return (
                 <Grid key={item.id} item>
                   <PlaylistItem playlist={item} link={`/playlist/${item.id}`} />
                 </Grid>
               );
-            })}
+            })
+          ) : (
+            <Skeletons
+              numberOfSkeleton={18}
+              width1={225}
+              height1={235}
+              width2={225}
+              height2={25}
+              borderRadius1={8}
+            />
+          )}
         </Grid>
       ) : (
         <Typography

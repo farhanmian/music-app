@@ -12,8 +12,9 @@ import { Categories, FeaturedEpisode } from "../../../../store/types/types";
 import Image from "next/image";
 import Divider from "../../../partials/Divider/Divider";
 import CategoryItem from "../../../partials/CategoryItem/CategoryItem";
-import NextLink from "next/link";
 import Skeletons from "../../../partials/Skeletons/Skeletons";
+import PlayPauseBtn from "../../../partials/PlayPauseBtn/PlayPauseBtn";
+import { useRouter } from "next/dist/client/router";
 
 const useStyles = makeStyles({
   heading: {
@@ -44,9 +45,11 @@ const useStyles = makeStyles({
 
 export default function FeaturedEpisodes() {
   const classes = useStyles();
-  const { spotifyApiCtx, accessToken } = useAppContext();
+  const router = useRouter();
+  const { spotifyApiCtx, accessToken, trackUri } = useAppContext();
   const [featuredEpisodes, setFeaturedEpisodes] = useState([]);
   const [genres, setGenres] = useState([]);
+  const [hover, setHover] = useState(false);
 
   /**
    * fetching data
@@ -83,6 +86,11 @@ export default function FeaturedEpisodes() {
       });
   }, [accessToken, spotifyApiCtx]);
 
+  const openFeaturedEpisodeHandler = (id) => {
+    if (hover) return;
+    router.push(`playlist/${id}`);
+  };
+
   return (
     <React.Fragment>
       <div className={styles.featuredEpisodesContainer}>
@@ -103,45 +111,60 @@ export default function FeaturedEpisodes() {
           {featuredEpisodes.length > 0 &&
             featuredEpisodes.map((episode: FeaturedEpisode) => {
               return (
-                <NextLink key={episode.id} href={`playlist/${episode.id}`}>
-                  <Grid
-                    key={episode.id}
-                    item
-                    className={styles.featuredEpisodesItem}
+                <Grid
+                  key={episode.id}
+                  item
+                  className={styles.featuredEpisodesItem}
+                >
+                  <Card
+                    className={classes.featuredEpisodeCard}
+                    onClick={() => openFeaturedEpisodeHandler(episode.id)}
                   >
-                    <Card className={classes.featuredEpisodeCard}>
-                      <CardActionArea>
-                        <div className={styles.featuredEpisodesImage}>
-                          <Image
-                            loader={() => episode.images.url}
-                            unoptimized
-                            width={100}
-                            height={100}
-                            src={episode.images.url}
-                            alt="featured-episode-img"
-                          />
-                        </div>
+                    <CardActionArea>
+                      <div className={styles.featuredEpisodesImage}>
+                        <Image
+                          loader={() => episode.images.url}
+                          unoptimized
+                          width={100}
+                          height={100}
+                          src={episode.images.url}
+                          alt="featured-episode-img"
+                        />
 
-                        <div className={styles.featuredEpisodesText}>
-                          <Typography
-                            variant="body2"
-                            color="primary"
-                            className={classes.episodeName}
-                          >
-                            {episode.name.trim().length > 24
-                              ? `${episode.name.slice(0, 24)}...`
-                              : episode.name}
-                          </Typography>
-                          <Typography variant="caption" color="textSecondary">
-                            {episode.description.trim().length > 60
-                              ? `${episode.description.slice(0, 60)}...`
-                              : episode.description}
-                          </Typography>
+                        <div
+                          onMouseEnter={() => setHover(true)}
+                          onMouseLeave={() => setHover(false)}
+                          className={`${"playPauseIcon"} ${
+                            styles.playPauseIcon
+                          } ${
+                            trackUri === episode.uri
+                              ? "activePlayPauseIcon"
+                              : ""
+                          }`}
+                        >
+                          <PlayPauseBtn itemUri={episode.uri} />
                         </div>
-                      </CardActionArea>
-                    </Card>
-                  </Grid>
-                </NextLink>
+                      </div>
+
+                      <div className={styles.featuredEpisodesText}>
+                        <Typography
+                          variant="body2"
+                          color="primary"
+                          className={classes.episodeName}
+                        >
+                          {episode.name.trim().length > 24
+                            ? `${episode.name.slice(0, 24)}...`
+                            : episode.name}
+                        </Typography>
+                        <Typography variant="caption" color="textSecondary">
+                          {episode.description.trim().length > 60
+                            ? `${episode.description.slice(0, 60)}...`
+                            : episode.description}
+                        </Typography>
+                      </div>
+                    </CardActionArea>
+                  </Card>
+                </Grid>
               );
             })}
 

@@ -10,6 +10,7 @@ export type NewReleaseItemType = {
   name: string;
   artists: { name: string; id: string }[];
   type: string;
+  uri: string;
 };
 
 /// GetSeveralShows(podcast)
@@ -37,6 +38,7 @@ export type CategoryPlaylist = {
   id: string;
   images: { url: string };
   type: string;
+  uri: string;
 };
 
 // Tracks
@@ -98,4 +100,13 @@ export type LibraryPlaylistType = {
   type: string;
   images: { url: string };
   noOfSongs: number;
+  uri: string;
+};
+
+// userDataContainerType
+
+export type UserDataContainer = {
+  tracks: string[];
+  album: { id: string; name: string }[];
+  playlist: { id: string; name: string }[];
 };

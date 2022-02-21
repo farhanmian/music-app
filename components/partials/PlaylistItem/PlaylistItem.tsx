@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./PlaylistItem.module.css";
 import {
   Typography,
@@ -7,8 +7,10 @@ import {
   CardActionArea,
 } from "@material-ui/core";
 import Image from "next/image";
-import NextLink from "next/link";
 import { CategoryPlaylist } from "../../../store/types/types";
+import PlayPauseBtn from "../PlayPauseBtn/PlayPauseBtn";
+import { useAppContext } from "../../../store/context/appContext";
+import { useRouter } from "next/dist/client/router";
 
 const useStyles = makeStyles({
   playlistName: {
@@ -32,35 +34,51 @@ const PlaylistItem: React.FC<{ playlist: CategoryPlaylist; link: string }> = ({
   link,
 }) => {
   const classes = useStyles();
-  return (
-    <NextLink href={link}>
-      <Card className={classes.playlistItemCard}>
-        <CardActionArea>
-          <div id={playlist.type} className={styles.playlistItem}>
-            <div className={styles.playlistItemImage}>
-              <Image
-                loader={() => playlist.images.url}
-                unoptimized
-                width={225}
-                height={225}
-                src={playlist.images.url}
-                alt="new-release-img"
-              />
-            </div>
+  const router = useRouter();
+  const { trackUri } = useAppContext();
+  const [hover, setHover] = useState(false);
 
-            <Typography
-              variant="subtitle1"
-              color="primary"
-              className={classes.playlistName}
+  const openPlaylistHandler = () => {
+    if (hover) return;
+    router.push(link);
+  };
+
+  return (
+    <Card className={classes.playlistItemCard} onClick={openPlaylistHandler}>
+      <CardActionArea>
+        <div id={playlist.type} className={styles.playlistItem}>
+          <div className={styles.playlistItemImage}>
+            <Image
+              loader={() => playlist.images.url}
+              unoptimized
+              width={225}
+              height={225}
+              src={playlist.images.url}
+              alt="new-release-img"
+            />
+            <div
+              onMouseEnter={() => setHover(true)}
+              onMouseLeave={() => setHover(false)}
+              className={`${"playPauseIcon"} ${styles.playPauseIcon} ${
+                trackUri === playlist.uri ? "activePlayPauseIcon" : ""
+              }`}
             >
-              {playlist.name.trim().length > 24
-                ? `${playlist.name.slice(0, 24)}...`
-                : playlist.name}
-            </Typography>
+              <PlayPauseBtn itemUri={playlist.uri} />
+            </div>
           </div>
-        </CardActionArea>
-      </Card>
-    </NextLink>
+
+          <Typography
+            variant="subtitle1"
+            color="primary"
+            className={classes.playlistName}
+          >
+            {playlist.name.trim().length > 24
+              ? `${playlist.name.slice(0, 24)}...`
+              : playlist.name}
+          </Typography>
+        </div>
+      </CardActionArea>
+    </Card>
   );
 };
 
