@@ -49,6 +49,7 @@ export type Tracks = {
   name: string;
   type: string;
   uri: string;
+  albumName: string;
 };
 
 // Track Type
@@ -90,6 +91,7 @@ export type ArtistType = {
   images: { url: string };
   type: string;
   popularity: number;
+  uri: string;
 };
 
 // libraryPlaylist

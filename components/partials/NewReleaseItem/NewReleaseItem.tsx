@@ -50,7 +50,7 @@ const NewReleaseItem: React.FC<{ newRelease: NewReleaseItemType }> = ({
   const openAlbumHandler = () => {
     if (hover) return;
 
-    router.push(`album/${newRelease.id}`);
+    router.push(`/album/${newRelease.id}`);
   };
 
   return (

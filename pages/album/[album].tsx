@@ -28,6 +28,7 @@ export default function playlist() {
 
     // getting tracks
     spotifyApiCtx.getAlbumTracks(id).then((res) => {
+      console.log(res);
       const transformedData: Tracks[] = [];
       res.body.items.map((track) => {
         transformedData.push({
@@ -36,6 +37,7 @@ export default function playlist() {
           id: track.id,
           type: track.type,
           uri: track.uri,
+          albumName: null,
         });
       });
       setTracks(transformedData);

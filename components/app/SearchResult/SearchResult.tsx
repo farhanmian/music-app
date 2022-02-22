@@ -10,7 +10,7 @@ import {
 } from "../../../store/types/types";
 import SearchResultItem from "./SearchResultItem/SearchResultItem";
 import LibraryPlaylistItem from "../../partials/LibraryPlaylistItem/LibraryPlaylistItem";
-import Artist from "../../partials/Artist/Artist";
+import Artist from "../../partials/Artists/Artist/Artist";
 import NewReleaseItem from "../../partials/NewReleaseItem/NewReleaseItem";
 import Skeletons from "../../partials/Skeletons/Skeletons";
 
@@ -78,6 +78,7 @@ const SearchResult = () => {
               },
               type: item.type,
               popularity: item.popularity,
+              uri: item.uri,
             });
           });
           setSearchArtists(transformedData);

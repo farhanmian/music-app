@@ -7,8 +7,8 @@ import {
   Card,
   CardActionArea,
 } from "@material-ui/core";
-import Heart from "../../icons/Heart";
-import { ArtistType } from "../../../store/types/types";
+import Heart from "../../../icons/Heart";
+import { ArtistType } from "../../../../store/types/types";
 import NextLink from "next/link";
 
 const useStyles = makeStyles({

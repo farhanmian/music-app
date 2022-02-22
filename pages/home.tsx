@@ -14,10 +14,10 @@ import CategoryItem from "../components/partials/CategoryItem/CategoryItem";
 import NextLink from "next/link";
 import PlaylistItem from "../components/partials/PlaylistItem/PlaylistItem";
 import NewReleaseItem from "../components/partials/NewReleaseItem/NewReleaseItem";
-import Artist from "../components/partials/Artist/Artist";
 
 import Slider from "react-slick";
 import Skeletons from "../components/partials/Skeletons/Skeletons";
+import Artists from "../components/partials/Artists/Artists";
 
 const useStyles = makeStyles({
   heading: {
@@ -46,7 +46,7 @@ export default function home() {
   const [newReleases, setNewReleases] = useState([]);
   const [genres, setGenres] = useState([]);
   const [featuredEpisodes, setFeaturedEpisodes] = useState([]);
-  const [artists, setArtists] = useState([]);
+  const [artists, setArtists] = useState<ArtistType[]>([]);
 
   /**
    * getting data
@@ -129,6 +129,7 @@ export default function home() {
           type: item.type,
           images: { url: item.images[1].url },
           popularity: item.popularity,
+          uri: item.uri,
         });
       });
       setArtists(transformData);
@@ -267,31 +268,7 @@ export default function home() {
       <Divider />
 
       {/* artists */}
-      <section className={styles.artists}>
-        <div className={styles.artistsInnerContainer}>
-          <Typography variant="h6" className={classes.heading} color="primary">
-            You might like these artists
-          </Typography>
-          <div className={styles.artistsContainer}>
-            {artists.length > 0 ? (
-              <Slider {...settings}>
-                {artists.map((artist: ArtistType) => {
-                  return <Artist key={artist.id} artist={artist} />;
-                })}
-              </Slider>
-            ) : (
-              <Skeletons
-                numberOfSkeleton={6}
-                width1={225}
-                height1={235}
-                width2={225}
-                height2={25}
-                borderRadius1={500}
-              />
-            )}
-          </div>
-        </div>
-      </section>
+      <Artists artists={artists} heading="You might like these artists" />
     </React.Fragment>
   );
 }
