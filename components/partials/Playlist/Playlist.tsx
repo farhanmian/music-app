@@ -117,6 +117,7 @@ const Playlist: React.FC<{ playlist: PlaylistType; tracks: Tracks[] }> = ({
   const [searchValue, setSearchValue] = useState("");
   const [trackData, setTrackData] = useState([]);
   const [hover, setHover] = useState(false);
+  const [favAlbums, setFavAlbums] = useState([]);
 
   useEffect(() => {
     setTrackData(tracks);
@@ -156,6 +157,28 @@ const Playlist: React.FC<{ playlist: PlaylistType; tracks: Tracks[] }> = ({
     data.tracks = data.tracks.filter((item) => item !== id);
     setUserData(data);
   };
+
+  const addAlbumToFavoriteHandler = (id: string) => {
+    spotifyApiCtx.addToMySavedAlbums([id]);
+    setFavAlbums((prevData) => (prevData ? [...prevData, id] : [id]));
+  };
+
+  const removeAlbumFromFavoriteHandler = (id: string) => {
+    spotifyApiCtx.removeFromMySavedAlbums([id]);
+    const data = favAlbums.filter((item) => item !== id);
+    setFavAlbums(data);
+  };
+
+  useEffect(() => {
+    if (!accessToken || !spotifyApiCtx) return;
+    spotifyApiCtx.getMySavedAlbums().then((res) => {
+      const transformedData: string[] = [];
+      res.body.items.map((item) => {
+        transformedData.push(item.album.id);
+      });
+      setFavAlbums(transformedData);
+    });
+  }, [accessToken, spotifyApiCtx]);
 
   return (
     <div className={styles.playlist}>
@@ -221,13 +244,27 @@ const Playlist: React.FC<{ playlist: PlaylistType; tracks: Tracks[] }> = ({
                 </Typography>
               </Button>
 
-              <Button
-                variant="outlined"
-                color="primary"
-                className={`${classes.playlistDetailBtn} ${classes.playlistDetailHeartBtn}`}
-              >
-                <HeartOutlined />
-              </Button>
+              {router.asPath.includes("album") &&
+                (playlist && favAlbums.includes(playlist.id) ? (
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    className={`${classes.playlistDetailBtn} ${classes.playlistDetailHeartBtn}`}
+                    onClick={() => removeAlbumFromFavoriteHandler(playlist.id)}
+                    style={{ borderColor: "#1ED760" }}
+                  >
+                    <Favorite className={classes.favoriteIcon} />
+                  </Button>
+                ) : (
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    className={`${classes.playlistDetailBtn} ${classes.playlistDetailHeartBtn}`}
+                    onClick={() => addAlbumToFavoriteHandler(playlist.id)}
+                  >
+                    <HeartOutlined />
+                  </Button>
+                ))}
 
               <Button
                 variant="outlined"
@@ -355,7 +392,9 @@ const Playlist: React.FC<{ playlist: PlaylistType; tracks: Tracks[] }> = ({
                             className={classes.fontSize15}
                           >
                             {/* album */}
-                            {track.albumName ? track.albumName : playlist.name}
+                            {track.albumName
+                              ? track.albumName
+                              : playlist && playlist.name}
                           </Typography>
 
                           <div

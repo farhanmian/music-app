@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/dist/client/router";
 
-import { Tracks } from "../../store/types/types";
+import { PlaylistType, Tracks } from "../../store/types/types";
 import Playlist from "../../components/partials/Playlist/Playlist";
 import { useAppContext } from "../../store/context/appContext";
 
@@ -9,7 +9,7 @@ export default function playlist() {
   const router = useRouter();
   const id = router.query.album;
   const { accessToken, spotifyApiCtx } = useAppContext();
-  const [playlist, setPlaylist] = useState(null);
+  const [playlist, setPlaylist] = useState<PlaylistType>(null);
   const [tracks, setTracks] = useState([]);
 
   useEffect(() => {
@@ -23,6 +23,7 @@ export default function playlist() {
         images: { url: res.body.images[1].url },
         totalTracks: res.body.total_tracks,
         uri: res.body.uri,
+        id: res.body.id,
       });
     });
 

@@ -87,10 +87,18 @@ const useStyles = makeStyles({
       color: "#fff",
     },
   },
+  navMenuContainer: {
+    borderRadius: 4,
+    overflow: "hidden",
+  },
   navMenuItemContainer: {
-    backgroundColor: "#28282",
+    backgroundColor: "#282828",
     border: "1px solid #323232",
-    width: 110,
+    overflow: "hidden",
+    width: 120,
+    "&>:not(:last-child)": {
+      marginBottom: 10,
+    },
   },
   navMenuItem: {
     color: "#e5e5e5",
@@ -360,6 +368,7 @@ export default function Nav() {
                 </Button>
                 <Popper
                   open={open}
+                  className={classes.navMenuContainer}
                   anchorEl={anchorRef.current}
                   role={undefined}
                   placement="bottom-start"

@@ -65,9 +65,6 @@ export const AppWrapper = ({ children }) => {
       router.push("/");
       return;
     }
-    setAccessToken(token);
-    setExpiresIn(expires);
-    setRefreshToken(refresh);
 
     const accessTimeHour = +localStorage.getItem("accessTimeHour");
     const accessTimeMinute = +localStorage.getItem("accessTimeMinute");
@@ -78,16 +75,21 @@ export const AppWrapper = ({ children }) => {
       (currentHour - accessTimeHour) * 60 + (currentMinute - accessTimeMinute)
     );
 
+    setRefreshToken(refresh);
+    setExpiresIn(expires);
     //in sec
     if (timePassed > 60) {
       setPassedTime(59 * 60);
       return;
     }
+
+    setAccessToken(token);
+
     setPassedTime(timePassed * 60 + 60);
   }, []);
 
-  // console.log("passedTime", passedTime / 60, "min");
-  // console.log("timeLeft", expiresIn - passedTime, "sec");
+  console.log("passedTime", passedTime / 60, "min");
+  console.log("timeLeft", expiresIn - passedTime, "sec");
 
   /**
    * managing login
@@ -137,6 +139,8 @@ export const AppWrapper = ({ children }) => {
         setAccessToken(res.data.accessToken);
         setExpiresIn(res.data.expiresIn);
         setPassedTime(0);
+
+        console.log("refreshed");
 
         const hours = `${new Date().getHours()}`;
         const minutes = `${new Date().getMinutes()}`;
@@ -197,7 +201,6 @@ export const AppWrapper = ({ children }) => {
       .catch((err) => {
         console.log(err);
         refreshTokenHandler();
-        router.reload();
       });
   }, [accessToken]);
 
@@ -208,8 +211,6 @@ export const AppWrapper = ({ children }) => {
     if (!accessToken) return;
     const fetchedUserData: UserDataContainer = {
       tracks: [""],
-      playlist: [{ name: "", id: "" }],
-      album: [{ id: "", name: "" }],
     };
 
     spotifyApi.getMySavedTracks().then((res) => {
@@ -219,20 +220,6 @@ export const AppWrapper = ({ children }) => {
         transformedData.push(item.track.id);
       });
       fetchedUserData.tracks = transformedData;
-    });
-    spotifyApi.getMySavedAlbums().then((res) => {
-      const transformedData: { id: string; name: string }[] = [];
-      res.body.items.map((item) => {
-        transformedData.push({ name: item.album.name, id: item.album.id });
-      });
-      fetchedUserData.album = transformedData;
-    });
-    spotifyApi.getUserPlaylists().then((res) => {
-      const transformedData: { id: string; name: string }[] = [];
-      res.body.items.map((item) => {
-        transformedData.push({ name: item.name, id: item.id });
-      });
-      fetchedUserData.playlist = transformedData;
     });
 
     setUserData(fetchedUserData);

@@ -75,13 +75,13 @@ export type SearchTrackType = {
 /// Playlist
 
 export type PlaylistType = {
-  artists: { name: string }[];
   images: { url: string };
   label: string;
   name: string;
   totalTracks: number;
   type: string;
   uri: string;
+  id: string;
 };
 
 /// artist
@@ -109,6 +109,4 @@ export type LibraryPlaylistType = {
 
 export type UserDataContainer = {
   tracks: string[];
-  album: { id: string; name: string }[];
-  playlist: { id: string; name: string }[];
 };
