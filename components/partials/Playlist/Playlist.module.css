@@ -77,17 +77,16 @@
   align-items: center;
 }
 
-.playlistTracksInnerContainer {
+/* .playlistTracksInnerContainer {
   margin-top: 20px;
   min-height: 690px;
   max-height: 80vh;
-  /* overflow-y: scroll; */
 }
 .playlistTracksInnerContainer > :not(:last-child) {
   margin-bottom: 10px;
-}
+} */
 
-.playlistTrack {
+/* .playlistTrack {
   height: 60px;
   display: grid;
   grid-template-columns: repeat(4, 25%);
@@ -95,7 +94,6 @@
   border-radius: 4px;
   padding: 0 16px 0 12px;
   cursor: pointer;
-  /* position: relative; */
   transition: all 0.2s;
 }
 
@@ -107,27 +105,19 @@
 .activePlaylistTrack:hover {
   background-color: rgba(0, 0, 0, 0.212);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-}
+} */
 
-.playlistNameNImage {
+/* .playlistNameNImage {
   display: flex;
   align-items: center;
 }
 .playlistNameNImage > :first-child {
   margin-right: 16px;
-}
-.playlistImage {
-  width: 35px;
-  height: 35px;
-  border-radius: 4px;
-  overflow: hidden;
-  margin-right: 14px;
-}
+} */
 
-.playlistOptionsContainer {
+/* .playlistOptionsContainer {
   justify-self: end;
   display: flex;
-  /* align-items: center; */
   justify-content: space-between;
 }
 .playlistOptionsContainer > span {
@@ -138,13 +128,13 @@
 }
 .playlistOptionsContainer > span:active {
   transform: scale(1);
-}
+} */
 
 .playlistTracksHeadingTitleHash {
   margin-right: 50px;
 }
 
-.artistNameContainer > :not(:last-child)::after {
+/* .artistNameContainer > :not(:last-child)::after {
   content: " ,";
   display: inline-block;
 }
@@ -154,7 +144,7 @@
 }
 .artistNameContainer {
   padding-right: 10px;
-}
+} */
 
 /*////////////// Playlist Search  */
 
@@ -165,23 +155,23 @@
 /*////////////////// scroll-bar */
 
 /* width */
-.playlistTracksInnerContainer::-webkit-scrollbar {
+/* .playlistTracksInnerContainer::-webkit-scrollbar {
   width: 5px;
-}
+} */
 
 /* Track */
-.playlistTracksInnerContainer::-webkit-scrollbar-track {
+/* .playlistTracksInnerContainer::-webkit-scrollbar-track {
   background: #75757517;
-}
+} */
 
 /* Handle */
-.playlistTracksInnerContainer::-webkit-scrollbar-thumb {
-  /* background: #888; */
-  background: rgba(155, 155, 155, 0.342);
+/* .playlistTracksInnerContainer::-webkit-scrollbar-thumb { */
+/* background: #888; */
+/* background: rgba(155, 155, 155, 0.342);
   border-radius: 4px;
-}
+} */
 
 /* Handle on hover */
-.playlistTracksInnerContainer::-webkit-scrollbar-thumb:hover {
+/* .playlistTracksInnerContainer::-webkit-scrollbar-thumb:hover {
   background: #555;
-}
+} */

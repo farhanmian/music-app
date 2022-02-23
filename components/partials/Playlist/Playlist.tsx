@@ -4,25 +4,19 @@ import {
   Button,
   TextField,
   InputAdornment,
-  Card,
-  CardActionArea,
-  Link,
 } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import ThreeDots from "../../icons/ThreeDots";
 import styles from "./Playlist.module.css";
 import Image from "next/image";
 import HeartOutlined from "../../icons/HeartOutlined";
-import {
-  PlaylistType,
-  Tracks,
-  UserDataContainer,
-} from "../../../store/types/types";
+import { PlaylistType, Tracks } from "../../../store/types/types";
 import { useAppContext } from "../../../store/context/appContext";
 import Search from "../../icons/Search";
 import Skeletons from "../Skeletons/Skeletons";
 import { Favorite } from "@mui/icons-material";
 import { useRouter } from "next/dist/client/router";
+import PlaylistTracks from "./PlaylistTracks";
 
 const useStyles = makeStyles({
   playlistDetailLabel: {
@@ -104,19 +98,15 @@ const Playlist: React.FC<{ playlist: PlaylistType; tracks: Tracks[] }> = ({
   const router = useRouter();
   const {
     setTrackUri,
-    currentSongName,
     trackUri,
     setIsSongPlaying,
     isSongPlaying,
-    userData,
-    setUserData,
     spotifyApiCtx,
     accessToken,
   } = useAppContext();
 
   const [searchValue, setSearchValue] = useState("");
-  const [trackData, setTrackData] = useState([]);
-  const [hover, setHover] = useState(false);
+  const [trackData, setTrackData] = useState<Tracks[]>([]);
   const [favAlbums, setFavAlbums] = useState([]);
 
   useEffect(() => {
@@ -138,25 +128,6 @@ const Playlist: React.FC<{ playlist: PlaylistType; tracks: Tracks[] }> = ({
 
     () => clearTimeout(timeoutId);
   }, [searchValue]);
-
-  const playSongHandler = (uri: string) => {
-    if (hover) return;
-    setTrackUri(uri);
-  };
-
-  const addToFavoriteHandler = (id: string) => {
-    if (!spotifyApiCtx || !accessToken) return;
-    spotifyApiCtx.addToMySavedTracks([id]);
-    const data: UserDataContainer = userData;
-    data.tracks.push(id);
-    setUserData(data);
-  };
-  const removeFavoriteHandler = (id: string) => {
-    spotifyApiCtx.removeFromMySavedTracks([id]);
-    const data: UserDataContainer = userData;
-    data.tracks = data.tracks.filter((item) => item !== id);
-    setUserData(data);
-  };
 
   const addAlbumToFavoriteHandler = (id: string) => {
     spotifyApiCtx.addToMySavedAlbums([id]);
@@ -318,121 +289,10 @@ const Playlist: React.FC<{ playlist: PlaylistType; tracks: Tracks[] }> = ({
             </Typography>
           </div>
 
-          <div
-            className={styles.playlistTracksInnerContainer}
-            style={{ overflowY: trackData.length > 10 ? "scroll" : "hidden" }}
-          >
-            {trackData.length > 0 ? (
-              trackData.map((track: Tracks, i) => {
-                const artistDetail = track.artists.map((item) => {
-                  return {
-                    name: item.name,
-                    id: item.id,
-                  };
-                });
-
-                return (
-                  track.name && (
-                    <Card key={i} className={classes.playlistTrackCard}>
-                      <CardActionArea>
-                        <div
-                          className={`${styles.playlistTrack} ${
-                            currentSongName === track.name
-                              ? styles.activePlaylistTrack
-                              : ""
-                          }`}
-                          onClick={() => playSongHandler(track.uri)}
-                        >
-                          <div className={styles.playlistNameNImage}>
-                            <Typography
-                              variant="caption"
-                              color="textSecondary"
-                              className={classes.fontSize15}
-                            >
-                              {i + 1}
-                            </Typography>
-
-                            <Typography
-                              variant="caption"
-                              className={classes.fontSize15}
-                              color="primary"
-                            >
-                              {track.name.trim().length > 35
-                                ? `${track.name.slice(0, 35)}...`
-                                : track.name}
-                            </Typography>
-                          </div>
-
-                          <div className={styles.artistNameContainer}>
-                            {artistDetail.map((item) => {
-                              return (
-                                <Link
-                                  key={item.id}
-                                  onMouseEnter={() => setHover(true)}
-                                  onMouseLeave={() => setHover(false)}
-                                  onClick={() =>
-                                    router.push(`/artist/${item.id}`)
-                                  }
-                                >
-                                  <Typography
-                                    variant="caption"
-                                    color="primary"
-                                    className={`${classes.artistName} ${classes.fontSize15}`}
-                                  >
-                                    {item.name}
-                                  </Typography>
-                                </Link>
-                              );
-                            })}
-                          </div>
-
-                          <Typography
-                            variant="caption"
-                            color="primary"
-                            className={classes.fontSize15}
-                          >
-                            {/* album */}
-                            {track.albumName
-                              ? track.albumName
-                              : playlist && playlist.name}
-                          </Typography>
-
-                          <div
-                            className={styles.playlistOptionsContainer}
-                            onMouseEnter={() => setHover(true)}
-                            onMouseLeave={() => setHover(false)}
-                          >
-                            {userData.tracks.includes(track.id) ? (
-                              <span
-                                onClick={() => removeFavoriteHandler(track.id)}
-                              >
-                                <Favorite className={classes.favoriteIcon} />
-                              </span>
-                            ) : (
-                              <span
-                                onClick={() => addToFavoriteHandler(track.id)}
-                              >
-                                <HeartOutlined />
-                              </span>
-                            )}
-                          </div>
-                        </div>
-                      </CardActionArea>
-                    </Card>
-                  )
-                );
-              })
-            ) : (
-              <Skeletons
-                numberOfSkeleton={6}
-                width1={1460}
-                height1={60}
-                width2={0}
-                height2={0}
-                borderRadius1={4}
-              />
-            )}
-          </div>
+          <PlaylistTracks
+            trackData={trackData}
+            playlistName={playlist && playlist.name}
+          />
         </div>
       </div>
 

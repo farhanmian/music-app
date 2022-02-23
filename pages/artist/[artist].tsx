@@ -2,29 +2,19 @@ import React, { useEffect, useState } from "react";
 import styles from "../../styles/Artist.module.css";
 import { useRouter } from "next/dist/client/router";
 import Image from "next/image";
-import {
-  Button,
-  Card,
-  CardActionArea,
-  Link,
-  makeStyles,
-  Typography,
-} from "@material-ui/core";
-import HeartOutlined from "../../components/icons/HeartOutlined";
+import { Button, makeStyles, Typography } from "@material-ui/core";
 import { useAppContext } from "../../store/context/appContext";
 import Skeletons from "../../components/partials/Skeletons/Skeletons";
 import {
   ArtistType,
   NewReleaseItemType,
   Tracks,
-  UserDataContainer,
 } from "../../store/types/types";
-import ThreeDots from "../../components/icons/ThreeDots";
-import { Favorite } from "@mui/icons-material";
 import { Grid } from "@mui/material";
 import NewReleaseItem from "../../components/partials/NewReleaseItem/NewReleaseItem";
 import Artists from "../../components/partials/Artists/Artists";
 import Divider from "../../components/partials/Divider/Divider";
+import PlaylistTracks from "../../components/partials/Playlist/PlaylistTracks";
 
 const useStyles = makeStyles({
   artistDetailOptionBtn: {
@@ -46,9 +36,6 @@ const useStyles = makeStyles({
   },
   artistDetailOptionBtnText: {
     fontWeight: "bold",
-  },
-  artistDetailHeartBtn: {
-    marginRight: 20,
   },
   artistDetailBtn: {
     display: "flex",
@@ -103,17 +90,12 @@ const artist = () => {
     trackUri,
     setIsSongPlaying,
     isSongPlaying,
-    currentSongName,
-    userData,
-    setUserData,
   } = useAppContext();
   const router = useRouter();
   const id = router.query.artist;
   const [artistDetails, setArtistDetails] = useState<ArtistType>(null);
   const [artistTracks, setArtistTracks] = useState<Tracks[]>([]);
   const [artistAlbum, setArtistAlbum] = useState<NewReleaseItemType[]>([]);
-  const [hover, setHover] = useState(false);
-  const [showMoreTracks, setShowMoreTracks] = useState(false);
   const [showMoreAlbums, setShowMoreAlbums] = useState(false);
   const [relatedArtists, setRelatedArtists] = useState<ArtistType[]>([]);
 
@@ -180,25 +162,6 @@ const artist = () => {
     });
   }, [accessToken, spotifyApiCtx, id]);
 
-  const playSongHandler = (uri: string) => {
-    if (hover) return;
-    setTrackUri(uri);
-  };
-
-  const addToFavoriteHandler = (id: string) => {
-    if (!spotifyApiCtx || !accessToken) return;
-    spotifyApiCtx.addToMySavedTracks([id]);
-    const data: UserDataContainer = userData;
-    data.tracks.push(id);
-    setUserData(data);
-  };
-  const removeFavoriteHandler = (id: string) => {
-    spotifyApiCtx.removeFromMySavedTracks([id]);
-    const data: UserDataContainer = userData;
-    data.tracks = data.tracks.filter((item) => item !== id);
-    setUserData(data);
-  };
-
   const ShowMoreBtn: React.FC<{ onClickProp: () => void }> = ({
     onClickProp,
   }) => (
@@ -261,22 +224,6 @@ const artist = () => {
                     : "Play"}
                 </Typography>
               </Button>
-
-              <Button
-                variant="outlined"
-                color="primary"
-                className={`${classes.artistDetailBtn} ${classes.artistDetailHeartBtn}`}
-              >
-                <HeartOutlined />
-              </Button>
-
-              <Button
-                variant="outlined"
-                color="primary"
-                className={`${classes.artistDetailBtn} ${classes.artistDetailHeartBtn}`}
-              >
-                <ThreeDots />
-              </Button>
             </div>
 
             <span className={styles.artistDetailFollowersContainer}>
@@ -318,129 +265,7 @@ const artist = () => {
             </Typography>
           </div>
 
-          <div className={styles.tracksInnerContainer}>
-            {artistTracks.length > 0 ? (
-              artistTracks
-                .slice(0, showMoreTracks ? artistTracks.length : 5)
-                .map((track: Tracks, i) => {
-                  const artistDetail = track.artists.map((item) => {
-                    return {
-                      name: item.name,
-                      id: item.id,
-                    };
-                  });
-
-                  return (
-                    track.name && (
-                      <Card key={i} className={classes.trackCard}>
-                        <CardActionArea>
-                          <div
-                            className={`${styles.track} ${
-                              currentSongName === track.name
-                                ? styles.activetrack
-                                : ""
-                            }`}
-                            onClick={() => playSongHandler(track.uri)}
-                          >
-                            <div className={styles.playlistNameNImage}>
-                              <Typography
-                                variant="caption"
-                                color="textSecondary"
-                                className={classes.fontSize15}
-                              >
-                                {i + 1}
-                              </Typography>
-
-                              <Typography
-                                variant="caption"
-                                className={classes.fontSize15}
-                                color="primary"
-                              >
-                                {track.name.trim().length > 35
-                                  ? `${track.name.slice(0, 35)}...`
-                                  : track.name}
-                              </Typography>
-                            </div>
-
-                            <div className={styles.artistNameContainer}>
-                              {artistDetail.map((item) => {
-                                return (
-                                  <Link
-                                    key={item.id}
-                                    onMouseEnter={() => setHover(true)}
-                                    onMouseLeave={() => setHover(false)}
-                                    onClick={() => {
-                                      if (id === item.id) return;
-                                      router.push(`/artist/${item.id}`);
-                                    }}
-                                  >
-                                    <Typography
-                                      variant="caption"
-                                      color="primary"
-                                      className={`${classes.artistName} ${classes.fontSize15}`}
-                                    >
-                                      {item.name}
-                                    </Typography>
-                                  </Link>
-                                );
-                              })}
-                            </div>
-
-                            <Typography
-                              variant="caption"
-                              color="primary"
-                              className={classes.fontSize15}
-                            >
-                              {/* album */}
-                              {track.albumName}
-                            </Typography>
-
-                            <div
-                              className={styles.playlistOptionsContainer}
-                              onMouseEnter={() => setHover(true)}
-                              onMouseLeave={() => setHover(false)}
-                            >
-                              {userData.tracks.includes(track.id) ? (
-                                <span
-                                  onClick={() =>
-                                    removeFavoriteHandler(track.id)
-                                  }
-                                >
-                                  <Favorite className={classes.favoriteIcon} />
-                                </span>
-                              ) : (
-                                <span
-                                  onClick={() => addToFavoriteHandler(track.id)}
-                                >
-                                  <HeartOutlined />
-                                </span>
-                              )}
-                            </div>
-                          </div>
-                        </CardActionArea>
-                      </Card>
-                    )
-                  );
-                })
-            ) : (
-              <Skeletons
-                numberOfSkeleton={6}
-                width1={1460}
-                height1={60}
-                width2={0}
-                height2={0}
-                borderRadius1={4}
-              />
-            )}
-
-            {!showMoreTracks && artistTracks.length > 5 && (
-              <ShowMoreBtn
-                onClickProp={() => {
-                  setShowMoreTracks(true);
-                }}
-              />
-            )}
-          </div>
+          <PlaylistTracks trackData={artistTracks} playlistName="" />
         </div>
 
         {/* artist albums */}

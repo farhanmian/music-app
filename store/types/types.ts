@@ -104,9 +104,3 @@ export type LibraryPlaylistType = {
   noOfSongs: number;
   uri: string;
 };
-
-// userDataContainerType
-
-export type UserDataContainer = {
-  tracks: string[];
-};
