@@ -118,7 +118,7 @@ export const AppWrapper = ({ children }) => {
       })
       .catch((err) => {
         console.log(err);
-        router.reload();
+        // router.reload();
         // window.location.pathname = "/";
       });
   }, [code]);

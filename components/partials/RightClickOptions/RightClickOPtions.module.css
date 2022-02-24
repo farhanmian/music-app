@@ -1,0 +1,8 @@
+.rightClickOptionContainer {
+  width: 300px;
+  height: 300px;
+}
+
+.rightClickOptionContainer > :not(:last-child) {
+  margin-bottom: 10px;
+}
