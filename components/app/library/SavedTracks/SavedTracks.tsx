@@ -5,6 +5,7 @@ import {
   makeStyles,
   Card,
   CardActionArea,
+  ClickAwayListener,
 } from "@material-ui/core";
 import { Grid } from "@mui/material";
 import { TrackType } from "../../../../store/types/types";
@@ -38,12 +39,14 @@ const SavedTracks: React.FC<{
   data: TrackType[];
 }> = ({ data }) => {
   const classes = useStyles();
-  const { setTrackUri, trackUri } = useAppContext();
+  const { setTrackUri, trackUri, isSongPlaying } = useAppContext();
   const [showRightClickOption, setShowRightClickOption] = useState(false);
+  const [activeTrackId, setActiveTrackId] = useState(null);
 
-  const rightClickHandler = (e: React.MouseEvent) => {
+  const rightClickHandler = (e: React.MouseEvent, id) => {
     e.preventDefault();
     setShowRightClickOption(true);
+    setActiveTrackId(id);
   };
 
   return (
@@ -60,61 +63,85 @@ const SavedTracks: React.FC<{
       >
         {data.length > 0 ? (
           data.map((track: TrackType) => {
+            const artistName = `${
+              track.artists.length === 1
+                ? track.artists.map((item) => item.name)
+                : track.artists.map((item) => `${item.name} `)
+            }`;
+
             return (
-              <Grid key={track.id} item>
-                <Card
-                  className={classes.trackItemCard}
-                  onContextMenu={rightClickHandler}
-                >
-                  {showRightClickOption && <RightClickOptions />}
-                  <CardActionArea>
-                    <div
-                      className={styles.trackItem}
-                      onClick={() => setTrackUri(track.uri)}
-                    >
-                      <div className={styles.trackItemImage}>
-                        <Image
-                          loader={() => track.image.url}
-                          unoptimized
-                          width={225}
-                          height={225}
-                          src={track.image.url}
-                          alt="new-release-img"
-                        />
-                        <div
-                          className={`${"playPauseIcon"} ${styles.trackIcon} ${
-                            trackUri === track.uri ? "activePlayPauseIcon" : ""
-                          }`}
-                        >
-                          <PlayPauseBtn itemUri={track.uri} />
-                        </div>
-                      </div>
-
-                      <Typography
-                        variant="subtitle2"
-                        color="primary"
-                        className={classes.playlistName}
+              <ClickAwayListener
+                key={track.id}
+                onClickAway={() => setShowRightClickOption(false)}
+              >
+                <Grid item>
+                  <Card
+                    className={classes.trackItemCard}
+                    onContextMenu={(e) => rightClickHandler(e, track.id)}
+                  >
+                    {showRightClickOption && activeTrackId === track.id && (
+                      <RightClickOptions
+                        options={[
+                          trackUri === track.uri
+                            ? isSongPlaying
+                              ? "pause"
+                              : "play"
+                            : "play",
+                          "remove from favorite",
+                        ]}
+                        id={track.id}
+                        uri={track.uri}
+                        type={track.type}
+                        artists={track.artists}
+                      />
+                    )}
+                    <CardActionArea>
+                      <div
+                        className={styles.trackItem}
+                        onClick={() => setTrackUri(track.uri)}
                       >
-                        {track.name.trim().length > 24
-                          ? `${track.name.slice(0, 24)}...`
-                          : track.name}
-                      </Typography>
+                        <div className={styles.trackItemImage}>
+                          <Image
+                            loader={() => track.image.url}
+                            unoptimized
+                            width={225}
+                            height={225}
+                            src={track.image.url}
+                            alt="new-release-img"
+                          />
+                          <div
+                            className={`${"playPauseIcon"} ${
+                              styles.trackIcon
+                            } ${
+                              trackUri === track.uri
+                                ? "activePlayPauseIcon"
+                                : ""
+                            }`}
+                          >
+                            <PlayPauseBtn itemUri={track.uri} />
+                          </div>
+                        </div>
 
-                      <Typography variant="caption" color="textSecondary">
-                        {track.artists.length === 1 &&
-                          track.artists.map(
-                            (item: { name: string; id: string }) => item.name
-                          )}
-                        {track.artists.length > 1 &&
-                          track.artists.map(
-                            (item: { name: string; id: string }) =>
-                              `${item.name}, `
-                          )}
-                      </Typography>
-                    </div>
-                  </CardActionArea>
-                </Card>
-              </Grid>
+                        <Typography
+                          variant="subtitle2"
+                          color="primary"
+                          className={classes.playlistName}
+                        >
+                          {track.name.trim().length > 24
+                            ? `${track.name.slice(0, 24)}...`
+                            : track.name}
+                        </Typography>
+
+                        <Typography variant="caption" color="textSecondary">
+                          {artistName.trim().length > 30
+                            ? `${artistName.slice(0, 30)}...`
+                            : artistName}
+                        </Typography>
+                      </div>
+                    </CardActionArea>
+                  </Card>
+                </Grid>
+              </ClickAwayListener>
             );
           })
         ) : (

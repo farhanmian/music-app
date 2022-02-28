@@ -22,6 +22,10 @@ const AppContext = createContext({
   setIsSongPlaying: null,
   setCurrentSongName: null,
   currentSongName: null,
+  userSavedTracks: null,
+  setUserSavedTracks: null,
+  userSavedAlbums: null,
+  setUserSavedAlbums: null,
 });
 
 export const AppWrapper = ({ children }) => {
@@ -39,6 +43,8 @@ export const AppWrapper = ({ children }) => {
   const [isSongPlaying, setIsSongPlaying] = useState(false);
   const [currentSongName, setCurrentSongName] = useState("");
   const [passedTime, setPassedTime] = useState(0);
+  const [userSavedTracks, setUserSavedTracks] = useState([]);
+  const [userSavedAlbums, setUserSavedAlbums] = useState([]);
 
   /**
    * setting code
@@ -201,6 +207,28 @@ export const AppWrapper = ({ children }) => {
       });
   }, [accessToken]);
 
+  /**
+   * getting user save albums and tracks
+   */
+  useEffect(() => {
+    if (!accessToken) return;
+    spotifyApi.getMySavedTracks().then((res) => {
+      const transformedData: string[] = [];
+      res.body.items.map((item) => {
+        transformedData.push(item.track.id);
+      });
+      setUserSavedTracks(transformedData);
+    });
+
+    spotifyApi.getMySavedAlbums().then((res) => {
+      const transformedData: string[] = [];
+      res.body.items.map((item) => {
+        transformedData.push(item.album.id);
+      });
+      setUserSavedAlbums(transformedData);
+    });
+  }, [accessToken]);
+
   return (
     <AppContext.Provider
       value={{
@@ -218,6 +246,10 @@ export const AppWrapper = ({ children }) => {
         setIsSongPlaying,
         setCurrentSongName,
         currentSongName,
+        userSavedTracks,
+        setUserSavedTracks,
+        userSavedAlbums,
+        setUserSavedAlbums,
       }}
     >
       {children}

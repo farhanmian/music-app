@@ -7,7 +7,8 @@ import { LibraryPlaylistType, TrackType } from "../../store/types/types";
 import styles from "../../styles/Library.module.css";
 
 const index = () => {
-  const { accessToken, spotifyApiCtx } = useAppContext();
+  const { accessToken, spotifyApiCtx, userSavedTracks, userSavedAlbums } =
+    useAppContext();
   const router = useRouter();
   const activeTab = router.query.tab;
   const [playlistData, setPlaylistData] = useState([]);
@@ -19,7 +20,13 @@ const index = () => {
       router.replace("library/?tab=playlists");
     }
 
-    if (!accessToken || !spotifyApiCtx) return;
+    if (
+      !accessToken ||
+      !spotifyApiCtx ||
+      userSavedTracks.length === 0 ||
+      userSavedAlbums.length === 0
+    )
+      return;
 
     if (activeTab === "playlists") {
       /** getting user's playlist */
@@ -39,17 +46,16 @@ const index = () => {
       });
     }
     if (activeTab === "albums") {
-      spotifyApiCtx.getMySavedAlbums().then((res) => {
-        console.log(res);
+      spotifyApiCtx.getAlbums(userSavedAlbums).then((res) => {
         const transformedData: LibraryPlaylistType[] = [];
-        res.body.items.map((item) => {
+        res.body.albums.map((item) => {
           transformedData.push({
-            name: item.album.name,
-            id: item.album.id,
-            type: item.album.type,
-            noOfSongs: item.album.total_tracks,
-            images: { url: item.album.images[1].url },
-            uri: item.album.uri,
+            name: item.name,
+            id: item.id,
+            type: item.type,
+            noOfSongs: item.total_tracks,
+            images: { url: item.images[1].url },
+            uri: item.uri,
           });
         });
         setAlbumData(transformedData);
@@ -57,22 +63,23 @@ const index = () => {
     }
 
     if (activeTab === "tracks") {
-      spotifyApiCtx.getMySavedTracks().then((res) => {
+      spotifyApiCtx.getTracks(userSavedTracks).then((res) => {
+        console.log(res);
         const transformedData: TrackType[] = [];
-        res.body.items.map((item) => {
+        res.body.tracks.map((item) => {
           transformedData.push({
-            name: item.track.name,
-            id: item.track.id,
-            type: item.track.type,
-            uri: item.track.uri,
-            artists: item.track.artists,
-            image: { url: item.track.album.images[1].url },
+            name: item.name,
+            id: item.id,
+            type: item.type,
+            uri: item.uri,
+            artists: item.artists,
+            image: { url: item.album.images[1].url },
           });
         });
         setTracksData(transformedData);
       });
     }
-  }, [accessToken, spotifyApiCtx, activeTab]);
+  }, [accessToken, spotifyApiCtx, activeTab, userSavedTracks, userSavedAlbums]);
 
   return (
     <section className={styles.library}>

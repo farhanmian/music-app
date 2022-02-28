@@ -55,12 +55,12 @@ const NewReleaseItem: React.FC<{ newRelease: NewReleaseItemType }> = ({
 
   return (
     <Card className={classes.newReleaseItemCard} onClick={openAlbumHandler}>
-      <CardActionArea style={{ top: 0 }}>
-        <div
-          id={newRelease.type}
-          key={newRelease.id}
-          className={styles.newReleaseItem}
-        >
+      <div
+        id={newRelease.type}
+        key={newRelease.id}
+        className={styles.newReleaseItem}
+      >
+        <CardActionArea style={{ top: 0, marginBottom: 9 }}>
           <div className={styles.newReleaseImage}>
             <Image
               loader={() => newRelease.image.url}
@@ -81,26 +81,26 @@ const NewReleaseItem: React.FC<{ newRelease: NewReleaseItemType }> = ({
               <PlayPauseBtn itemUri={newRelease.uri} />
             </div>
           </div>
-          <Typography
-            variant="subtitle2"
-            color="primary"
-            className={classes.margin5}
-          >
-            {newRelease.name.trim().length > 25
-              ? `${newRelease.name.slice(0, 25)}...`
-              : newRelease.name}
-          </Typography>
-          <Typography
-            variant="caption"
-            color="textSecondary"
-            className={classes.capitalize}
-          >
-            {artistName.trim().length > 30
-              ? `${artistName.slice(0, 30)}...`
-              : artistName}
-          </Typography>
-        </div>
-      </CardActionArea>
+        </CardActionArea>
+        <Typography
+          variant="subtitle2"
+          color="primary"
+          className={classes.margin5}
+        >
+          {newRelease.name.trim().length > 25
+            ? `${newRelease.name.slice(0, 25)}...`
+            : newRelease.name}
+        </Typography>
+        <Typography
+          variant="caption"
+          color="textSecondary"
+          className={classes.capitalize}
+        >
+          {artistName.trim().length > 30
+            ? `${artistName.slice(0, 30)}...`
+            : artistName}
+        </Typography>
+      </div>
     </Card>
   );
 };
