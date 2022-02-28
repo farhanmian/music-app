@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./SavedTracks.module.css";
 import {
   Typography,
@@ -12,6 +12,7 @@ import Image from "next/image";
 import { useAppContext } from "../../../../store/context/appContext";
 import Skeletons from "../../../partials/Skeletons/Skeletons";
 import PlayPauseBtn from "../../../partials/PlayPauseBtn/PlayPauseBtn";
+import RightClickOptions from "../../../partials/RightClickOptions/RightClickOptions";
 
 const useStyles = makeStyles({
   userTrackContainer: {
@@ -29,6 +30,7 @@ const useStyles = makeStyles({
     backgroundColor: "transparent",
     color: "#fff",
     boxShadow: "none",
+    position: "relative",
   },
 });
 
@@ -37,6 +39,12 @@ const SavedTracks: React.FC<{
 }> = ({ data }) => {
   const classes = useStyles();
   const { setTrackUri, trackUri } = useAppContext();
+  const [showRightClickOption, setShowRightClickOption] = useState(false);
+
+  const rightClickHandler = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setShowRightClickOption(true);
+  };
 
   return (
     <div className={styles.innerContainer}>
@@ -54,7 +62,11 @@ const SavedTracks: React.FC<{
           data.map((track: TrackType) => {
             return (
               <Grid key={track.id} item>
-                <Card className={classes.trackItemCard}>
+                <Card
+                  className={classes.trackItemCard}
+                  onContextMenu={rightClickHandler}
+                >
+                  {showRightClickOption && <RightClickOptions />}
                   <CardActionArea>
                     <div
                       className={styles.trackItem}

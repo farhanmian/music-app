@@ -75,7 +75,7 @@ export const AppWrapper = ({ children }) => {
     setExpiresIn(expires);
     //in sec
     if (timePassed > 60) {
-      setPassedTime(59 * 60);
+      setPassedTime(59.99 * 60);
       return;
     }
 
@@ -160,6 +160,7 @@ export const AppWrapper = ({ children }) => {
 
     const interval = setInterval(() => {
       refreshTokenHandler();
+      console.log("refreshed now");
     }, (expiresIn - passedTime) * 1000);
 
     return () => clearInterval(interval);
