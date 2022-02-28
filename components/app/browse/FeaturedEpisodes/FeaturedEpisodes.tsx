@@ -33,12 +33,8 @@ const useStyles = makeStyles({
     color: "#fff",
     boxShadow: "none",
     "& > button": {
-      paddingBottom: 5,
       borderRadius: 4,
       transition: "all .3s",
-      "&:hover": {
-        transform: "scale(.97)",
-      },
     },
   },
 });
@@ -120,7 +116,7 @@ export default function FeaturedEpisodes() {
                     className={classes.featuredEpisodeCard}
                     onClick={() => openFeaturedEpisodeHandler(episode.id)}
                   >
-                    <CardActionArea>
+                    <CardActionArea style={{ marginBottom: 3 }}>
                       <div className={styles.featuredEpisodesImage}>
                         <Image
                           loader={() => episode.images.url}
@@ -145,24 +141,24 @@ export default function FeaturedEpisodes() {
                           <PlayPauseBtn itemUri={episode.uri} />
                         </div>
                       </div>
-
-                      <div className={styles.featuredEpisodesText}>
-                        <Typography
-                          variant="body2"
-                          color="primary"
-                          className={classes.episodeName}
-                        >
-                          {episode.name.trim().length > 24
-                            ? `${episode.name.slice(0, 24)}...`
-                            : episode.name}
-                        </Typography>
-                        <Typography variant="caption" color="textSecondary">
-                          {episode.description.trim().length > 60
-                            ? `${episode.description.slice(0, 60)}...`
-                            : episode.description}
-                        </Typography>
-                      </div>
                     </CardActionArea>
+
+                    <div className={styles.featuredEpisodesText}>
+                      <Typography
+                        variant="body2"
+                        color="primary"
+                        className={classes.episodeName}
+                      >
+                        {episode.name.trim().length > 24
+                          ? `${episode.name.slice(0, 24)}...`
+                          : episode.name}
+                      </Typography>
+                      <Typography variant="caption" color="textSecondary">
+                        {episode.description.trim().length > 60
+                          ? `${episode.description.slice(0, 60)}...`
+                          : episode.description}
+                      </Typography>
+                    </div>
                   </Card>
                 </Grid>
               );

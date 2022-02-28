@@ -60,7 +60,7 @@ const NewReleaseItem: React.FC<{ newRelease: NewReleaseItemType }> = ({
         key={newRelease.id}
         className={styles.newReleaseItem}
       >
-        <CardActionArea style={{ top: 0, marginBottom: 9 }}>
+        <CardActionArea style={{ top: 0, marginBottom: 9, borderRadius: 8 }}>
           <div className={styles.newReleaseImage}>
             <Image
               loader={() => newRelease.image.url}

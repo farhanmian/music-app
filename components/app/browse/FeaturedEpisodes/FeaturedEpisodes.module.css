@@ -19,6 +19,9 @@
   overflow: hidden;
   /* background-color: rgba(42, 42, 42, 0.3); */
 }
+/* .featuredEpisodesItem:hover {
+  transform: scale(0.97);
+} */
 
 .featuredEpisodesItem:hover .playPauseIcon {
   visibility: visible;
@@ -34,7 +37,6 @@
   display: flex;
   align-items: flex-start;
   overflow: hidden;
-  margin-bottom: 3px;
   position: relative;
 }
 .featuredEpisodesImage > span {

@@ -29,9 +29,9 @@ const Artist: React.FC<{ artist: ArtistType }> = ({ artist }) => {
   return (
     <NextLink href={`/artist/${artist.id}`}>
       <Card className={classes.artistItemCard}>
-        <CardActionArea style={{ top: 0 }}>
-          <div className={styles.artistItem}>
-            <div className={styles.artistImage}>
+        <div className={styles.artistItem}>
+          <div className={styles.artistImage}>
+            <CardActionArea style={{ top: 0, borderRadius: "50%" }}>
               <Image
                 loader={() => artist.images.url}
                 unoptimized
@@ -40,23 +40,23 @@ const Artist: React.FC<{ artist: ArtistType }> = ({ artist }) => {
                 src={artist.images.url}
                 alt="-img"
               />
-            </div>
-            <Typography
-              variant="subtitle2"
-              color="primary"
-              className={`${classes.artistName} ${styles.artistName}`}
-            >
-              {artist.name}
-            </Typography>
-
-            <span className={styles.itemLikesContainer}>
-              <Heart />
-              <Typography variant="caption" color="textSecondary">
-                {artist.popularity}%
-              </Typography>
-            </span>
+            </CardActionArea>
           </div>
-        </CardActionArea>
+          <Typography
+            variant="subtitle2"
+            color="primary"
+            className={`${classes.artistName} ${styles.artistName}`}
+          >
+            {artist.name}
+          </Typography>
+
+          <span className={styles.itemLikesContainer}>
+            <Heart />
+            <Typography variant="caption" color="textSecondary">
+              {artist.popularity}%
+            </Typography>
+          </span>
+        </div>
       </Card>
     </NextLink>
   );

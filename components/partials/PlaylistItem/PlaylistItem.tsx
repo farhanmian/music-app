@@ -45,8 +45,8 @@ const PlaylistItem: React.FC<{ playlist: CategoryPlaylist; link: string }> = ({
 
   return (
     <Card className={classes.playlistItemCard} onClick={openPlaylistHandler}>
-      <CardActionArea>
-        <div id={playlist.type} className={styles.playlistItem}>
+      <div id={playlist.type} className={styles.playlistItem}>
+        <CardActionArea style={{ marginBottom: 9, borderRadius: 8 }}>
           <div className={styles.playlistItemImage}>
             <Image
               loader={() => playlist.images.url}
@@ -66,18 +66,18 @@ const PlaylistItem: React.FC<{ playlist: CategoryPlaylist; link: string }> = ({
               <PlayPauseBtn itemUri={playlist.uri} />
             </div>
           </div>
+        </CardActionArea>
 
-          <Typography
-            variant="subtitle1"
-            color="primary"
-            className={classes.playlistName}
-          >
-            {playlist.name.trim().length > 24
-              ? `${playlist.name.slice(0, 24)}...`
-              : playlist.name}
-          </Typography>
-        </div>
-      </CardActionArea>
+        <Typography
+          variant="subtitle1"
+          color="primary"
+          className={classes.playlistName}
+        >
+          {playlist.name.trim().length > 24
+            ? `${playlist.name.slice(0, 24)}...`
+            : playlist.name}
+        </Typography>
+      </div>
     </Card>
   );
 };
