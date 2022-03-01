@@ -90,8 +90,8 @@ export const AppWrapper = ({ children }) => {
     setPassedTime(timePassed * 60 + 60);
   }, []);
 
-  console.log("passedTime", passedTime / 60, "min");
-  console.log("timeLeft", expiresIn - passedTime, "sec");
+  // console.log("passedTime", passedTime / 60, "min");
+  // console.log("timeLeft", expiresIn - passedTime, "sec");
 
   /**
    * managing login
@@ -133,6 +133,7 @@ export const AppWrapper = ({ children }) => {
    * refresh token function
    */
   const refreshTokenHandler = () => {
+    if (passedTime < 3500) return;
     axios
       .post("https://nextjs-music-app-server.herokuapp.com/refresh", {
         refreshToken,
@@ -170,7 +171,7 @@ export const AppWrapper = ({ children }) => {
     }, (expiresIn - passedTime) * 1000);
 
     return () => clearInterval(interval);
-  }, [refreshToken, expiresIn]);
+  }, [refreshToken, expiresIn, passedTime]);
 
   /**
    * setting spotify accessToken
