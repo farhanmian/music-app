@@ -100,7 +100,7 @@ export const AppWrapper = ({ children }) => {
     if (!code) return;
 
     axios
-      .post("/login", {
+      .post("https://nextjs-music-app-server.herokuapp.com/login", {
         code,
       })
       .then((res) => {
@@ -134,7 +134,7 @@ export const AppWrapper = ({ children }) => {
    */
   const refreshTokenHandler = () => {
     axios
-      .post("/refresh", {
+      .post("https://nextjs-music-app-server.herokuapp.com/refresh", {
         refreshToken,
       })
       .then((res) => {
@@ -162,7 +162,7 @@ export const AppWrapper = ({ children }) => {
    * refreshing token whenever it expires
    */
   useEffect(() => {
-    if (!refreshToken || !expiresIn) return;
+    if (!refreshToken || !expiresIn || passedTime < 3500) return;
 
     const interval = setInterval(() => {
       refreshTokenHandler();
