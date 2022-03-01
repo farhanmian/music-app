@@ -100,7 +100,7 @@ export const AppWrapper = ({ children }) => {
     if (!code) return;
 
     axios
-      .post("http://localhost:3001/login", {
+      .post("/login", {
         code,
       })
       .then((res) => {
@@ -134,7 +134,7 @@ export const AppWrapper = ({ children }) => {
    */
   const refreshTokenHandler = () => {
     axios
-      .post("http://localhost:3001/refresh", {
+      .post("/refresh", {
         refreshToken,
       })
       .then((res) => {
