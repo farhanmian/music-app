@@ -140,9 +140,9 @@ export const AppWrapper = ({ children }) => {
       .then((res) => {
         setAccessToken(res.data.accessToken);
         setExpiresIn(res.data.expiresIn);
-        setPassedTime(0);
 
         console.log("refreshed");
+        setPassedTime(60);
 
         const hours = `${new Date().getHours()}`;
         const minutes = `${new Date().getMinutes()}`;
