@@ -100,7 +100,7 @@ export const AppWrapper = ({ children }) => {
     if (!code) return;
 
     axios
-      .post("http://localhost:3001/login", {
+      .post("https://music-app-sable-chi.vercel.app/login", {
         code,
       })
       .then((res) => {
@@ -134,7 +134,7 @@ export const AppWrapper = ({ children }) => {
    */
   const refreshTokenHandler = () => {
     axios
-      .post("http://localhost:3001/refresh", {
+      .post("https://music-app-sable-chi.vercel.app/refresh", {
         refreshToken,
       })
       .then((res) => {

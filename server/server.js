@@ -17,7 +17,7 @@ app.post("/login", (req, res) => {
 
   const code = req.body.code;
   const spotifyApi = new SpotifyWebApi({
-    redirectUri: "http://localhost:3000",
+    redirectUri: "https://music-app-sable-chi.vercel.app/",
     clientId: "e6719168da3047aaa2b0b9be996612f2",
     clientSecret: "043093ab17244248a0a8a5b41b7ab523",
   });
@@ -41,7 +41,7 @@ app.post("/refresh", (req, res) => {
   console.log("refreshed");
   const refreshToken = req.body.refreshToken;
   const spotifyApi = new SpotifyWebApi({
-    redirectUri: "http://localhost:3000",
+    redirectUri: "https://music-app-sable-chi.vercel.app/",
     clientId: "e6719168da3047aaa2b0b9be996612f2",
     clientSecret: "043093ab17244248a0a8a5b41b7ab523",
     refreshToken,
@@ -61,4 +61,4 @@ app.post("/refresh", (req, res) => {
     });
 });
 
-app.listen("3001");
+app.listen("https://music-app-sable-chi.vercel.app/");
