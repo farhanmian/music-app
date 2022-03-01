@@ -4,7 +4,7 @@ const express = require("express");
 const SpotifyWebApi = require("spotify-web-api-node");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const redirectUriPath = "http://localhost:3000";
+const redirectUriPath = "https://next-js-music-app.herokuapp.com/";
 
 const port = process.env.PORT || 3001;
 
