@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import styles from "./RightClickOptions.module.css";
+// import styles from "./RightClickOptions.module.css";
 import { Button, Typography, makeStyles, Link } from "@material-ui/core";
 import { useAppContext } from "../../../store/context/appContext";
 import NextLink from "next/link";
@@ -68,8 +68,12 @@ const RightClickOptions: React.FC<{
   }, [selectedOption, accessToken, spotifyApiCtx]);
 
   return (
-    <div className={styles.rightClickOptionContainer}>
-      <div className={styles.innerContainer}>
+    <div
+    // className={styles.rightClickOptionContainer}
+    >
+      <div
+      // className={styles.innerContainer}
+      >
         {options.map((btn) => {
           return (
             <Button
@@ -85,7 +89,9 @@ const RightClickOptions: React.FC<{
         })}
 
         {artists && (
-          <div className={styles.artistContainer}>
+          <div
+          //  className={styles.artistContainer}
+          >
             <Typography color="primary" variant="body2">
               Go To Artists:
             </Typography>
