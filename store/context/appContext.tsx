@@ -142,7 +142,6 @@ export const AppWrapper = ({ children }) => {
    * refreshing token whenever it expires
    */
   useEffect(() => {
-    if (refreshOnFirstLoad) return;
     if (!refreshToken || !expiresIn) return;
 
     const interval = setInterval(() => {

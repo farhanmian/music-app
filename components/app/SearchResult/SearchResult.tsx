@@ -104,17 +104,6 @@ const SearchResult = () => {
     return () => clearTimeout(timeoutId);
   }, [searchValue, accessToken, spotifyApiCtx, searchType]);
 
-  useEffect(() => {
-    const timeoutId = setTimeout(
-      () =>
-        console.log(
-          `I can see you're not typing. I can use "${searchValue}" now!`
-        ),
-      1000
-    );
-    return () => clearTimeout(timeoutId);
-  }, [searchValue]);
-
   return (
     <section className={styles.searchResult}>
       <div className={styles.innerContainer}>
