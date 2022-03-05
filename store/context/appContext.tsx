@@ -28,8 +28,6 @@ const AppContext = createContext({
   setUserSavedAlbums: null,
 });
 
-let refreshOnFirstLoad = true;
-
 export const AppWrapper = ({ children }) => {
   const router = useRouter();
   const [code, setCode] = useState(null);
@@ -46,6 +44,7 @@ export const AppWrapper = ({ children }) => {
   const [currentSongName, setCurrentSongName] = useState("");
   const [userSavedTracks, setUserSavedTracks] = useState([]);
   const [userSavedAlbums, setUserSavedAlbums] = useState([]);
+  const [passedTime, setPassedTime] = useState(0);
 
   /**
    * setting code
@@ -68,9 +67,26 @@ export const AppWrapper = ({ children }) => {
       router.push("/");
       return;
     }
+    const accessTimeHour = +localStorage.getItem("accessTimeHour");
+    const accessTimeMinute = +localStorage.getItem("accessTimeMinute");
+    const currentHour = new Date().getHours();
+    const currentMinute = new Date().getMinutes();
+
+    const timePassed = Math.abs(
+      (currentHour - accessTimeHour) * 60 + (currentMinute - accessTimeMinute)
+    );
+
     setRefreshToken(refresh);
     setExpiresIn(expires);
+    //in sec
+    if (timePassed > 60) {
+      setPassedTime(60 * 60 - 60);
+      return;
+    }
+
     setAccessToken(token);
+
+    setPassedTime(timePassed * 60 + 60);
   }, []);
 
   /**
@@ -118,8 +134,19 @@ export const AppWrapper = ({ children }) => {
         refreshToken,
       })
       .then((res) => {
+        setAccessToken(res.data.accessToken);
+        setExpiresIn(res.data.expiresIn);
+
+        console.log("refreshed");
+        setPassedTime(60);
+
+        const hours = `${new Date().getHours()}`;
+        const minutes = `${new Date().getMinutes()}`;
+
         localStorage.setItem("access", res.data.accessToken);
         localStorage.setItem("expiresIn", res.data.expiresIn);
+        localStorage.setItem("accessTimeHour", hours);
+        localStorage.setItem("accessTimeMinute", minutes);
       })
       .catch((err) => {
         console.log(err);
@@ -128,26 +155,15 @@ export const AppWrapper = ({ children }) => {
   };
 
   /**
-   * refreshing token on first load
-   */
-  useEffect(() => {
-    if (!refreshOnFirstLoad) return;
-    if (!refreshToken || !expiresIn) return;
-    console.log("refresh on first load");
-    refreshTokenHandler();
-    refreshOnFirstLoad = false;
-  }, [expiresIn]);
-
-  /**
    * refreshing token whenever it expires
    */
   useEffect(() => {
-    if (!refreshToken || !expiresIn) return;
+    if (!refreshToken || !expiresIn || passedTime < 3500) return;
 
     const interval = setInterval(() => {
       refreshTokenHandler();
       console.log("refreshed from interval");
-    }, (expiresIn - 60) * 1000);
+    }, (expiresIn - passedTime) * 1000);
 
     return () => clearInterval(interval);
   }, [refreshToken, expiresIn]);
