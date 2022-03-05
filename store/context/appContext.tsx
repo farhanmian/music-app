@@ -7,6 +7,8 @@ const spotifyApi = new SpotifyWebApi({
   clientId: "e6719168da3047aaa2b0b9be996612f2",
 });
 
+let isInitial = true;
+
 const AppContext = createContext({
   code: null,
   accessToken: null,
@@ -147,6 +149,8 @@ export const AppWrapper = ({ children }) => {
         localStorage.setItem("expiresIn", res.data.expiresIn);
         localStorage.setItem("accessTimeHour", hours);
         localStorage.setItem("accessTimeMinute", minutes);
+
+        isInitial = false;
       })
       .catch((err) => {
         console.log(err);
@@ -155,18 +159,27 @@ export const AppWrapper = ({ children }) => {
   };
 
   /**
+   * refreshing whenever user load first
+   */
+  useEffect(() => {
+    if (!isInitial) return;
+    if (!refreshToken || !expiresIn) return;
+    refreshTokenHandler();
+  }, [refreshToken, expiresIn]);
+
+  /**
    * refreshing token whenever it expires
    */
   useEffect(() => {
-    if (!refreshToken || !expiresIn || passedTime < 3500) return;
+    if (!refreshToken || !expiresIn || isInitial) return;
 
     const interval = setInterval(() => {
       refreshTokenHandler();
-      console.log("refreshed from interval");
+      console.log("interval");
     }, (expiresIn - passedTime) * 1000);
 
     return () => clearInterval(interval);
-  }, [refreshToken, expiresIn]);
+  }, [refreshToken, expiresIn, isInitial]);
 
   /**
    * setting spotify accessToken
