@@ -7,8 +7,6 @@ const spotifyApi = new SpotifyWebApi({
   clientId: "e6719168da3047aaa2b0b9be996612f2",
 });
 
-let isInitial = true;
-
 const AppContext = createContext({
   code: null,
   accessToken: null,
@@ -47,6 +45,7 @@ export const AppWrapper = ({ children }) => {
   const [userSavedTracks, setUserSavedTracks] = useState([]);
   const [userSavedAlbums, setUserSavedAlbums] = useState([]);
   const [passedTime, setPassedTime] = useState(0);
+  const [isInitial, setIsInitial] = useState(true);
 
   /**
    * setting code
@@ -102,12 +101,9 @@ export const AppWrapper = ({ children }) => {
         code,
       })
       .then((res) => {
-        console.log(res);
         setAccessToken(res.data.accessToken);
         setRefreshToken(res.data.refreshToken);
         setExpiresIn(res.data.expiresIn);
-        console.log(res.data.expiresIn);
-        console.log("log in successfully");
 
         const hours = `${new Date().getHours()}`;
         const minutes = `${new Date().getMinutes()}`;
@@ -150,7 +146,7 @@ export const AppWrapper = ({ children }) => {
         localStorage.setItem("accessTimeHour", hours);
         localStorage.setItem("accessTimeMinute", minutes);
 
-        isInitial = false;
+        setIsInitial(false);
       })
       .catch((err) => {
         console.log(err);
@@ -199,7 +195,6 @@ export const AppWrapper = ({ children }) => {
     spotifyApi
       .getMe()
       .then((res) => {
-        console.log(res);
         const userData = {
           name: res.body.display_name,
           email: res.body.email,
