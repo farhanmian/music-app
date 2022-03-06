@@ -82,7 +82,6 @@ export const AppWrapper = ({ children }) => {
     //in sec
     if (timePassed > 60) {
       setPassedTime(60 * 60 - 60);
-      setIsInitial(false);
       return;
     }
 
@@ -168,7 +167,7 @@ export const AppWrapper = ({ children }) => {
    * refreshing token whenever it expires
    */
   useEffect(() => {
-    if (!refreshToken || !expiresIn || isInitial) return;
+    if (!refreshToken || !expiresIn) return;
 
     const interval = setInterval(() => {
       refreshTokenHandler();
@@ -176,7 +175,7 @@ export const AppWrapper = ({ children }) => {
     }, (expiresIn - passedTime) * 1000);
 
     return () => clearInterval(interval);
-  }, [refreshToken, expiresIn, isInitial]);
+  }, [refreshToken, expiresIn]);
 
   /**
    * setting spotify accessToken
