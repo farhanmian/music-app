@@ -82,6 +82,7 @@ export const AppWrapper = ({ children }) => {
     //in sec
     if (timePassed > 60) {
       setPassedTime(60 * 60 - 60);
+      setIsInitial(false);
       return;
     }
 
