@@ -11,26 +11,31 @@ const index = () => {
     useAppContext();
   const router = useRouter();
   const activeTab = router.query.tab;
-  const [playlistData, setPlaylistData] = useState([]);
-  const [albumData, setAlbumData] = useState([]);
-  const [tracksData, setTracksData] = useState([]);
+  const [playlistData, setPlaylistData] = useState({ show: true, data: [] });
+  const [albumData, setAlbumData] = useState({ show: true, data: [] });
+  const [tracksData, setTracksData] = useState({ show: true, data: [] });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!accessToken || !spotifyApiCtx) return;
+    const timeout = setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+    () => clearTimeout(timeout);
+  }, [accessToken, spotifyApiCtx]);
 
   useEffect(() => {
     if (router.asPath === "/library") {
       router.replace("library/?tab=playlists");
     }
 
-    if (
-      !accessToken ||
-      !spotifyApiCtx ||
-      userSavedTracks.length === 0 ||
-      userSavedAlbums.length === 0
-    )
-      return;
+    if (!accessToken || !spotifyApiCtx) return;
+    if (loading) return;
 
     if (activeTab === "playlists") {
       /** getting user's playlist */
       spotifyApiCtx.getUserPlaylists().then((res) => {
+        console.log(res);
         const transformedData: LibraryPlaylistType[] = [];
         res.body.items.map((item) => {
           transformedData.push({
@@ -42,11 +47,20 @@ const index = () => {
             uri: item.uri,
           });
         });
-        setPlaylistData(transformedData);
+        setPlaylistData({ show: true, data: transformedData });
+
+        if (res.body.total === 0) {
+          setPlaylistData({ show: false, data: [] });
+        }
       });
     }
     if (activeTab === "albums") {
+      if (userSavedAlbums.length === 0) {
+        setAlbumData({ show: false, data: [] });
+        return;
+      }
       spotifyApiCtx.getAlbums(userSavedAlbums).then((res) => {
+        console.log(res);
         const transformedData: LibraryPlaylistType[] = [];
         res.body.albums.map((item) => {
           transformedData.push({
@@ -58,11 +72,15 @@ const index = () => {
             uri: item.uri,
           });
         });
-        setAlbumData(transformedData);
+        setAlbumData({ show: true, data: transformedData });
       });
     }
 
     if (activeTab === "tracks") {
+      if (userSavedTracks.length === 0) {
+        setTracksData({ show: false, data: [] });
+        return;
+      }
       spotifyApiCtx.getTracks(userSavedTracks).then((res) => {
         console.log(res);
         const transformedData: TrackType[] = [];
@@ -76,25 +94,31 @@ const index = () => {
             image: { url: item.album.images[1].url },
           });
         });
-        setTracksData(transformedData);
+        setTracksData({ show: true, data: transformedData });
       });
     }
-  }, [accessToken, spotifyApiCtx, activeTab, userSavedTracks, userSavedAlbums]);
-
+  }, [
+    accessToken,
+    spotifyApiCtx,
+    activeTab,
+    userSavedTracks,
+    userSavedAlbums,
+    loading,
+  ]);
   return (
     <section className={styles.library}>
       {activeTab === "playlists" && (
         <UserPlaylist
-          data={playlistData}
+          item={playlistData}
           path="playlist"
           heading="my playlists"
         />
       )}
 
       {activeTab === "albums" && (
-        <UserPlaylist data={albumData} path="album" heading="my albums" />
+        <UserPlaylist item={albumData} path="album" heading="my albums" />
       )}
-      {activeTab === "tracks" && <SavedTracks data={tracksData} />}
+      {activeTab === "tracks" && <SavedTracks item={tracksData} />}
     </section>
   );
 };

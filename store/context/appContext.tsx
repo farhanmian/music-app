@@ -45,7 +45,6 @@ export const AppWrapper = ({ children }) => {
   const [userSavedTracks, setUserSavedTracks] = useState([]);
   const [userSavedAlbums, setUserSavedAlbums] = useState([]);
   const [passedTime, setPassedTime] = useState(0);
-  const [isInitial, setIsInitial] = useState(true);
 
   /**
    * setting code
@@ -68,6 +67,7 @@ export const AppWrapper = ({ children }) => {
       router.push("/");
       return;
     }
+
     const accessTimeHour = +localStorage.getItem("accessTimeHour");
     const accessTimeMinute = +localStorage.getItem("accessTimeMinute");
     const currentHour = new Date().getHours();
@@ -81,7 +81,7 @@ export const AppWrapper = ({ children }) => {
     setExpiresIn(expires);
     //in sec
     if (timePassed > 60) {
-      setPassedTime(60 * 60 - 60);
+      setPassedTime(59.99 * 60);
       return;
     }
 
@@ -145,23 +145,12 @@ export const AppWrapper = ({ children }) => {
         localStorage.setItem("expiresIn", res.data.expiresIn);
         localStorage.setItem("accessTimeHour", hours);
         localStorage.setItem("accessTimeMinute", minutes);
-
-        setIsInitial(false);
       })
       .catch((err) => {
         console.log(err);
         window.location.pathname = "/";
       });
   };
-
-  /**
-   * refreshing whenever user load first
-   */
-  useEffect(() => {
-    if (!isInitial) return;
-    if (!refreshToken || !expiresIn) return;
-    refreshTokenHandler();
-  }, [refreshToken, expiresIn]);
 
   /**
    * refreshing token whenever it expires
@@ -171,7 +160,7 @@ export const AppWrapper = ({ children }) => {
 
     const interval = setInterval(() => {
       refreshTokenHandler();
-      console.log("interval");
+      console.log("refreshed now");
     }, (expiresIn - passedTime) * 1000);
 
     return () => clearInterval(interval);

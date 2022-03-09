@@ -5,6 +5,7 @@ import { Grid } from "@mui/material";
 import { LibraryPlaylistType } from "../../../../store/types/types";
 import LibraryPlaylistItem from "../../../partials/LibraryPlaylistItem/LibraryPlaylistItem";
 import Skeletons from "../../../partials/Skeletons/Skeletons";
+import NoResultFound from "../../../partials/NoResultFound/NoResultFound";
 
 const useStyles = makeStyles({
   userPlaylistContainer: {
@@ -16,10 +17,10 @@ const useStyles = makeStyles({
 });
 
 const UserPlaylist: React.FC<{
-  data: LibraryPlaylistType[];
+  item: { show: boolean; data: LibraryPlaylistType[] };
   heading: string;
   path: string;
-}> = ({ data, heading, path }) => {
+}> = ({ item, heading, path }) => {
   const classes = useStyles();
 
   return (
@@ -34,28 +35,31 @@ const UserPlaylist: React.FC<{
         rowGap="48px"
         className={classes.userPlaylistContainer}
       >
-        {data.length > 0 ? (
-          data.map((playlist: LibraryPlaylistType) => {
-            return (
-              <Grid key={playlist.id} item>
-                <LibraryPlaylistItem
-                  key={playlist.id}
-                  playlist={playlist}
-                  link={`${path}/${playlist.id}`}
-                />
-              </Grid>
-            );
-          })
-        ) : (
-          <Skeletons
-            numberOfSkeleton={6}
-            width1={225}
-            height1={225}
-            width2={225}
-            height2={30}
-            borderRadius1={4}
-          />
-        )}
+        {item.show &&
+          (item.data.length > 0 ? (
+            item.data.map((playlist: LibraryPlaylistType) => {
+              return (
+                <Grid key={playlist.id} item>
+                  <LibraryPlaylistItem
+                    key={playlist.id}
+                    playlist={playlist}
+                    link={`${path}/${playlist.id}`}
+                  />
+                </Grid>
+              );
+            })
+          ) : (
+            <Skeletons
+              numberOfSkeleton={6}
+              width1={225}
+              height1={225}
+              width2={225}
+              height2={30}
+              borderRadius1={4}
+            />
+          ))}
+
+        {!item.show && <NoResultFound />}
       </Grid>
     </div>
   );

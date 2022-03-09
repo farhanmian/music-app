@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./SearchResultItem.module.css";
 import Image from "next/image";
 import {
@@ -9,6 +9,7 @@ import {
 } from "@material-ui/core";
 import { useAppContext } from "../../../../store/context/appContext";
 import { SearchTrackType } from "../../../../store/types/types";
+import PlayPauseBtn from "../../../partials/PlayPauseBtn/PlayPauseBtn";
 
 const useStyles = makeStyles({
   margin5: {
@@ -26,19 +27,27 @@ const useStyles = makeStyles({
 
 const SearchResultItem: React.FC<{ track: SearchTrackType }> = ({ track }) => {
   const classes = useStyles();
-  const { setTrackUri } = useAppContext();
+  const { setTrackUri, trackUri } = useAppContext();
+  const [hover, setHover] = useState(false);
+
   const artistName = `${
     track.artists.length === 1
       ? track.artists.map((item: { name: string }) => item.name)
       : track.artists.map((item: { name: string }) => `${item.name} `)
   }`;
+
+  const playSongHandler = () => {
+    if (hover) return;
+    setTrackUri(track.uri);
+  };
+
   return (
     <Card className={classes.searchResultItemCard}>
       <CardActionArea>
         <div
           key={track.id}
           className={styles.trackItem}
-          onClick={() => setTrackUri(track.uri)}
+          onClick={playSongHandler}
         >
           <div className={styles.trackImage}>
             <Image
@@ -49,6 +58,16 @@ const SearchResultItem: React.FC<{ track: SearchTrackType }> = ({ track }) => {
               src={track.image.url}
               alt="new-release-img"
             />
+
+            <div
+              onMouseEnter={() => setHover(true)}
+              onMouseLeave={() => setHover(false)}
+              className={`${"playPauseIcon"} ${styles.playPauseIcon} ${
+                trackUri === track.uri ? "activePlayPauseIcon" : ""
+              }`}
+            >
+              <PlayPauseBtn itemUri={track.uri} />
+            </div>
           </div>
           <Typography
             variant="subtitle2"

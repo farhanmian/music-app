@@ -21,7 +21,14 @@
   justify-content: center;
   margin-bottom: 15px;
   overflow: hidden;
+  position: relative;
 }
 .trackImage > span {
   min-width: 100%;
+}
+
+.trackItem:hover .playPauseIcon {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
 }
