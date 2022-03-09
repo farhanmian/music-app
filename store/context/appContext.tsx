@@ -153,7 +153,16 @@ export const AppWrapper = ({ children }) => {
   };
 
   /**
-   * refreshing token whenever it expires
+   * refreshing token on first load
+   */
+  useEffect(() => {
+    if (!refreshToken || !expiresIn) return;
+    console.log("refresh on first load");
+    refreshTokenHandler();
+  }, [expiresIn]);
+
+  /**
+   * refreshing token after 1 hour (1 min before it expires)
    */
   useEffect(() => {
     if (!refreshToken || !expiresIn) return;
@@ -161,7 +170,21 @@ export const AppWrapper = ({ children }) => {
     const interval = setInterval(() => {
       refreshTokenHandler();
       console.log("refreshed now");
-    }, (expiresIn - passedTime) * 1000);
+    }, (expiresIn - 60) * 1000);
+
+    return () => clearInterval(interval);
+  }, [refreshToken, expiresIn]);
+
+  /**
+   * refreshing token after 2 hour (1 min before it expires)
+   */
+  useEffect(() => {
+    if (!refreshToken || !expiresIn) return;
+
+    const interval = setInterval(() => {
+      refreshTokenHandler();
+      console.log("refreshed now");
+    }, (expiresIn * 2 - 60) * 1000);
 
     return () => clearInterval(interval);
   }, [refreshToken, expiresIn]);
