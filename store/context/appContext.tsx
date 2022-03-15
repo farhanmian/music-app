@@ -4,7 +4,7 @@ import SpotifyWebApi from "spotify-web-api-node";
 import { useRouter } from "next/dist/client/router";
 
 const spotifyApi = new SpotifyWebApi({
-  clientId: process.env.NEXT_PUBLIC_CLIENT_ID,
+  clientId: "e6719168da3047aaa2b0b9be996612f2",
 });
 
 const AppContext = createContext({
@@ -94,7 +94,7 @@ export const AppWrapper = ({ children }) => {
     if (!code) return;
 
     axios
-      .post(`${process.env.NEXT_PUBLIC_SERVER}/login`, {
+      .post("https://nextjs-music-app-server.herokuapp.com/login", {
         code,
       })
       .then((res) => {
@@ -111,9 +111,12 @@ export const AppWrapper = ({ children }) => {
 
         localStorage.setItem("accessTimeHour", hours);
         localStorage.setItem("accessTimeMinute", minutes);
+        // window.history.pushState({}, null, "/spiderman");
       })
       .catch((err) => {
         console.log(err);
+        // router.reload();
+        // window.location.pathname = "/";
       });
   }, [code]);
 
@@ -122,7 +125,7 @@ export const AppWrapper = ({ children }) => {
    */
   const refreshTokenHandler = () => {
     axios
-      .post(`${process.env.NEXT_PUBLIC_SERVER}/refresh`, {
+      .post("https://nextjs-music-app-server.herokuapp.com/refresh", {
         refreshToken,
       })
       .then((res) => {
