@@ -1,5 +1,5 @@
 .artistItem {
-  min-width: 225px;
+  width: 100%;
   max-width: 225px;
   height: 275px;
   text-align: center;
@@ -7,6 +7,7 @@
 
 .artistImage {
   width: 100%;
+  max-width: 225px;
   height: 225px;
   border-radius: 50%;
   background-image: rgb(42 42 42 / 65%);
@@ -32,4 +33,61 @@
 }
 .itemLikesContainer > :first-child {
   margin-right: 5.7px;
+}
+
+/*///////// media queries */
+
+@media only screen and (max-width: 1200px) {
+  .artistItem {
+    max-width: 215px;
+    height: 270px;
+  }
+  .artistImage {
+    max-width: 215px;
+    max-height: 220px;
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .artistItem {
+    max-width: 200px;
+    height: 250px;
+  }
+  .artistImage {
+    max-width: 200px;
+    max-height: 200px;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .artistItem {
+    max-width: 180px;
+    height: 235px;
+  }
+  .artistImage {
+    max-width: 180px;
+    max-height: 185px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .artistItem {
+    max-width: 160px;
+    height: 215px;
+  }
+  .artistImage {
+    max-width: 160px;
+    max-height: 165px;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .artistItem {
+    max-width: 151px;
+    height: 198px;
+  }
+  .artistImage {
+    max-width: 151px;
+    max-height: 151px;
+  }
 }

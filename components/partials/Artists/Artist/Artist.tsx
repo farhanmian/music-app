@@ -11,16 +11,33 @@ import Heart from "../../../icons/Heart";
 import { ArtistType } from "../../../../store/types/types";
 import NextLink from "next/link";
 
-const useStyles = makeStyles({
-  artistName: {
-    marginBottom: 10,
-  },
-  artistItemCard: {
-    maxWidth: "max-content",
-    backgroundColor: "transparent",
-    color: "#fff",
-    boxShadow: "none",
-  },
+const useStyles = makeStyles((theme) => {
+  return {
+    artistName: {
+      marginBottom: 10,
+    },
+    artistItemCard: {
+      maxWidth: "max-content",
+      backgroundColor: "transparent",
+      color: "#fff",
+      boxShadow: "none",
+      [theme.breakpoints.down(1200.2)]: {
+        minWidth: 215,
+      },
+      [theme.breakpoints.down(1000.2)]: {
+        minWidth: 200,
+      },
+      [theme.breakpoints.down(800.2)]: {
+        minWidth: 180,
+      },
+      [theme.breakpoints.down(600.2)]: {
+        minWidth: 160,
+      },
+      [theme.breakpoints.down(500.2)]: {
+        minWidth: 151,
+      },
+    },
+  };
 });
 
 const Artist: React.FC<{ artist: ArtistType }> = ({ artist }) => {

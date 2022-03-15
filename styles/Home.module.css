@@ -8,6 +8,7 @@
 .newReleases {
   margin-top: 148px;
   margin-bottom: 47px;
+  padding: 0 26px;
 }
 
 .newReleasesInnerContainer {
@@ -47,6 +48,12 @@
 
 .newReleasesItemContainer > div > div > div {
   transition: -webkit-transform 500ms ease 0s;
+  display: flex;
+}
+
+.newReleasesItemContainer > div > div > div > * {
+  margin-right: 22px;
+  min-width: 225px;
 }
 
 /*/////////////// browse section  */
@@ -54,6 +61,7 @@
 .browse {
   margin-top: 48px;
   margin-bottom: 47px;
+  padding: 0 26px;
 }
 
 .browseInnerContainer {
@@ -66,7 +74,9 @@
   display: flex;
   align-items: center;
   margin-top: 20px;
+  overflow-y: auto;
 }
+
 .browseItemContainer > :not(:last-child) {
   margin-right: 26px;
 }
@@ -79,43 +89,12 @@
   cursor: pointer;
 }
 
-/*//////////////////// podcasts section */
-
-.podcasts {
-  margin-top: 48px;
-  margin-bottom: 47px;
-}
-
-.podcastsInnerContainer {
-  max-width: 1480px;
-  margin: auto;
-}
-
-.podcastsItemContainer {
-  width: 100%;
-  margin-top: 20px;
-  display: flex;
-  align-items: center;
-}
-
-.podcastsItemContainer > :not(:last-child) {
-  margin-right: 26px;
-}
-
-.podcastItem {
-  min-width: 225px;
-  max-width: 225px;
-  height: 128px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 /*///////////////// playlist */
 
 .playlist {
   margin-top: 48px;
   margin-bottom: 47px;
+  padding: 0 26px;
 }
 
 .playlistInnerContainer {
@@ -126,7 +105,81 @@
 .playlistItemContainer {
   margin-top: 20px;
   display: flex;
+  overflow: auto;
 }
 .playlistItemContainer > :not(:last-child) {
   margin-right: 26px;
+}
+
+/*///////// scroll-bar */
+/* width */
+.browseItemContainer::-webkit-scrollbar,
+.playlistItemContainer::-webkit-scrollbar {
+  width: 0px;
+  display: none;
+}
+
+/*///////// media queries */
+
+@media only screen and (max-width: 1200px) {
+  .newReleasesItemContainer > div > :first-child {
+    left: 93.5%;
+  }
+  .newReleasesItemContainer > div > div > div > * {
+    min-width: 215px;
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .newReleasesItemContainer > div > :first-child {
+    left: 92.5%;
+  }
+  .newReleasesItemContainer > div > div > div > * {
+    min-width: 200px;
+  }
+  .playlistItemContainer > :not(:last-child) {
+    margin-right: 24px;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .newReleasesItemContainer > div > :first-child {
+    left: 91.5%;
+  }
+  .browseItemContainer > :not(:last-child) {
+    margin-right: 24px;
+  }
+  .newReleasesItemContainer > div > div > div > * {
+    min-width: 180px;
+  }
+  .playlistItemContainer > :not(:last-child) {
+    margin-right: 22px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .newReleasesItemContainer > div > :first-child {
+    left: 88%;
+  }
+  .browseItemContainer > :not(:last-child) {
+    margin-right: 22px;
+  }
+  .newReleasesItemContainer > div > div > div > * {
+    min-width: 160px;
+  }
+  .playlistItemContainer > :not(:last-child) {
+    margin-right: 20px;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .newReleasesItemContainer > div > :first-child {
+    left: 86%;
+  }
+  .browseItemContainer > :not(:last-child) {
+    margin-right: 20px;
+  }
+  .newReleasesItemContainer > div > div > div > * {
+    min-width: 151px;
+  }
 }

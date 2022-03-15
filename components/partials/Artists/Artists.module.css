@@ -1,5 +1,6 @@
 .artists {
   margin-top: 48px;
+  padding: 0 26px;
 }
 
 .artistsInnerContainer {
@@ -33,4 +34,58 @@
 
 .artistsContainer > div > div > div {
   transition: -webkit-transform 500ms ease 0s;
+  display: flex;
+}
+
+.artistsContainer > div > div > div > * {
+  margin-right: 22px;
+  min-width: 225px;
+}
+
+/*///////// media queries */
+
+@media only screen and (max-width: 1200px) {
+  .artistsContainer > div > div > div > * {
+    min-width: 215px;
+  }
+  .artistsContainer > div > :first-child {
+    left: 93.5%;
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .artistsContainer > div > div > div > * {
+    min-width: 200px;
+  }
+  .artistsContainer > div > :first-child {
+    left: 92.5%;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .artistsContainer > div > div > div > * {
+    min-width: 180px;
+  }
+  .artistsContainer > div > :first-child {
+    left: 91.5%;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .artistsContainer > div > div > div > * {
+    margin-right: 20px;
+    min-width: 160px;
+  }
+  .artistsContainer > div > :first-child {
+    left: 88%;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .artistsContainer > div > div > div > * {
+    min-width: 151px;
+  }
+  .artistsContainer > div > :first-child {
+    left: 86%;
+  }
 }

@@ -1,5 +1,6 @@
 .genresItem {
-  width: 225px;
+  width: 100%;
+  max-width: 225px;
   height: 128px;
   border-radius: 8px;
   overflow: hidden;
@@ -13,7 +14,6 @@
   top: 0%;
   left: 0;
   width: 100%;
-  min-width: 100%;
   background-image: rgb(42 42 42 / 65%);
   height: 100%;
   z-index: 0;
@@ -33,4 +33,36 @@
     rgba(70, 0, 128, 0.609)
   );
   pointer-events: none;
+}
+
+@media only screen and (max-width: 1000px) {
+  .genresItem {
+    width: 100%;
+    max-width: 210px;
+    height: 118px;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .genresItem {
+    width: 100%;
+    max-width: 175px;
+    height: 98px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .genresItem {
+    width: 100%;
+    max-width: 160px;
+    height: 85px;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .genresItem {
+    width: 100%;
+    max-width: 151px;
+    height: 85px;
+  }
 }

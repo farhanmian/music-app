@@ -7,10 +7,15 @@ import { Categories } from "../../../../store/types/types";
 import CategoryItem from "../../../partials/CategoryItem/CategoryItem";
 import Skeletons from "../../../partials/Skeletons/Skeletons";
 
-const useStyles = makeStyles({
-  genresHeading: {
-    fontWeight: "bold",
-  },
+const useStyles = makeStyles((theme) => {
+  return {
+    genresHeading: {
+      fontWeight: "bold",
+      [theme.breakpoints.down(1030.2)]: {
+        textAlign: "center",
+      },
+    },
+  };
 });
 
 const Genres = () => {
@@ -47,6 +52,8 @@ const Genres = () => {
           columnGap="26px"
           rowGap="48px"
           className={styles.genresItemContainer}
+          alignItems="center"
+          justifyContent="center"
         >
           {genres.length > 0 ? (
             genres.map((genre: Categories) => {

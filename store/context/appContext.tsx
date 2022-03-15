@@ -4,7 +4,7 @@ import SpotifyWebApi from "spotify-web-api-node";
 import { useRouter } from "next/dist/client/router";
 
 const spotifyApi = new SpotifyWebApi({
-  clientId: "e6719168da3047aaa2b0b9be996612f2",
+  clientId: process.env.NEXT_PUBLIC_CLIENT_ID,
 });
 
 const AppContext = createContext({
@@ -28,6 +28,7 @@ const AppContext = createContext({
   setUserSavedAlbums: null,
 });
 
+let isInitial = true;
 export const AppWrapper = ({ children }) => {
   const router = useRouter();
   const [code, setCode] = useState(null);
@@ -44,7 +45,6 @@ export const AppWrapper = ({ children }) => {
   const [currentSongName, setCurrentSongName] = useState("");
   const [userSavedTracks, setUserSavedTracks] = useState([]);
   const [userSavedAlbums, setUserSavedAlbums] = useState([]);
-  const [passedTime, setPassedTime] = useState(0);
 
   /**
    * setting code
@@ -81,13 +81,10 @@ export const AppWrapper = ({ children }) => {
     setExpiresIn(expires);
     //in sec
     if (timePassed > 60) {
-      setPassedTime(59.99 * 60);
       return;
     }
 
     setAccessToken(token);
-
-    setPassedTime(timePassed * 60 + 60);
   }, []);
 
   /**
@@ -97,7 +94,7 @@ export const AppWrapper = ({ children }) => {
     if (!code) return;
 
     axios
-      .post("https://nextjs-music-app-server.herokuapp.com/login", {
+      .post(`${process.env.NEXT_PUBLIC_SERVER}/login`, {
         code,
       })
       .then((res) => {
@@ -114,12 +111,9 @@ export const AppWrapper = ({ children }) => {
 
         localStorage.setItem("accessTimeHour", hours);
         localStorage.setItem("accessTimeMinute", minutes);
-        // window.history.pushState({}, null, "/spiderman");
       })
       .catch((err) => {
         console.log(err);
-        // router.reload();
-        // window.location.pathname = "/";
       });
   }, [code]);
 
@@ -128,15 +122,12 @@ export const AppWrapper = ({ children }) => {
    */
   const refreshTokenHandler = () => {
     axios
-      .post("https://nextjs-music-app-server.herokuapp.com/refresh", {
+      .post(`${process.env.NEXT_PUBLIC_SERVER}/refresh`, {
         refreshToken,
       })
       .then((res) => {
-        setAccessToken(res.data.accessToken);
         setExpiresIn(res.data.expiresIn);
-
         console.log("refreshed");
-        setPassedTime(60);
 
         const hours = `${new Date().getHours()}`;
         const minutes = `${new Date().getMinutes()}`;
@@ -145,6 +136,10 @@ export const AppWrapper = ({ children }) => {
         localStorage.setItem("expiresIn", res.data.expiresIn);
         localStorage.setItem("accessTimeHour", hours);
         localStorage.setItem("accessTimeMinute", minutes);
+
+        setTimeout(() => {
+          setAccessToken(res.data.accessToken);
+        }, 500);
       })
       .catch((err) => {
         console.log(err);
@@ -157,8 +152,10 @@ export const AppWrapper = ({ children }) => {
    */
   useEffect(() => {
     if (!refreshToken || !expiresIn) return;
+    if (!isInitial) return;
     console.log("refresh on first load");
     refreshTokenHandler();
+    isInitial = false;
   }, [expiresIn]);
 
   /**

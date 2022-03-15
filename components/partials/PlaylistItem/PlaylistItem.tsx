@@ -12,21 +12,39 @@ import PlayPauseBtn from "../PlayPauseBtn/PlayPauseBtn";
 import { useAppContext } from "../../../store/context/appContext";
 import { useRouter } from "next/dist/client/router";
 
-const useStyles = makeStyles({
-  playlistName: {
-    textTransform: "capitalize",
-    fontWeight: 400,
-    lineHeight: "20px",
-  },
-  playlistItemCard: {
-    background: "transparent",
-    color: "#fff",
-    boxShadow: "none",
-    transition: "all .3s",
-    "&:hover": {
-      transform: "scale(.97)",
+const useStyles = makeStyles((theme) => {
+  return {
+    playlistName: {
+      textTransform: "capitalize",
+      fontWeight: 400,
+      lineHeight: "20px",
     },
-  },
+    playlistItemCard: {
+      background: "transparent",
+      color: "#fff",
+      boxShadow: "none",
+      transition: "all .3s",
+      minWidth: 225,
+      "&:hover": {
+        transform: "scale(.97)",
+      },
+      [theme.breakpoints.down(1200.2)]: {
+        minWidth: 215,
+      },
+      [theme.breakpoints.down(1000.2)]: {
+        minWidth: 205,
+      },
+      [theme.breakpoints.down(800.2)]: {
+        minWidth: 180,
+      },
+      [theme.breakpoints.down(600.2)]: {
+        minWidth: 160,
+      },
+      [theme.breakpoints.down(500.2)]: {
+        minWidth: 151,
+      },
+    },
+  };
 });
 
 const PlaylistItem: React.FC<{ playlist: CategoryPlaylist; link: string }> = ({

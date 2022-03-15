@@ -4,6 +4,7 @@
   backdrop-filter: blur(60px);
   background-color: rgba(22, 26, 26, 0.5);
   z-index: 9999;
+  padding: 0 26px;
 }
 
 .navInnerContainer {
@@ -75,6 +76,9 @@
   border: 1px solid #f1f1f1;
   width: 250px;
 }
+.searchInputContainerSmallerScreen {
+  display: none;
+}
 
 .navInput {
   height: 100%;
@@ -127,7 +131,7 @@
   background-image: linear-gradient(to right, #2dceef, #9b2def);
   /* margin-top: 20px; */
   position: absolute;
-  bottom: -30px;
+  bottom: -20px;
 }
 
 .displayFlex {
@@ -153,5 +157,30 @@
 @keyframes fadeIn {
   100% {
     opacity: 1;
+  }
+}
+
+@media only screen and (max-width: 1300px) {
+  .navLogoContainerAfterLogin {
+    margin-right: 23px;
+  }
+  .navBtnContainerAfterLogin {
+    width: max-content;
+  }
+  .afterLoginMiddleNavLinkContainer > :not(:last-child) {
+    margin-right: 25px;
+  }
+  .searchInputContainer:focus-within {
+    border: 1px solid #f1f1f1;
+    width: 220px;
+  }
+}
+
+@media only screen and (max-width: 1200px) {
+  .searchInputContainer {
+    display: none;
+  }
+  .searchInputContainerSmallerScreen {
+    display: block;
   }
 }

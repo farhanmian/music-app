@@ -120,9 +120,17 @@ const useStyles = makeStyles({
       border: "2px solid rgb(0 0 0 / 50%)",
     },
   },
+  searchBtn: {
+    minWdith: 40,
+    maxWidth: 40,
+    height: 40,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
 });
 const redirectUri = "https://music-app-liard.vercel.app";
-const AUTH_URL = `https://accounts.spotify.com/authorize?client_id=e6719168da3047aaa2b0b9be996612f2&response_type=code&redirect_uri=${redirectUri}&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state`;
+const AUTH_URL = `https://accounts.spotify.com/authorize?client_id=${process.env.NEXT_PUBLIC_CLIENT_ID}&response_type=code&redirect_uri=${redirectUri}&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state`;
 
 const searchTypes = ["songs", "playlists", "artists", "albums"];
 
@@ -332,6 +340,13 @@ export default function Nav() {
                 className={styles.navInput}
               />
             </div>
+
+            <div className={styles.searchInputContainerSmallerScreen}>
+              <Button className={classes.searchBtn}>
+                <Search />
+              </Button>
+            </div>
+
             <div className={styles.navUserOptions}>
               <span className={styles.navUserOptionsUserIcon}>
                 {userInfo.image ? (
