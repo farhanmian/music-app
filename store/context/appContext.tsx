@@ -26,6 +26,8 @@ const AppContext = createContext({
   setUserSavedTracks: null,
   userSavedAlbums: null,
   setUserSavedAlbums: null,
+  showSearch: null,
+  setShowSearch: null,
 });
 
 let isInitial = true;
@@ -45,6 +47,7 @@ export const AppWrapper = ({ children }) => {
   const [currentSongName, setCurrentSongName] = useState("");
   const [userSavedTracks, setUserSavedTracks] = useState([]);
   const [userSavedAlbums, setUserSavedAlbums] = useState([]);
+  const [showSearch, setShowSearch] = useState(false);
 
   /**
    * setting code
@@ -156,7 +159,6 @@ export const AppWrapper = ({ children }) => {
   useEffect(() => {
     if (!refreshToken || !expiresIn) return;
     if (!isInitial) return;
-    console.log("refresh on first load");
     refreshTokenHandler();
     isInitial = false;
   }, [expiresIn]);
@@ -169,7 +171,7 @@ export const AppWrapper = ({ children }) => {
 
     const interval = setInterval(() => {
       refreshTokenHandler();
-      console.log("refreshed now");
+      // console.log("refreshed now");
     }, (expiresIn - 60) * 1000);
 
     return () => clearInterval(interval);
@@ -266,6 +268,8 @@ export const AppWrapper = ({ children }) => {
         setUserSavedTracks,
         userSavedAlbums,
         setUserSavedAlbums,
+        showSearch,
+        setShowSearch,
       }}
     >
       {children}

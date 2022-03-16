@@ -35,7 +35,6 @@ const index = () => {
     if (activeTab === "playlists") {
       /** getting user's playlist */
       spotifyApiCtx.getUserPlaylists().then((res) => {
-        console.log(res);
         const transformedData: LibraryPlaylistType[] = [];
         res.body.items.map((item) => {
           transformedData.push({
@@ -60,7 +59,6 @@ const index = () => {
         return;
       }
       spotifyApiCtx.getAlbums(userSavedAlbums).then((res) => {
-        console.log(res);
         const transformedData: LibraryPlaylistType[] = [];
         res.body.albums.map((item) => {
           transformedData.push({
@@ -82,7 +80,6 @@ const index = () => {
         return;
       }
       spotifyApiCtx.getTracks(userSavedTracks).then((res) => {
-        console.log(res);
         const transformedData: TrackType[] = [];
         res.body.tracks.map((item) => {
           transformedData.push({

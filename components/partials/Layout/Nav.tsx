@@ -121,9 +121,10 @@ const useStyles = makeStyles({
     },
   },
   searchBtn: {
-    minWdith: 40,
-    maxWidth: 40,
-    height: 40,
+    minWidth: 30,
+    maxWidth: 30,
+    height: 30,
+    padding: 0,
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -136,8 +137,15 @@ const searchTypes = ["songs", "playlists", "artists", "albums"];
 
 export default function Nav() {
   const classes = useStyles();
-  const { userInfo, setSearchValue, searchValue, setSearchType, searchType } =
-    useAppContext();
+  const {
+    userInfo,
+    setSearchValue,
+    searchValue,
+    setSearchType,
+    searchType,
+    setShowSearch,
+    showSearch,
+  } = useAppContext();
   const router = useRouter();
   const path = router.pathname.replace("/", "");
   const [afterLoginMiddleNavLink, setAfterLoginMiddleNavLink] = useState([]);
@@ -157,9 +165,29 @@ export default function Nav() {
     }
   }, [router.pathname]);
 
+  /**
+   * clearing search value when path chages
+   */
   useEffect(() => {
     setSearchValue("");
   }, [router.asPath]);
+
+  /**
+   * test
+   */
+  // useEffect(() => {
+  //   if (!showSearch) {
+  //     window.onpopstate = () => {
+  //       return;
+  //     };
+  //     return;
+  //   }
+  //   window.history.pushState(null, window.location.href);
+  //   window.onpopstate = () => {
+  //     window.history.go(1);
+  //     setShowSearch(false);
+  //   };
+  // }, [showSearch]);
 
   const signout = () => {
     localStorage.clear();
@@ -252,7 +280,7 @@ export default function Nav() {
             >
               <Image src={logo} alt="logo" />
             </div>
-            {searchValue.trim().length < 1 && (
+            {!showSearch && searchValue.trim().length < 1 && (
               <div className={styles.navBtnContainerAfterLogin}>
                 {navAfterLoginBtns.map((btn) => {
                   return (
@@ -274,7 +302,7 @@ export default function Nav() {
             )}
           </span>
 
-          {searchValue.trim().length < 1 ? (
+          {!showSearch && searchValue.trim().length < 1 ? (
             afterLoginMiddleNavLink.length > 0 && (
               <div className={styles.afterLoginMiddleNavLinkContainer}>
                 {afterLoginMiddleNavLink.map((link) => {
@@ -330,8 +358,17 @@ export default function Nav() {
             </div>
           )}
 
-          <span className={styles.displayFlex}>
-            <div className={styles.searchInputContainer}>
+          <span
+            className={`${styles.displayFlex} ${styles.searchInputContainer} `}
+            style={{
+              width: showSearch ? "100%" : "max-content",
+              position: showSearch ? "absolute" : "relative",
+            }}
+          >
+            <div
+              style={{ display: showSearch ? "flex" : "" }}
+              className={styles.searchInput}
+            >
               <Search />
               <input
                 value={searchValue}
@@ -342,7 +379,11 @@ export default function Nav() {
             </div>
 
             <div className={styles.searchInputContainerSmallerScreen}>
-              <Button className={classes.searchBtn}>
+              <Button
+                className={classes.searchBtn}
+                disableElevation
+                onClick={() => setShowSearch(true)}
+              >
                 <Search />
               </Button>
             </div>

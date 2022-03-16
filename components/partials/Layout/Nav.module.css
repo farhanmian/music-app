@@ -53,6 +53,10 @@
 }
 
 .searchInputContainer {
+  width: max-content;
+}
+
+.searchInput {
   background-image: linear-gradient(45deg, #545658, #535354);
   width: 200px;
   height: 40px;
@@ -65,14 +69,14 @@
   border: 1px solid transparent;
   transition: all 0.3s;
 }
-.searchInputContainer > svg {
+.searchInput > svg {
   cursor: pointer;
   margin-right: 10px;
 }
-.searchInputContainer:hover {
+.searchInput:hover {
   border: 1px solid #f1f1f1;
 }
-.searchInputContainer:focus-within {
+.searchInput:focus-within {
   border: 1px solid #f1f1f1;
   width: 250px;
 }
@@ -170,17 +174,35 @@
   .afterLoginMiddleNavLinkContainer > :not(:last-child) {
     margin-right: 25px;
   }
-  .searchInputContainer:focus-within {
+  .searchInput:focus-within {
     border: 1px solid #f1f1f1;
     width: 220px;
   }
 }
 
 @media only screen and (max-width: 1200px) {
-  .searchInputContainer {
+  .nav {
+    position: relative;
+  }
+  .navInnerContainer {
+    position: relative;
+  }
+  .searchInput {
     display: none;
+    position: absolute;
+    width: 40%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .searchInput:focus-within {
+    border: 1px solid #f1f1f1;
+    width: 42%;
   }
   .searchInputContainerSmallerScreen {
     display: block;
+    margin-left: auto;
+  }
+  .searchTypeContainer {
+    bottom: -80%;
   }
 }
