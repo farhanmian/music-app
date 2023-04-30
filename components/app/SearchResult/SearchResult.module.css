@@ -14,3 +14,17 @@
 .searchResultContainer {
   width: 100%;
 }
+
+@media only screen and (max-width: 600px) {
+  .searchResultContainerSpacing {
+    column-gap: 20px !important;
+    row-gap: 38px !important;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .searchResultContainerSpacing {
+    column-gap: 10px !important;
+    row-gap: 38px !important;
+  }
+}

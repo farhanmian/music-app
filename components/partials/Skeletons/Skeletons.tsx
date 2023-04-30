@@ -37,7 +37,11 @@ const Skeletons: React.FC<{
       {noOfSkeleton.length > 0 &&
         noOfSkeleton.map((i) => {
           return (
-            <div key={i} className={styles.skeletonContainer}>
+            <div
+              key={i}
+              className={styles.skeletonContainer}
+              style={{ marginRight: 20 }}
+            >
               <Skeleton
                 variant="rectangular"
                 width={width1}

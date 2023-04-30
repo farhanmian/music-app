@@ -155,7 +155,7 @@ export default function home() {
             New releases for you
           </Typography>
 
-          <div className={styles.newReleasesItemContainer}>
+          <div className={`${styles.newReleasesItemContainer}`}>
             {newReleases.length > 0 ? (
               <Slider {...settings}>
                 {newReleases.map((newRelease: NewReleaseItemType) => {
@@ -241,7 +241,13 @@ export default function home() {
             Selected for you based on your recent activity
           </Typography>
 
-          <div className={styles.playlistItemContainer}>
+          <div
+            className={`${styles.playlistItemContainer} ${
+              featuredEpisodes.length > 0
+                ? styles.playlistSkeletonNotLastChildMarginRight
+                : ""
+            }`}
+          >
             {featuredEpisodes.length > 0 ? (
               featuredEpisodes.map((item: CategoryPlaylist) => {
                 return (

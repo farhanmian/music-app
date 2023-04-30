@@ -19,7 +19,7 @@
 .newReleasesItemContainer {
   width: 100%;
   display: flex;
-  /* overflow: hidden; */
+  overflow: hidden;
   align-items: center;
   padding-bottom: 10px;
 }

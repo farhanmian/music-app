@@ -1,3 +1,4 @@
+import { useRouter } from "next/dist/client/router";
 import React from "react";
 import { useAppContext } from "../../../store/context/appContext";
 import Player from "../../app/Player/Player";
@@ -8,12 +9,23 @@ import styles from "./Layout.module.css";
 import Nav from "./Nav";
 
 const Layout = ({ children }) => {
-  const { searchValue } = useAppContext();
+  const { searchValue, showSearch } = useAppContext();
+  const router = useRouter();
+  const searchQuery = router.query.search;
+
+  // let condition;
+  // if(searchValue.trim().length === 0 || !showSearch) {
+
+  // }
   return (
     <React.Fragment>
       <Nav />
       <main className={styles.mainContainer}>
-        {searchValue.trim().length === 0 ? children : <SearchResult />}
+        {searchValue.trim().length === 0 && !searchQuery ? (
+          children
+        ) : (
+          <SearchResult />
+        )}
         <Player />
       </main>
       <Divider />

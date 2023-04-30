@@ -97,7 +97,7 @@ export const AppWrapper = ({ children }) => {
     if (!code) return;
 
     axios
-      .post("https://nextjs-music-app-server.herokuapp.com/login", {
+      .post(`${process.env.NEXT_PUBLIC_SERVER}/login`, {
         code,
       })
       .then((res) => {
@@ -117,7 +117,7 @@ export const AppWrapper = ({ children }) => {
         // window.history.pushState({}, null, "/spiderman");
       })
       .catch((err) => {
-        console.log(err);
+        console.log("error managing login, appContext", err);
         // router.reload();
         // window.location.pathname = "/";
       });
@@ -128,7 +128,7 @@ export const AppWrapper = ({ children }) => {
    */
   const refreshTokenHandler = () => {
     axios
-      .post("https://nextjs-music-app-server.herokuapp.com/refresh", {
+      .post(`${process.env.NEXT_PUBLIC_SERVER}/refresh`, {
         refreshToken,
       })
       .then((res) => {

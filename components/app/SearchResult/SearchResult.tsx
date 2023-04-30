@@ -14,6 +14,22 @@ import Artist from "../../partials/Artists/Artist/Artist";
 import NewReleaseItem from "../../partials/NewReleaseItem/NewReleaseItem";
 import Skeletons from "../../partials/Skeletons/Skeletons";
 
+const randomSearchValues = [
+  "justin",
+  "enrique",
+  "taylor",
+  "selena",
+  "ed",
+  "dua",
+];
+
+const randomSearch = () => {
+  const min = Math.ceil(0);
+  const max = Math.ceil(randomSearchValues.length);
+  const random = Math.floor(Math.random() * (max - min));
+  return randomSearchValues[random];
+};
+
 const SearchResult = () => {
   const { searchValue, accessToken, spotifyApiCtx, searchType } =
     useAppContext();
@@ -21,97 +37,108 @@ const SearchResult = () => {
   const [searchPlaylists, setSearchPlaylists] = useState([]);
   const [searchArtists, setSearchArtists] = useState([]);
   const [searchAlbums, setSearchAlbums] = useState([]);
+  const random = randomSearch();
 
+  /**
+   * fetching data
+   */
   useEffect(() => {
     if (!accessToken || !spotifyApiCtx) return;
-    if (searchValue.trim().length === 0) {
-      setSearchTracks([]);
-      return;
-    }
+
+    const condition = searchValue.trim().length === 0;
 
     const timeoutId = setTimeout(() => {
       if (searchType === "songs") {
-        spotifyApiCtx.searchTracks(searchValue).then((res) => {
-          const transformedData: SearchTrackType[] = [];
-          res.body.tracks.items.map((item) => {
-            transformedData.push({
-              name: item.name,
-              type: item.type,
-              id: item.id,
-              uri: item.uri,
-              artists: item.artists,
-              image: { url: item.album.images[1].url },
+        spotifyApiCtx
+          .searchTracks(condition ? random : searchValue)
+          .then((res) => {
+            const transformedData: SearchTrackType[] = [];
+            res.body.tracks.items.map((item) => {
+              transformedData.push({
+                name: item.name,
+                type: item.type,
+                id: item.id,
+                uri: item.uri,
+                artists: item.artists,
+                image: { url: item.album.images[1].url },
+              });
             });
+            setSearchTracks(transformedData);
           });
-          setSearchTracks(transformedData);
-        });
       }
       if (searchType === "playlists") {
-        spotifyApiCtx.searchPlaylists(searchValue).then((res) => {
-          const transformedData: LibraryPlaylistType[] = [];
-          res.body.playlists.items.map((item) => {
-            transformedData.push({
-              name: item.name,
-              id: item.id,
-              type: item.type,
-              images: { url: item.images[0].url },
-              noOfSongs: item.tracks.total,
-              uri: item.uri,
+        spotifyApiCtx
+          .searchPlaylists(condition ? random : searchValue)
+          .then((res) => {
+            const transformedData: LibraryPlaylistType[] = [];
+            res.body.playlists.items.map((item) => {
+              transformedData.push({
+                name: item.name,
+                id: item.id,
+                type: item.type,
+                images: { url: item.images[0].url },
+                noOfSongs: item.tracks.total,
+                uri: item.uri,
+              });
             });
+            setSearchPlaylists(transformedData);
           });
-          setSearchPlaylists(transformedData);
-        });
       }
       if (searchType === "artists") {
-        spotifyApiCtx.searchArtists(searchValue).then((res) => {
-          const transformedData: ArtistType[] = [];
-          res.body.artists.items.map((item) => {
-            transformedData.push({
-              name: item.name,
-              id: item.id,
-              images: {
-                url: `${
-                  item.images.length > 0
-                    ? item.images[1].url
-                    : "https://www.clipartmax.com/png/full/449-4492509_lefroy-ice-breakers-minor-hockey-tournament-sorry-no-image-available.png"
-                }`,
-              },
-              type: item.type,
-              popularity: item.popularity,
-              uri: item.uri,
+        spotifyApiCtx
+          .searchArtists(condition ? random : searchValue)
+          .then((res) => {
+            const transformedData: ArtistType[] = [];
+            res.body.artists.items.map((item) => {
+              transformedData.push({
+                name: item.name,
+                id: item.id,
+                images: {
+                  url: `${
+                    item.images.length > 0
+                      ? item.images[1].url
+                      : "https://www.clipartmax.com/png/full/449-4492509_lefroy-ice-breakers-minor-hockey-tournament-sorry-no-image-available.png"
+                  }`,
+                },
+                type: item.type,
+                popularity: item.popularity,
+                uri: item.uri,
+              });
             });
+            setSearchArtists(transformedData);
           });
-          setSearchArtists(transformedData);
-        });
       }
       if (searchType === "albums") {
-        spotifyApiCtx.searchAlbums(searchValue).then((res) => {
-          const transformedData: NewReleaseItemType[] = [];
-          res.body.albums.items.map((item) => {
-            transformedData.push({
-              name: item.name,
-              id: item.id,
-              type: item.type,
-              image: { url: item.images[0].url },
-              artists: item.artists,
-              uri: item.uri,
+        spotifyApiCtx
+          .searchAlbums(condition ? random : searchValue)
+          .then((res) => {
+            const transformedData: NewReleaseItemType[] = [];
+            res.body.albums.items.map((item) => {
+              transformedData.push({
+                name: item.name,
+                id: item.id,
+                type: item.type,
+                image: { url: item.images[0].url },
+                artists: item.artists,
+                uri: item.uri,
+              });
             });
+            setSearchAlbums(transformedData);
           });
-          setSearchAlbums(transformedData);
-        });
       }
     }, 600);
     return () => clearTimeout(timeoutId);
   }, [searchValue, accessToken, spotifyApiCtx, searchType]);
 
   return (
-    <section className={styles.searchResult}>
+    <section id="searchResult" className={styles.searchResult}>
       <div className={styles.innerContainer}>
         <Grid
           container
           columnGap="26px"
           rowGap="48px"
-          className={styles.searchResultContainer}
+          className={`${styles.searchResultContainer} ${styles.searchResultContainerSpacing} `}
+          justifyContent="center"
         >
           {searchType === "songs" &&
             (searchTracks.length > 0 ? (

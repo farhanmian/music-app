@@ -20,117 +20,161 @@ import { useRouter } from "next/dist/client/router";
 import Search from "../../icons/Search";
 import User from "../../icons/User";
 import DownArrow from "../../icons/DownArrow";
+import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
 
-const useStyles = makeStyles({
-  link: {
-    cursor: "pointer",
-  },
-  downloadLink: {
-    marginRight: 40,
-  },
-  helpLink: {
-    marginRight: 60,
-  },
-  loginBtn: {
-    marginRight: 20,
-    width: 105,
-    height: 35,
-    borderRadius: 20,
-    border: "2px solid #fff",
-    "&:hover": {
+const useStyles = makeStyles((theme) => {
+  return {
+    link: {
+      cursor: "pointer",
+    },
+    downloadLink: {
+      marginRight: 40,
+    },
+    helpLink: {
+      marginRight: 60,
+    },
+    loginBtn: {
+      marginRight: 20,
+      width: 105,
+      height: 35,
+      borderRadius: 20,
       border: "2px solid #fff",
+      "&:hover": {
+        border: "2px solid #fff",
+      },
     },
-  },
-  signupBtn: {
-    width: 119,
-    height: 36,
-    borderRadius: 20,
-  },
-  userName: {
-    textTransform: "none",
-  },
+    signupBtn: {
+      width: 119,
+      height: 36,
+      borderRadius: 20,
+    },
+    userName: {
+      textTransform: "none",
+      [theme.breakpoints.down(500.1)]: {
+        display: "none",
+      },
+    },
 
-  afterLoginBtnText: {
-    fontWeight: "bold",
-    textTransform: "capitalize",
-    color: "#707070",
-    transition: "all .2s",
-    "&:hover": {
-      color: "#8b8989",
+    afterLoginBtnText: {
+      fontWeight: "bold",
+      textTransform: "capitalize",
+      color: "#707070",
+      transition: "all .2s",
+      "&:hover": {
+        color: "#8b8989",
+      },
+      [theme.breakpoints.down(600.1)]: {
+        fontSize: 18,
+      },
     },
-  },
 
-  afterLoginMiddleNavLink: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "space-between",
-    position: "relative",
-    "&:hover": {
-      textDecoration: "none",
+    afterLoginMiddleNavLink: {
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "space-between",
+      position: "relative",
+      "&:hover": {
+        textDecoration: "none",
+      },
     },
-  },
-  afterLoginMiddleNavLinkText: {
-    cursor: "pointer",
-    textTransform: "capitalize",
-  },
-  afterLoginBtn: {
-    padding: 0,
-    cursor: "pointer",
-    "&:hover": {
-      textDecoration: "none",
+    afterLoginMiddleNavLinkText: {
+      cursor: "pointer",
+      textTransform: "capitalize",
+      [theme.breakpoints.down(600.1)]: {
+        fontSize: 16,
+      },
     },
-  },
-  colorfff: {
-    color: "#fff",
-    "&:hover": {
+    afterLoginBtn: {
+      padding: 0,
+      cursor: "pointer",
+      "&:hover": {
+        textDecoration: "none",
+      },
+    },
+    colorfff: {
       color: "#fff",
+      "&:hover": {
+        color: "#fff",
+      },
     },
-  },
-  navMenuContainer: {
-    borderRadius: 4,
-    overflow: "hidden",
-  },
-  navMenuItemContainer: {
-    backgroundColor: "#282828",
-    border: "1px solid #323232",
-    overflow: "hidden",
-    width: 120,
-    "&>:not(:last-child)": {
-      marginBottom: 10,
+    navMenuContainer: {
+      borderRadius: 4,
+      overflow: "hidden",
+      left: "auto !important",
+      [theme.breakpoints.down(500.1)]: {
+        left: "0px !important",
+      },
     },
-  },
-  navMenuItem: {
-    color: "#e5e5e5",
-    "&:hover": {
-      backgroundColor: "#3a3a3a",
+    navMenuItemContainer: {
+      backgroundColor: "#282828",
+      border: "1px solid #323232",
+      overflow: "hidden",
+      width: "100%",
+      "&>:not(:last-child)": {
+        marginBottom: 10,
+      },
+      [theme.breakpoints.down(1000.1)]: {
+        "& > *": {
+          fontSize: 18,
+        },
+      },
+      [theme.breakpoints.down(600.1)]: {
+        "& > *": {
+          fontSize: 14,
+        },
+        "&>:not(:last-child)": {
+          marginBottom: 5,
+        },
+      },
     },
-  },
-  typeBtn: {
-    textTransform: "capitalize",
-    padding: "6px 12px",
-    borderRadius: 500,
-    transition: "all .2s",
-  },
-  activeTypeBtn: {
-    backgroundColor: "#1cb050",
-    border: "2px solid rgb(0 0 0 / 50%)",
-    "&:hover": {
-      backgroundColor: "#1aa149",
+    navMenuItem: {
+      color: "#e5e5e5",
+      "&:hover": {
+        backgroundColor: "#3a3a3a",
+      },
+    },
+    typeBtn: {
+      textTransform: "capitalize",
+      padding: "6px 12px",
+      borderRadius: 500,
+      transition: "all .2s",
+    },
+    activeTypeBtn: {
+      backgroundColor: "#1cb050",
       border: "2px solid rgb(0 0 0 / 50%)",
+      "&:hover": {
+        backgroundColor: "#1aa149",
+        border: "2px solid rgb(0 0 0 / 50%)",
+      },
     },
-  },
-  searchBtn: {
-    minWidth: 30,
-    maxWidth: 30,
-    height: 30,
-    padding: 0,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
+    searchBtn: {
+      minWidth: 30,
+      maxWidth: 30,
+      height: 30,
+      padding: 0,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    navUserOptionsBtn: {
+      marginLeft: 10,
+      [theme.breakpoints.down(700.1)]: {
+        marginLeft: 0,
+      },
+      [theme.breakpoints.down(500.1)]: {
+        "& > span": {
+          "& > :last-child": {
+            marginLeft: 0,
+          },
+        },
+      },
+    },
+  };
 });
 const redirectUri = "https://music-app-liard.vercel.app";
+// const redirectUri = "http://localhost:3000";
+
 const AUTH_URL = `https://accounts.spotify.com/authorize?client_id=e6719168da3047aaa2b0b9be996612f2&response_type=code&redirect_uri=${redirectUri}&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state`;
 
 const searchTypes = ["songs", "playlists", "artists", "albums"];
@@ -143,13 +187,14 @@ export default function Nav() {
     searchValue,
     setSearchType,
     searchType,
-    setShowSearch,
-    showSearch,
+    // setShowSearch,
+    // showSearch,
   } = useAppContext();
   const router = useRouter();
   const path = router.pathname.replace("/", "");
   const [afterLoginMiddleNavLink, setAfterLoginMiddleNavLink] = useState([]);
   const activeTab = router.query.tab;
+  const searchQuery = router.query.search;
 
   useEffect(() => {
     if (router.pathname === "/browse") {
@@ -171,23 +216,6 @@ export default function Nav() {
   useEffect(() => {
     setSearchValue("");
   }, [router.asPath]);
-
-  /**
-   * test
-   */
-  // useEffect(() => {
-  //   if (!showSearch) {
-  //     window.onpopstate = () => {
-  //       return;
-  //     };
-  //     return;
-  //   }
-  //   window.history.pushState(null, window.location.href);
-  //   window.onpopstate = () => {
-  //     window.history.go(1);
-  //     setShowSearch(false);
-  //   };
-  // }, [showSearch]);
 
   const signout = () => {
     localStorage.clear();
@@ -280,7 +308,7 @@ export default function Nav() {
             >
               <Image src={logo} alt="logo" />
             </div>
-            {!showSearch && searchValue.trim().length < 1 && (
+            {!searchQuery && searchValue.trim().length < 1 && (
               <div className={styles.navBtnContainerAfterLogin}>
                 {navAfterLoginBtns.map((btn) => {
                   return (
@@ -302,7 +330,7 @@ export default function Nav() {
             )}
           </span>
 
-          {!showSearch && searchValue.trim().length < 1 ? (
+          {!searchQuery && searchValue.trim().length < 1 ? (
             afterLoginMiddleNavLink.length > 0 && (
               <div className={styles.afterLoginMiddleNavLinkContainer}>
                 {afterLoginMiddleNavLink.map((link) => {
@@ -359,14 +387,12 @@ export default function Nav() {
           )}
 
           <span
-            className={`${styles.displayFlex} ${styles.searchInputContainer} `}
-            style={{
-              width: showSearch ? "100%" : "max-content",
-              position: showSearch ? "absolute" : "relative",
-            }}
+            className={`${styles.displayFlex} ${
+              searchQuery ? styles.searchInputContainer : ""
+            } `}
           >
             <div
-              style={{ display: showSearch ? "flex" : "" }}
+              style={{ display: searchQuery ? "flex" : "" }}
               className={styles.searchInput}
             >
               <Search />
@@ -378,41 +404,48 @@ export default function Nav() {
               />
             </div>
 
-            <div className={styles.searchInputContainerSmallerScreen}>
-              <Button
-                className={classes.searchBtn}
-                disableElevation
-                onClick={() => setShowSearch(true)}
-              >
-                <Search />
-              </Button>
-            </div>
-
-            <div className={styles.navUserOptions}>
-              <span className={styles.navUserOptionsUserIcon}>
-                {userInfo.image ? (
-                  <Image
-                    src={userInfo.image.url}
-                    loader={() => userInfo.image.url}
-                    unoptimized
-                    width={30}
-                    height={30}
-                    alt="img"
-                  />
+            {!searchQuery && (
+              <div className={styles.searchInputContainerSmallerScreen}>
+                <NextLink href="?search=true">
+                  <Button className={classes.searchBtn} disableElevation>
+                    <Search />
+                  </Button>
+                </NextLink>
+              </div>
+            )}
+            <Button
+              ref={anchorRef}
+              id="composition-button"
+              aria-controls={open ? "composition-menu" : undefined}
+              aria-expanded={open ? "true" : undefined}
+              aria-haspopup="true"
+              onClick={handleToggle}
+              className={classes.navUserOptionsBtn}
+              endIcon={
+                !open ? (
+                  <KeyboardArrowDown className={classes.colorfff} />
                 ) : (
-                  <User />
-                )}
-              </span>
-              <div>
-                <Button
-                  ref={anchorRef}
-                  id="composition-button"
-                  aria-controls={open ? "composition-menu" : undefined}
-                  aria-expanded={open ? "true" : undefined}
-                  aria-haspopup="true"
-                  onClick={handleToggle}
-                  endIcon={<DownArrow />}
-                >
+                  <KeyboardArrowUp className={classes.colorfff} />
+                )
+              }
+              disableRipple
+            >
+              <div className={styles.navUserOptions}>
+                <span className={styles.navUserOptionsUserIcon}>
+                  {userInfo.image ? (
+                    <Image
+                      src={userInfo.image.url}
+                      loader={() => userInfo.image.url}
+                      unoptimized
+                      width={30}
+                      height={30}
+                      alt="img"
+                    />
+                  ) : (
+                    <User />
+                  )}
+                </span>
+                <div className={styles.navUserOptionsUserName}>
                   <Typography
                     variant="subtitle2"
                     color="primary"
@@ -420,58 +453,58 @@ export default function Nav() {
                   >
                     {userInfo.name}
                   </Typography>
-                </Button>
-                <Popper
-                  open={open}
-                  className={classes.navMenuContainer}
-                  anchorEl={anchorRef.current}
-                  role={undefined}
-                  placement="bottom-start"
-                  transition
-                  disablePortal
-                >
-                  {({ TransitionProps, placement }) => (
-                    <Grow
-                      {...TransitionProps}
-                      style={{
-                        transformOrigin:
-                          placement === "bottom-start"
-                            ? "left top"
-                            : "left bottom",
-                      }}
-                    >
-                      <Paper>
-                        <ClickAwayListener onClickAway={handleClose}>
-                          <MenuList
-                            autoFocusItem={open}
-                            id="composition-menu"
-                            aria-labelledby="composition-button"
-                            onKeyDown={handleListKeyDown}
-                            className={classes.navMenuItemContainer}
-                          >
-                            <MenuItem
-                              onClick={() => {
-                                router.push("/library");
-                                setOpen(false);
-                              }}
-                              className={classes.navMenuItem}
+                  <Popper
+                    open={open}
+                    className={classes.navMenuContainer}
+                    anchorEl={anchorRef.current}
+                    role={undefined}
+                    placement="bottom-start"
+                    transition
+                    disablePortal
+                  >
+                    {({ TransitionProps, placement }) => (
+                      <Grow
+                        {...TransitionProps}
+                        style={{
+                          transformOrigin:
+                            placement === "bottom-start"
+                              ? "left top"
+                              : "left bottom",
+                        }}
+                      >
+                        <Paper>
+                          <ClickAwayListener onClickAway={handleClose}>
+                            <MenuList
+                              autoFocusItem={open}
+                              id="composition-menu"
+                              aria-labelledby="composition-button"
+                              onKeyDown={handleListKeyDown}
+                              className={classes.navMenuItemContainer}
                             >
-                              Library
-                            </MenuItem>
-                            <MenuItem
-                              onClick={signout}
-                              className={classes.navMenuItem}
-                            >
-                              Logout
-                            </MenuItem>
-                          </MenuList>
-                        </ClickAwayListener>
-                      </Paper>
-                    </Grow>
-                  )}
-                </Popper>
+                              <MenuItem
+                                onClick={() => {
+                                  router.push("/library");
+                                  setOpen(false);
+                                }}
+                                className={classes.navMenuItem}
+                              >
+                                Library
+                              </MenuItem>
+                              <MenuItem
+                                onClick={signout}
+                                className={classes.navMenuItem}
+                              >
+                                Logout
+                              </MenuItem>
+                            </MenuList>
+                          </ClickAwayListener>
+                        </Paper>
+                      </Grow>
+                    )}
+                  </Popper>
+                </div>
               </div>
-            </div>
+            </Button>
           </span>
         </div>
       )}
