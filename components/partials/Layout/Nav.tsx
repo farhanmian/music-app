@@ -174,6 +174,7 @@ const useStyles = makeStyles((theme) => {
 });
 const redirectUri = "https://music-app-liard.vercel.app";
 // const redirectUri = "http://localhost:3000";
+console.log("updated");
 
 const AUTH_URL = `https://accounts.spotify.com/authorize?client_id=e6719168da3047aaa2b0b9be996612f2&response_type=code&redirect_uri=${redirectUri}&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state`;
 
