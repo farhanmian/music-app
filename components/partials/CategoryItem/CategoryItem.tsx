@@ -51,7 +51,11 @@ const CategoryItem: React.FC<{ item: Categories }> = ({ item }) => {
   const classes = useStyles();
 
   return (
-    <NextLink href={`/browse/genre-category-${item.id}`}>
+    <NextLink
+      href={`/browse/genre-category-${item.id}?type=${item.name
+        .toLowerCase()
+        .replaceAll(" ", "-")}`}
+    >
       <Card className={classes.genreItemCard}>
         <CardActionArea>
           <div className={styles.genresItem}>

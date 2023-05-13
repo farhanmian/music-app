@@ -23,11 +23,16 @@ const useStyles = makeStyles({
   },
 });
 
-const GenresPlaylist: React.FC<{ query: string }> = ({ query }) => {
+const GenresPlaylist: React.FC<{ query: string; type: string }> = ({
+  query,
+  type,
+}) => {
   const classes = useStyles();
   const { accessToken, spotifyApiCtx } = useAppContext();
   const [fetchedData, setFetchedData] = useState([]);
   const [error, setError] = useState(false);
+
+  console.log("query", query);
 
   useEffect(() => {
     if (!accessToken || !spotifyApiCtx) return;
@@ -35,7 +40,7 @@ const GenresPlaylist: React.FC<{ query: string }> = ({ query }) => {
     spotifyApiCtx
       .getPlaylistsForCategory(query, { limit: 30 })
       .then((res) => {
-        console.log(res);
+        console.log("response", res);
         const transformedData: CategoryPlaylist[] = [];
         res.body.playlists.items.map((playlist: CategoryPlaylist) => {
           transformedData.push({
@@ -58,7 +63,7 @@ const GenresPlaylist: React.FC<{ query: string }> = ({ query }) => {
   return (
     <div className={styles.genrePlaylistInnerContainer}>
       <Typography variant="h1" color="primary" className={classes.heading}>
-        {query}
+        {type && type}
       </Typography>
 
       <Typography
