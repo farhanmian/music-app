@@ -254,7 +254,7 @@ export default function Nav() {
    */
   useEffect(() => {
     const storedToken = localStorage.getItem("access");
-    if (storedToken || !userInfo) {
+    if (storedToken || userInfo) {
       setIsTokenAvailable(true);
     } else {
       setIsTokenAvailable(false);
