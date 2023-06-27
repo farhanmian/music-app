@@ -12,6 +12,7 @@ import {
   MenuItem,
   MenuList,
   Link,
+  Card,
 } from "@material-ui/core";
 import Popper from "@mui/material/Popper";
 import logo from "../../../assets/img/logo.png";
@@ -20,7 +21,12 @@ import { useRouter } from "next/dist/client/router";
 import Search from "../../icons/Search";
 import User from "../../icons/User";
 import DownArrow from "../../icons/DownArrow";
-import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
+import {
+  KeyboardArrowDown,
+  KeyboardArrowUp,
+  Close,
+  NotificationImportant,
+} from "@mui/icons-material";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -29,9 +35,6 @@ const useStyles = makeStyles((theme) => {
     },
     downloadLink: {
       marginRight: 40,
-    },
-    helpLink: {
-      marginRight: 60,
     },
     loginBtn: {
       marginRight: 20,
@@ -170,6 +173,53 @@ const useStyles = makeStyles((theme) => {
         },
       },
     },
+    closeIcon: {
+      fontSize: 18,
+      transition: "all .2s",
+      "&:hover": {
+        color: "#e10101",
+      },
+    },
+    credentialText: {
+      fontSize: 20,
+      lineHeight: "26px",
+      marginBottom: 20,
+      fontWeight: 500,
+      color: "#070707",
+    },
+    credentialCaption: {
+      color: "#070707",
+      fontSize: 17,
+      display: "inline-block",
+      background: "#dcdcdc",
+      padding: "5px 10px",
+      broderRadius: 3,
+    },
+    emailText: {
+      marginBottom: 10,
+    },
+    notificationIcon: {
+      fill: "#fff",
+      marginRight: 60,
+      cursor: "pointer",
+      transition: "all.2s",
+      "&:hover": {
+        fill: "#ebebeb",
+        transform: "scale(.97)",
+      },
+    },
+    okayBtn: {
+      display: "block",
+      margin: "auto",
+      marginTop: 20,
+      backgroundColor: "#313030",
+      color: "#fff",
+      textTransform: "capitalize",
+      padding: "8px 30px",
+      "&:hover": {
+        backgroundColor: "#212121",
+      },
+    },
   };
 });
 const redirectUri = "https://music-app-liard.vercel.app";
@@ -188,14 +238,28 @@ export default function Nav() {
     searchValue,
     setSearchType,
     searchType,
+    accessToken,
     // setShowSearch,
     // showSearch,
   } = useAppContext();
   const router = useRouter();
   const path = router.pathname.replace("/", "");
   const [afterLoginMiddleNavLink, setAfterLoginMiddleNavLink] = useState([]);
+  const [isTokenAvailable, setIsTokenAvailable] = useState(true);
   const activeTab = router.query.tab;
   const searchQuery = router.query.search;
+
+  /**
+   * checking if the token is stored in local storage
+   */
+  useEffect(() => {
+    const storedToken = localStorage.getItem("access");
+    if (storedToken) {
+      setIsTokenAvailable(true);
+    } else {
+      setIsTokenAvailable(false);
+    }
+  }, []);
 
   useEffect(() => {
     if (router.pathname === "/browse") {
@@ -224,7 +288,9 @@ export default function Nav() {
   };
 
   const [open, setOpen] = useState(false);
+  const [showMessage, setShowMessage] = useState(true);
   const anchorRef = useRef<HTMLInputElement>(null);
+
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
   };
@@ -266,15 +332,20 @@ export default function Nav() {
                 Download
               </Typography>
             </NextLink>
-            <NextLink href="#">
-              <Typography
+
+            <NotificationImportant
+              className={classes.notificationIcon}
+              onClick={() => {
+                setShowMessage(true);
+              }}
+            />
+            {/* <Typography
                 className={`${classes.link} ${classes.helpLink}`}
                 variant="subtitle1"
                 color="primary"
               >
                 Help
-              </Typography>
-            </NextLink>
+              </Typography> */}
 
             <NextLink href={AUTH_URL}>
               <Button
@@ -508,6 +579,52 @@ export default function Nav() {
             </Button>
           </span>
         </div>
+      )}
+
+      {!isTokenAvailable && showMessage && (
+        <ClickAwayListener
+          onClickAway={() => {
+            setShowMessage(false);
+          }}
+        >
+          <Card className={`${styles.credentialsCard} ${styles.showCard}`}>
+            <button className={styles.credentialsCardCloseButton}>
+              <Close className={classes.closeIcon} />
+            </button>
+            <Typography
+              variant="h6"
+              color="secondary"
+              className={classes.credentialText}
+            >
+              To access the Application, Please utilize the Credentials provided
+              below. <br />I have registered this email on the Spotify Dashboard
+              (Spotify for developers) to facilitate API usage.
+            </Typography>
+            <Typography
+              className={`${classes.credentialCaption} ${classes.emailText}`}
+              variant="caption"
+            >
+              Email: musicBox099@gmail.com
+            </Typography>{" "}
+            <br />
+            <Typography className={classes.credentialCaption} variant="caption">
+              Password: musicBox099
+            </Typography>
+            <Button
+              variant="contained"
+              className={classes.okayBtn}
+              onClick={() => {
+                setShowMessage(false);
+              }}
+            >
+              Okay
+            </Button>
+          </Card>
+        </ClickAwayListener>
+      )}
+
+      {!isTokenAvailable && showMessage && (
+        <div className={styles.cardOverlay} />
       )}
     </nav>
   );
