@@ -254,12 +254,12 @@ export default function Nav() {
    */
   useEffect(() => {
     const storedToken = localStorage.getItem("access");
-    if (storedToken) {
+    if (storedToken || !userInfo) {
       setIsTokenAvailable(true);
     } else {
       setIsTokenAvailable(false);
     }
-  }, []);
+  }, [userInfo]);
 
   useEffect(() => {
     if (router.pathname === "/browse") {
@@ -581,7 +581,7 @@ export default function Nav() {
         </div>
       )}
 
-      {!isTokenAvailable && showMessage && (
+      {(!isTokenAvailable || !userInfo) && showMessage && (
         <ClickAwayListener
           onClickAway={() => {
             setShowMessage(false);
@@ -623,7 +623,7 @@ export default function Nav() {
         </ClickAwayListener>
       )}
 
-      {!isTokenAvailable && showMessage && (
+      {(!isTokenAvailable || !userInfo) && showMessage && (
         <div className={styles.cardOverlay} />
       )}
     </nav>
