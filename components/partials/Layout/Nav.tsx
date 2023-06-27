@@ -581,7 +581,7 @@ export default function Nav() {
         </div>
       )}
 
-      {(!isTokenAvailable || !userInfo) && showMessage && (
+      {!isTokenAvailable && showMessage && (
         <ClickAwayListener
           onClickAway={() => {
             setShowMessage(false);
@@ -623,7 +623,7 @@ export default function Nav() {
         </ClickAwayListener>
       )}
 
-      {(!isTokenAvailable || !userInfo) && showMessage && (
+      {!isTokenAvailable && showMessage && (
         <div className={styles.cardOverlay} />
       )}
     </nav>
